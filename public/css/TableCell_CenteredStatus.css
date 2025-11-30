@@ -1,0 +1,7 @@
+.table td .form-check {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
