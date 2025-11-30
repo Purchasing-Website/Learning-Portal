@@ -31,7 +31,7 @@
                     <td>{{ \Carbon\Carbon::parse($class->pivot->enrolled_at)->format('Y-m-d') }}</td>
                     <td>
                         @if($class->pivot->status === 'active')
-                            <a href="#" class="btn btn-sm btn-primary">
+                            <a href="{{ route('class.lessons', $class->id)}}" class="btn btn-sm btn-primary">
                                 View
                             </a>
                         @else

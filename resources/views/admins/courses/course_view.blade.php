@@ -19,6 +19,15 @@
                     <label for="courseDescription" class="form-label">course Description</label>
                     <textarea class="form-control" name='description' id="courseDescription" rows="3" placeholder="Enter course description"></textarea>
                 </div>
+                <div class="mb-3">
+                    <label for="programSelect" class="form-label">Select Program</label>
+                    <select class="form-select" name="program_id" id="programSelect" required>
+                        <option value="" disabled selected>Select a program</option>
+                        @foreach($programs as $program)
+                            <option value="{{ $program->id }}">{{ $program->title }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">Create course</button>
             </form> 
             
@@ -29,6 +38,7 @@
                     <th>#</th>
                     <th>Title</th>
                     <th>Description</th>
+                    <th>Program</th>
                     <th>Created By</th>
                     <th>Status</th>
                     <th>Created At</th>
@@ -40,6 +50,7 @@
                         <td>{{ $loop->iteration + ($courses->currentPage() - 1) * $courses->perPage() }}</td>
                         <td>{{ $course->title }}</td>
                         <td>{{ Str::limit($course->description, 50) }}</td>
+                        <td>{{ $course->program->title ?? 'N/A' }}</td>
                         <td>{{ $course->created_by ?? 'N/A' }}</td>
                         <td class="status-cell">
                             @if($course->is_active)

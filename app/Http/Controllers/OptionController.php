@@ -36,7 +36,7 @@ class OptionController extends Controller
             $option = Option::create([
                 'question_id' => $validated['question_id'],
                 'option_text' => $validated['option_text'],
-                'is_correct' => true,
+                'is_correct' => $validated['is_correct'],
                 'is_active' => $validated['is_active'],
                 'created_by' => Auth::id(),
             ]);

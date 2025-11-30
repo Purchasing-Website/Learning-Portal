@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Lesson;
 use App\Models\User;
+use App\Models\Course;
+use App\Models\StudentLessonProgress;
 
 class Classes extends Model
 {
@@ -29,5 +31,19 @@ class Classes extends Model
         return $this->belongsToMany(User::class,  'enrollments', 'class_id', 'student_id')
                     ->withPivot('status', 'progress', 'enrolled_at')
                     ->withTimestamps();
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'class_course', 'class_id', 'course_id')
+                    ->withPivot('sequence_order', 'is_active', 'created_by', 'updated_by')
+                    ->withTimestamps();
+    }
+
+    public function progressForStudent($studentId)
+    {
+        return StudentLessonProgress::where('student_id', $studentId)
+            ->where('class_id', $this->id)
+            ->first();
     }
 }

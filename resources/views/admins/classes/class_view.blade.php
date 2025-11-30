@@ -61,6 +61,13 @@
                             <a class="btn btn-warning btn-sm " href="{{ route('enrollment.index', $class->id) }}">
                             Sutdents
                             </a>
+                            <button class="btn btn-primary assignCourseBtn"
+                                data-class-id="{{ $class->id }}">
+                                Assign to Course
+                            </button>
+                            <button class="btn btn-sm btn-info showAssignedCoursesBtn" data-class-id="{{ $class->id }}">
+                                Show Assigned Courses
+                            </button>
                         </td>
                     </tr>
                 @empty
@@ -128,6 +135,74 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal fade" id="assignCourseModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Assign Class to Course</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label class="form-label">Select Course</label>
+                    <select id="courseDropdown" class="form-select"></select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Sequence</label>
+                    <input type="number" id="classSequence"
+                        class="form-control" min="1" >
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-success" id="saveCourseAssign">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Show Assigned Courses Modal -->
+<div class="modal fade" id="assignedCoursesModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assigned Courses for Class</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Course Name</th>
+                            <th>Sequence</th>
+                            <th>Status</th>
+                            <th>Assigned By</th>
+                            <th>Updated At</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assignedCoursesTableBody">
+                        <!-- Filled by AJAX -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -234,6 +309,151 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Assign Course to Class
+    let assignModal = new bootstrap.Modal(document.getElementById('assignCourseModal'));
+
+    document.querySelectorAll('.assignCourseBtn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const classId = btn.dataset.classId;
+
+            // Load available courses
+            let res = await fetch(`/class/${classId}/load-available-courses`);
+            let data = await res.json();
+
+            // Fill dropdown
+            let select = document.getElementById('courseDropdown');
+            select.innerHTML = "";
+
+            if (data.available.length === 0) {
+                select.innerHTML = `<option value="">No available courses</option>`;
+            } else {
+                data.available.forEach(course => {
+                    select.innerHTML += `<option value="${course.id}">${course.title}</option>`;
+                });
+            }
+
+            // Set next available sequence
+            document.getElementById('classSequence').value = data.nextSequence;
+
+            // Store class ID for saving later
+            document.getElementById('saveCourseAssign').dataset.classId = classId;
+
+            assignModal.show();
+        });
+    });
+
+    document.getElementById('saveCourseAssign').addEventListener('click', async function() {
+        let classId = this.dataset.classId;
+
+        let formData = new FormData();
+        formData.append('_token', '{{ csrf_token() }}');
+        formData.append('course_id', document.getElementById('courseDropdown').value);
+        formData.append('sequence', document.getElementById('classSequence').value);
+
+        let res = await fetch(`/class/${classId}/assign-course`, {
+            method: 'POST',
+            body: formData
+        });
+
+        let data = await res.json();
+
+        if (data.success) {
+            alert('Assigned successfully!');
+            assignModal.hide();
+            location.reload();
+        }
+    });
+
+    // Show Assigned Courses
+    document.addEventListener('click', async function(e) {
+        if (e.target.classList.contains('showAssignedCoursesBtn')) {
+            let classId = e.target.dataset.classId;
+
+            let res = await fetch(`/class/${classId}/assigned-courses`);
+            let data = await res.json();
+
+            let tbody = document.getElementById('assignedCoursesTableBody');
+            tbody.innerHTML = "";
+
+            if (data.data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No courses assigned yet.</td>
+                    </tr>
+                `;
+            } else {
+                data.data.forEach((course, index) => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${course.title}</td>
+                            <td>${course.pivot.sequence_order ?? '-'}</td>
+                            <td>
+                                <span class="badge bg-${course.pivot.is_active ? 'success' : 'secondary'}">
+                                    ${course.pivot.is_active ? 'Active' : 'Inactive'}
+                                </span>
+                            </td>
+                            <td>${course.creator ? course.creator.name : '-'}</td>
+                            <td>${course.pivot.updated_at}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger unassignClassBtn" 
+                                        data-class-id="${course.pivot.class_id}" 
+                                        data-course-id="${course.pivot.course_id}"
+                                        ${course.pivot.is_active ? '' : 'disabled'}>
+                                    
+                                    ${course.pivot.is_active ? 'Unassign' : 'Unassigned'}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            new bootstrap.Modal(document.getElementById('assignedCoursesModal')).show();
+        }
+    });
+
+    // Unassign Class from Course
+    document.addEventListener('click', async function(e) {
+        if (e.target.classList.contains('unassignClassBtn')) {
+            const classId = e.target.dataset.classId;
+            const courseId = e.target.dataset.courseId;
+
+            if (!confirm("Are you sure you want to unassign this class from the course?")) return;
+
+            try {
+                const res = await fetch(`/class/${classId}/soft-unassign-course/${courseId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert('Class successfully unassigned (soft).');
+
+                    // Update badge
+                    const row = e.target.closest('tr');
+                    const badge = row.querySelector('span.badge');
+                    badge.textContent = 'Inactive';
+                    badge.className = 'badge bg-secondary';
+
+                    // Disable the Unassign button
+                    e.target.disabled = true;
+                    e.target.textContent = 'Unassigned';
+                } else {
+                    alert('Failed to unassign class.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error unassigning class.');
+            }
+        }
+    });
+
 });
 </script>
 @endpush

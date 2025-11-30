@@ -9,11 +9,12 @@ use App\Models\Classes;
 class Enrollment extends Model
 {
     protected $fillable = [
-        'user_id',
+        'student_id',
         'class_id',
         'status',
         'progress',
-        'enrolled_at'
+        'enrolled_at',
+        'completed_at',
     ];
 
     public function student()

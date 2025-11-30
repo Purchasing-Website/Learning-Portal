@@ -62,6 +62,7 @@ class LessonController extends Controller
             'class_id' => $validatedData['class_id'],
         ]);
 
+        //dd($request);
         if ($validatedData['content_type'] === ContentType::Document->value && $request->hasFile('file')) {
             $file = $request->file('file');
             $originalName = $file->getClientOriginalName();
@@ -71,11 +72,15 @@ class LessonController extends Controller
 
             $path = $file->storeAs('lesson/lessonMaterial', $filename, 'public');
 
+            $lesson->content_type = ContentType::Document->value;
+
             $lesson->source_url = $path;
         }
 
         // ✅ Step 5: Handle video URL
         if ($validatedData['content_type'] === ContentType::Video->value) {
+
+            $lesson->content_type = ContentType::Video->value;
             $lesson->source_url = $validatedData['source_url'];
         }
 
@@ -90,6 +95,7 @@ class LessonController extends Controller
             $lesson->background_image = 'storage/' . $bgPath;
         }
 
+        //dd($lesson);
         // ✅ Step 7: Save final record
         $lesson->save();
 

@@ -94,20 +94,20 @@
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->email }}</td>
                                     <td>
-                                        {{-- @php
-                                            $statusEach = $student->pivot->status;
+                                        @php
+                                            $statusEach = $student->enrollment_status;
                                             $badgeClassEach = match($statusEach) {
                                                 'active' => 'success',
                                                 'completed' => 'primary',
                                                 'dropped' => 'secondary',
                                                 default => 'dark', // fallback for unexpected values
                                             };
-                                        @endphp --}}
+                                        @endphp
                                         @if($class->students->contains($student->id))
                                             <span class="badge bg-success">Yes</span>
-                                            {{-- <span class="badge bg-{{ $badgeClassEach }}">
+                                            <span class="badge bg-{{ $badgeClassEach }}">
                                                 {{ ucfirst($statusEach) }}
-                                            </span> --}}
+                                            </span>
                                         @else
                                             <span class="badge bg-secondary">No</span>
                                         @endif

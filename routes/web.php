@@ -11,6 +11,7 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,13 +43,20 @@ Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {
     Route::get('/course/{id}/edit', [CourseController::class, 'edit'])->name('course.edit');
     Route::post('/course/{id}/update', [CourseController::class, 'update'])->name('course.update');
     Route::patch('/course/{id}/toggle-status', [CourseController::class, 'toggleStatus'])->name('course.toggleStatus');
-
+    
     //Class Management
     Route::get('/admin/class', [ClasssController::class, 'index'])->name('class.index');
     Route::post('/admin/class/store', [ClasssController::class, 'store'])->name('class.store');
     Route::get('/class/{id}/edit', [ClasssController::class, 'edit'])->name('class.edit');
     Route::post('/class/{id}/update', [ClasssController::class, 'update'])->name('class.update');
     Route::patch('/class/{id}/toggle-status', [ClasssController::class, 'toggleStatus'])->name('class.toggleStatus');
+        // Load available courses + next sequence
+    Route::get('/class/{id}/load-available-courses', [ClasssController::class, 'loadAvailableCourses'])->name('class.load-courses');
+
+    // Save assignment
+    Route::post('/class/{id}/assign-course', [ClasssController::class, 'assignCourse']);
+    Route::get('/class/{id}/assigned-courses', [ClasssController::class, 'loadAssignedCourses']);
+    Route::post('/class/{class}/soft-unassign-course/{course}', [ClasssController::class, 'softUnassignCourse']);
 
     //Lesson Management
     Route::get('/admin/lesson', [LessonController::class, 'index'])->name('lesson.index');
@@ -84,6 +92,18 @@ Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {
     //Enrollment Management
     Route::get('/admin/enrollments/class/{id}', [EnrollmentController::class, 'index'])->name('enrollment.index');
     Route::post('/admin/enrollments/class/{id}/update', [EnrollmentController::class, 'updateEnrollments'])->name('enrollment.update');
+});
+
+Route::middleware(['auth' , 'role:student'])->group(function () {
+    Route::get('/classes', [StudentController::class, 'assignedClasses'])->name('student.classes');
+    Route::get('/class/{id}/lessons', [StudentController::class, 'lessons'])->name('student.class.lessons');
+    Route::get('/lesson/{id}/start', [StudentController::class, 'startLesson'])->name('student.lesson.start');
+    Route::post('/lesson/{id}/progress', [StudentController::class, 'updateProgress'])->name('student.lesson.progress');
+    Route::post('/lesson/completelesson', [StudentController::class, 'completeLesson'])->name('student.lesson.complete');
+    Route::get('/lesson/{id}/knowledgeCheck={mode}', [StudentController::class, 'knowledgeCheck'])->name('student.lesson.knowledgeCheck');
+    Route::post('/knowledgeCheck/{id}/submit={mode}', [StudentController::class, 'submitKnowledgeCheck'])->name('student.knowledge.submit');
+    // Class final quiz
+    Route::get('/student/class-quiz/{id}', [StudentController::class, 'showClassQuiz'])->name('student.class.quiz.show');
 });
 
 Route::get('/logout', function () {

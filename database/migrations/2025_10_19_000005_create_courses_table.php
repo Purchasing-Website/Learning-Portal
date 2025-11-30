@@ -28,7 +28,7 @@ return new class extends Migration
             $table->timestamps(); // created_at, updated_at
 
             // Foreign keys
-            //$table->foreign('program_id')->references('id')->on('programs')->nullOnDelete();
+            $table->foreign('program_id')->references('id')->on('programs')->nullOnDelete();
             $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
             $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();
 

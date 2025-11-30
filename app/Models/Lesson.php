@@ -29,6 +29,6 @@ class Lesson extends Model
     }
 
     public function quiz() { 
-        return $this->belongsTo(Quiz::class); 
+        return $this->belongsTo(Quiz::class, 'knowledge_check_id'); 
     }
 }

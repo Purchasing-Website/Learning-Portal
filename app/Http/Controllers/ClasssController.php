@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Classes;
+use App\Models\Course;
 
 class ClasssController extends Controller
 {
@@ -13,8 +14,11 @@ class ClasssController extends Controller
         // Retrieve classes with pagination (10 per page)
         $classes = Classes::orderBy('created_at', 'desc')->paginate(10);
 
+        // Get all courses for potential use in the view
+        $courses = Course::all();
+
         // Pass data to the view
-        return view('admins.classes.class_view', compact('classes'));
+        return view('admins.classes.class_view', compact('classes', 'courses'));
     }
 
     public function store(Request $request)
@@ -71,6 +75,71 @@ class ClasssController extends Controller
             'success' => true,
             'is_active' => $class->is_active,
         ]);
+    }
+
+    public function loadAvailableCourses($id)
+    {
+        $class = Classes::with('courses')->findOrFail($id);
+        
+        $assignedCourseIds = $class->courses->pluck('id')->toArray();
+
+        $availableCourses = Course::whereNotIn('id', $assignedCourseIds)->get();
+
+        // Next sequence for this class within any course
+        $nextSequence = $class->courses->count() + 1;
+
+        return response()->json([
+            'available' => $availableCourses,
+            'nextSequence' => $nextSequence,
+        ]);
+    }
+
+    public function assignCourse(Request $request, $id)
+    {
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+            'sequence' => 'required|integer|min:1'
+        ]);
+
+        $class = Classes::findOrFail($id);
+
+        $class->courses()->attach($request->course_id, [
+            'sequence_order' => $request->sequence,
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Class assigned to course.']);
+    }
+
+    public function loadAssignedCourses($id)
+    {
+        $class = Classes::with(['courses' => function($q) {
+            $q->withPivot('sequence_order', 'is_active', 'created_by', 'updated_by')
+            ->with('creator:id,name');
+        }])->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => $class->courses
+        ]);
+    }
+
+    public function softUnassignCourse($classId, $courseId)
+    {
+        $class = Classes::findOrFail($classId);
+
+        // Update the pivot record to mark as inactive instead of deleting
+        $updated = $class->courses()
+            ->updateExistingPivot($courseId, [
+                'is_active' => false,
+                'updated_by' => Auth::id(),
+                'updated_at' => now(),
+            ]);
+
+        if ($updated) {
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
     }
 
 

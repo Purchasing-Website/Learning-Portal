@@ -20,6 +20,12 @@ class EnrollmentController extends Controller
 
         $students = User::where('role', 'student')->get(); // adjust role check as needed
 
+        // Attach enrollment status to each student
+        foreach ($students as $student) {
+            $pivot = $class->students->firstWhere('id', $student->id);
+            $student->enrollment_status = $pivot->pivot->status ?? null;
+        }
+
         //dd($students);
 
         return view('admins.enrollments.enrollment_view', compact('class','students'));
