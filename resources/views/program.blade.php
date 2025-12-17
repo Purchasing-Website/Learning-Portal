@@ -61,59 +61,47 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr style="max-width: 49px;">
-                                                <td class="text-truncate" style="max-width: 200px;">#PG4897591</td>
-                                                <td class="text-truncate" style="max-width: 200px;">风水</td>
-                                                <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" src="assets/img/OIP.webp" style="max-width: 120px;max-height: 100px;"></td>
-                                                <td style="max-width: 50px;">test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test</td>
-                                                <td>6/9/2024</td>
-                                                <td class="text-start">10</td>
-                                                <td>Active<div class="custom__checkbox-wrap"><input type="checkbox" id="checkBox-id" class="d-none checkbox"></div>
-                                                </td>
-                                                <td class="text-nowrap text-start text-center"><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html"><i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate" style="max-width: 200px;">#PG1951798</td>
-                                                <td class="text-truncate" style="max-width: 200px;">身心疗愈</td>
-                                                <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" src="assets/img/OIP.webp" style="max-width: 120px;max-height: 100px;"></td>
-                                                <td class="text-break" style="max-width: 50px;">身心疗愈</td>
-                                                <td>6/9/2024</td>
-                                                <td class="text-start">10</td>
-                                                <td>Active</td>
-                                                <td class="text-nowrap text-start text-center"><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html"><i class="material-icons text-dark" id="showAlertBtn-1" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-8" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-9" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate" style="max-width: 200px;">#PG6159375</td>
-                                                <td class="text-truncate" style="max-width: 200px;">财经</td>
-                                                <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" src="assets/img/OIP.webp" style="max-width: 120px;max-height: 100px;"></td>
-                                                <td class="text-break" style="max-width: 50px;">财经</td>
-                                                <td>6/9/2024</td>
-                                                <td class="text-start">10</td>
-                                                <td>Active</td>
-                                                <td class="text-nowrap text-start text-center"><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html"><i class="material-icons text-dark" id="showAlertBtn-2" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-10" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-11" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate" style="max-width: 200px;">#PG1954621</td>
-                                                <td class="text-truncate" style="max-width: 200px;">自我成长</td>
-                                                <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" src="assets/img/OIP.webp" style="max-width: 120px;max-height: 100px;"></td>
-                                                <td class="text-break" style="max-width: 50px;">自我成长</td>
-                                                <td>6/9/2024</td>
-                                                <td class="text-start">15</td>
-                                                <td>Active</td>
-                                                <td class="text-nowrap text-start text-center"><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html"><i class="material-icons text-dark" id="showAlertBtn-3" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-12" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-13" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate" style="max-width: 200px;">#PG1948568</td>
-                                                <td class="text-truncate" style="max-width: 200px;">易数</td>
-                                                <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" src="assets/img/OIP.webp" style="max-width: 120px;max-height: 100px;"></td>
-                                                <td class="text-break" style="max-width: 50px;">易数</td>
-                                                <td>6/9/2024</td>
-                                                <td class="text-start">15</td>
-                                                <td>Active</td>
-                                                <td class="text-nowrap text-start text-center"><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html"><i class="material-icons text-dark" id="showAlertBtn-4" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-14" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-15" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i></a></td>
-                                            </tr>
+                                            @forelse ($programs as $program)
+                                                <tr style="max-width: 49px;">
+                                                    <td class="text-truncate" style="max-width: 200px;">{{ $loop->iteration + ($programs->currentPage() - 1) * $programs->perPage() }}</td>
+                                                    <td class="text-truncate" style="max-width: 200px;">{{ $program->title }}</td>
+                                                    <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" src="assets/img/OIP.webp" style="max-width: 120px;max-height: 100px;"></td>
+                                                    <td style="max-width: 50px;">{{ Str::limit($program->description, 50) }}</td>
+                                                    <td>{{ $program->created_by ?? 'N/A' }}</td>
+                                                    <td class="text-start">10</td>
+                                                    <td class="status-cell">
+                                                        @if($program->is_active)
+                                                            <span class="badge bg-success">Active</span>
+                                                        @else
+                                                            <span class="badge bg-secondary">Inactive</span>
+                                                        @endif
+                                                        <div class="custom__checkbox-wrap">
+                                                            <input type="checkbox" id="checkBox-id" class="d-none checkbox">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-nowrap text-start text-center">
+                                                        <a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
+                                                            <i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i>
+                                                        </a>
+                                                        <button id='editBtn' data-id="{{ $program->id }}" class="btn btn-dark editBtn" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;">
+                                                            <i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i>
+                                                        </button>
+                                                        <button class="btn btn-dark toggleStatus" data-id="{{ $program->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal">
+                                                            <i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No programs found.</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
+                                    <!-- Pagination -->
+                                    <div class="d-flex justify-content-center">
+                                        {{ $programs->links() }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer"></div>
@@ -134,67 +122,269 @@
         </div>
         <div class="offcanvas-body" style="border-color: rgb(255,255,255);">
             <div class="container">
-                <div class="row" style="margin-bottom: 10px;">
+                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col-md-12">
                         <p style="margin-bottom: 2px;">Program Image</p>
                         <div class="position-relative rounded vPreviewImage" id="someId" style="width: 96px;height: 96px;background: url('assets/img/input_image_preview/upload_image.png') center / cover no-repeat;" input-data-index="0"><button class="btn position-sticky d-none close vClearPreviewImage" type="button"><span class="bg-white pl-2 pr-2" aria-hidden="true">&times;</span></button><input type="file" class="vInputImage" style="width: 96px;height: 96px;opacity: 0;cursor: pointer;" accept="image/*"></div>
                     </div>
                 </div>
-                <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;">Program Name</p><input type="text" style="width: 100%;" placeholder="Eg. Feng Shui">
+                <form method="POST" action="{{route('program.store')}}">
+                    @csrf
+
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;" for="programName" >Program Name</p>
+                            <input type="text" style="width: 100%;" name='title' id="programName"  value="{{ old('title') }}" placeholder="Eg. Feng Shui">
+                            @error('title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;">Description</p><textarea style="width: 100%;" placeholder="Program Description"></textarea>
+
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;" for="programDescription">Description</p>
+                            <textarea style="width: 100%;" name='description' id="programDescription" placeholder="Program Description"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-lg-10 text-end" style="width: 100%;"><button class="btn btn-primary" id="btnaddinventory" type="button" data-bs-dismiss="offcanvas" style="background: rgb(78,115,223);margin: 0px 10px;">Add</button><button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" style="background: rgb(231,74,59);">Cancel</button></div>
-                </div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-lg-10 text-end" style="width: 100%;">
+                            <button class="btn btn-primary" id="btnaddinventory" type="submit" data-bs-dismiss="offcanvas" style="background: rgb(78,115,223);margin: 0px 10px;">Add</button>
+                            <button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" style="background: rgb(231,74,59);">Cancel</button>
+                        </div>
+                    </div>
+                </form> 
+               
             </div>
         </div>
     </div>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-2">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="editProgramModal">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title">Edit Program</h5><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body" style="border-color: rgb(255,255,255);">
             <div class="container">
-                <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;">Program Image</p>
-                        <div class="position-relative rounded vPreviewImage" id="someId" style="width: 96px;height: 96px;background: url('assets/img/input_image_preview/upload_image.png') center / cover no-repeat;" input-data-index="0"><button class="btn position-sticky d-none close vClearPreviewImage" type="button"><span class="bg-white pl-2 pr-2" aria-hidden="true">&times;</span></button><input type="file" class="vInputImage" style="width: 96px;height: 96px;opacity: 0;cursor: pointer;" accept="image/*"></div>
+                <form id="updateProgramForm">
+                    @csrf
+                    <input type="hidden" id="program_id">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;">Program Image</p>
+                            <div class="position-relative rounded vPreviewImage" id="someId" style="width: 96px;height: 96px;background: url('assets/img/input_image_preview/upload_image.png') center / cover no-repeat;" input-data-index="0"><button class="btn position-sticky d-none close vClearPreviewImage" type="button"><span class="bg-white pl-2 pr-2" aria-hidden="true">&times;</span></button><input type="file" class="vInputImage" style="width: 96px;height: 96px;opacity: 0;cursor: pointer;" accept="image/*"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;">Program Name</p><input type="text" style="width: 100%;" placeholder="Eg. Feng Shui">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;">Program Name</p>
+                            <input type="text" style="width: 100%;" placeholder="Eg. Feng Shui" id="program_name">
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;">Description</p><textarea style="width: 100%;" placeholder="Program Description"></textarea>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;">Description</p>
+                            <textarea style="width: 100%;" placeholder="Program Description" id="program_description">
+
+                            </textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-lg-10 text-end" style="width: 100%;"><button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" style="background: rgb(78,115,223);margin: 0px 10px;">Edit</button><button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" style="background: rgb(231,74,59);">Cancel</button></div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-10 text-end" style="width: 100%;">
+                            <button class="btn btn-primary" type="submit" data-bs-dismiss="offcanvas" style="background: rgb(78,115,223);margin: 0px 10px;">Edit</button>
+                            <button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" style="background: rgb(231,74,59);">Cancel</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
+    <div class="modal fade" role="dialog" tabindex="-1" id="confirmStatusModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Delete Alert!</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you confirm to deactivate this program?</p>
+                    <p id="programActivation"></p>
                 </div>
-                <div class="modal-footer"><button class="btn btn-primary" id="showAlertBtn-7" type="button" data-bs-target="#modal-2" data-bs-toggle="modal" data-bs-dismiss="modal" style="background: rgb(231,74,59);">Yes</button><button class="btn btn-light" type="button" data-bs-dismiss="modal" style="background: rgb(13,110,253);color: rgb(255,255,255);">No</button></div>
+                <div class="modal-footer">
+                    <form id="updateProgramStatus">
+                        @csrf
+                        <input type="number" id="programStatusId" >
+                        <button class="btn btn-primary" id="showAlertBtn-7" type="submit" data-bs-target="#modal-2" data-bs-toggle="modal" data-bs-dismiss="modal" style="background: rgb(231,74,59);">Yes</button>
+                    </form>
+                    <button class="btn btn-light" type="button" data-bs-dismiss="modal" style="background: rgb(13,110,253);color: rgb(255,255,255);">No</button>
+                </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const editButtons = document.querySelectorAll(".editBtn");
+    const modal = new bootstrap.Modal(document.getElementById('editProgramModal'));
+
+    editButtons.forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+
+            const response = await fetch(`/program/${id}/edit`);
+            const program = await response.json();
+
+            document.getElementById("program_id").value = program.id;
+            document.getElementById("program_name").value = program.title;
+            document.getElementById("program_description").value = program.description || '';
+            //document.getElementById("program_duration").value = program.duration || '';
+
+            modal.show();
+        });
+    });
+
+    // Update form submit
+    document.getElementById("updateProgramForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const id = document.getElementById("program_id").value;
+        const formData = new FormData();
+        formData.append('_token', document.querySelector('input[name="_token"]').value);
+        formData.append('title', document.getElementById("program_name").value);
+        formData.append('description', document.getElementById("program_description").value);
+        //formData.append('duration', document.getElementById("program_duration").value);
+
+        const res = await fetch(`/program/${id}/update`, {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            alert(data.message);
+            modal.hide();
+            location.reload(); // reload to refresh table
+        } else {
+            alert("Something went wrong!");
+        }
+    });
+});
+
+// Toggle Status Is Active AJAX Request using jQuery 
+document.addEventListener('DOMContentLoaded', function() {
+    // const buttons = document.querySelectorAll('.toggleStatus');
+
+    // buttons.forEach(button => {
+    //     button.addEventListener('click', async function() {
+    //         const id = this.dataset.id;
+    //         const row = this.closest('tr');
+    //         const badge = row.querySelector('.status-cell span');
+    //         const isCurrentlyActive = this.textContent.trim() === 'Active';
+    //         const confirmMessage = `Are you sure you want to ${isCurrentlyActive ? 'deactivate' : 'activate'} this program?`;
+
+    //         if (confirm(confirmMessage)) {
+    //             try {
+    //                 const response = await fetch(`/program/${id}/toggle-status`, {
+    //                     method: 'PATCH',
+    //                     headers: {
+    //                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    //                         'Accept': 'application/json',
+    //                         'Content-Type': 'application/json',
+    //                     },
+    //                 });
+
+    //                 const data = await response.json();
+
+    //                 if (data.success) {
+    //                     // ✅ Update button and badge dynamically
+    //                     if (data.is_active) {
+    //                         this.classList.remove('btn-danger');
+    //                         this.classList.add('btn-success');
+    //                         this.textContent = 'Deactive';
+    //                         badge.classList.remove('bg-secondary');
+    //                         badge.classList.add('bg-success');
+    //                         badge.textContent = 'Activate';
+    //                     } else {
+    //                         this.classList.remove('btn-success');
+    //                         this.classList.add('btn-danger');
+    //                         this.textContent = 'Activate';
+    //                         badge.classList.remove('bg-success');
+    //                         badge.classList.add('bg-secondary');
+    //                         badge.textContent = 'Inactive';
+    //                     }
+    //                 } else {
+    //                     alert('Failed to update status.');
+    //                 }
+    //             } catch (error) {
+    //                 console.error('Error:', error);
+    //             }
+    //         }
+    //     });
+    // });
+
+    const buttons = document.querySelectorAll('.toggleStatus');
+    const toggleStatusModel = new bootstrap.Modal(document.getElementById('confirmStatusModal'));
+
+    buttons.forEach(button => {
+        button.addEventListener('click', async function() {
+            const id = this.dataset.id;
+            const row = this.closest('tr');
+            const badge = row.querySelector('.status-cell span');
+            const isCurrentlyActive = this.textContent.trim() === 'Active';
+            const confirmMessage = `Are you sure you want to ${isCurrentlyActive ? 'deactivate' : 'activate'} this program?`;
+
+            document.getElementById("programActivation").textContent = confirmMessage;
+            document.getElementById("programStatusId").value = id;
+
+            toggleStatusModel.show();
+        });
+    });
+
+    // Update form submit
+    document.getElementById("updateProgramStatus").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        try {
+            const program_id = document.getElementById("programStatusId").value;
+
+            console.log(program_id + "no");
+
+            const response = await fetch(`/program/${program_id}/toggle-status`, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            // const data = await response.json();
+
+            // if (data.success) {
+            //     // ✅ Update button and badge dynamically
+            //     if (data.is_active) {
+            //         this.classList.remove('btn-danger');
+            //         this.classList.add('btn-success');
+            //         this.textContent = 'Deactive';
+            //         badge.classList.remove('bg-secondary');
+            //         badge.classList.add('bg-success');
+            //         badge.textContent = 'Activate';
+            //     } else {
+            //         this.classList.remove('btn-success');
+            //         this.classList.add('btn-danger');
+            //         this.textContent = 'Activate';
+            //         badge.classList.remove('bg-success');
+            //         badge.classList.add('bg-secondary');
+            //         badge.textContent = 'Inactive';
+            //     }
+            // } else {
+            //     alert('Failed to update status.');
+            // }
+            location.reload();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });    
+
+});
+</script>
+@endpush

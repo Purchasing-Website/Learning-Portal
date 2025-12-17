@@ -39,6 +39,10 @@
                     </select>
                 </div>
                 <div class="mb-3">
+                    <label for="sequence" class="form-label">Sequence </label>
+                    <input type="integer" class="form-control" name="sequence" id="sequence" placeholder="Enter lesson sequence">
+                </div>
+                <div class="mb-3">
                     <label for="lessonDuration" class="form-label">Lesson Duration</label>
                     <input type="text" class="form-control" name='duration' id="lessonDuration" placeholder="Enter lesson duration">
                 </div>
@@ -87,6 +91,7 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Class</th>
+                    <th>Sequence</th>
                     <th>Created By</th>
                     <th>Status</th>
                     <th>Created At</th>
@@ -99,6 +104,7 @@
                         <td>{{ $lesson->title }}</td>
                         <td>{{ Str::limit($lesson->description, 50) }}</td>
                         <td>{{ $lesson->class->title ?? 'N/A' }}</td>
+                        <td>{{ $lesson->sequence ?? 'NA' }}</td>
                         <td>{{ $lesson->created_by ?? 'N/A' }}</td>
                         <td class="status-cell">
                             @if($lesson->is_active)

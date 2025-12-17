@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
 </head>
 <body id="page-top">
     <div id="wrapper">
@@ -48,7 +49,7 @@
         @yield('content')
     </div>
 
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/bootstrap.min.js') }}"></script> --}}
     <script src="{{ asset('js/bs-init.js') }}"></script>
     <script src="{{ asset('js/updateDropdownValue.js') }}"></script>
     <script src="{{ asset('js/AddMinusItems.js') }}"></script>
@@ -76,5 +77,7 @@
     <script src="{{ asset('js/haha.js') }}"></script>
     <script src="{{ asset('js/ProductManagement.js') }}"></script>
     <script src="{{ asset('js/File-Input---Beautiful-Input--Button-Approach-Jasny-Bootstrap-fileinput.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+    @stack('scripts')
 </body>
 </html>

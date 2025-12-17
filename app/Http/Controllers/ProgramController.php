@@ -14,7 +14,8 @@ class ProgramController extends Controller
         $programs = Program::orderBy('created_at', 'desc')->paginate(10);
 
         // Pass data to the view
-        return view('admins.programs.program_view', compact('programs'));
+        //return view('admins.programs.program_view', compact('programs'));
+        return view('program', compact('programs'));
     }
 
     public function store(Request $request)
