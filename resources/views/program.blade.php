@@ -224,7 +224,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const editButtons = document.querySelectorAll(".editBtn");
-    const modal = new bootstrap.Modal(document.getElementById('editProgramModal'));
+    const modal = new bootstrap.Offcanvas(document.getElementById('editProgramModal'));
 
     editButtons.forEach(btn => {
         btn.addEventListener("click", async () => {
