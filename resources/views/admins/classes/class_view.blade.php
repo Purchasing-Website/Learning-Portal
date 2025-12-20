@@ -8,7 +8,6 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            {{-- form create class --}}
             <form method="POST" action="{{route('class.store')}}">
                 @csrf
                 <div class="mb-3">

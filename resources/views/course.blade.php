@@ -63,62 +63,40 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr style="max-width: 49px;">
-                                                <td class="text-truncate" style="max-width: 200px;">#PG4897591</td>
-                                                <td class="text-truncate" style="max-width: 200px;">风水</td>
-                                                <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" style="max-width: 120px;max-height: 100px;" src="assets/img/OIP.webp"></td>
-                                                <td class="text-break" style="max-width: 50px;">test</td>
-                                                <td class="text-break" style="max-width: 50px;">Program A</td>
-                                                <td>6/9/2024</td>
-                                                <td class="text-start">10</td>
-                                                <td>Active<div class="custom__checkbox-wrap"><input type="checkbox" id="checkBox-id" class="d-none checkbox"></div>
-                                                </td>
-                                                <td class="text-nowrap text-start text-center"><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html"><i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate" style="max-width: 200px;">#PG1951798</td>
-                                                <td class="text-truncate" style="max-width: 200px;">身心疗愈</td>
-                                                <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" style="max-width: 120px;max-height: 100px;" src="assets/img/OIP.webp"></td>
-                                                <td class="text-break" style="max-width: 50px;">身心疗愈</td>
-                                                <td class="text-break" style="max-width: 50px;">Program B</td>
-                                                <td>6/9/2024</td>
-                                                <td class="text-start">10</td>
-                                                <td>Active</td>
-                                                <td class="text-nowrap text-start text-center"><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html"><i class="material-icons text-dark" id="showAlertBtn-1" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-8" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-9" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate" style="max-width: 200px;">#PG6159375</td>
-                                                <td class="text-truncate" style="max-width: 200px;">财经</td>
-                                                <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" style="max-width: 120px;max-height: 100px;" src="assets/img/OIP.webp"></td>
-                                                <td class="text-break" style="max-width: 50px;">财经</td>
-                                                <td class="text-break" style="max-width: 50px;">Program C</td>
-                                                <td>6/9/2024</td>
-                                                <td class="text-start">10</td>
-                                                <td>Active</td>
-                                                <td class="text-nowrap text-start text-center"><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html"><i class="material-icons text-dark" id="showAlertBtn-2" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-10" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-11" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate" style="max-width: 200px;">#PG1954621</td>
-                                                <td class="text-truncate" style="max-width: 200px;">自我成长</td>
-                                                <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" style="max-width: 120px;max-height: 100px;" src="assets/img/OIP.webp"></td>
-                                                <td class="text-break" style="max-width: 50px;">自我成长</td>
-                                                <td class="text-break" style="max-width: 50px;">Program D</td>
-                                                <td>6/9/2024</td>
-                                                <td class="text-start">15</td>
-                                                <td>Active</td>
-                                                <td class="text-nowrap text-start text-center"><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html"><i class="material-icons text-dark" id="showAlertBtn-3" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-12" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-13" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate" style="max-width: 200px;">#PG1948568</td>
-                                                <td class="text-truncate" style="max-width: 200px;">易数</td>
-                                                <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" style="max-width: 120px;max-height: 100px;" src="assets/img/OIP.webp"></td>
-                                                <td class="text-break" style="max-width: 50px;">易数</td>
-                                                <td class="text-break" style="max-width: 50px;">Program E</td>
-                                                <td>6/9/2024</td>
-                                                <td class="text-start">15</td>
-                                                <td>Active</td>
-                                                <td class="text-nowrap text-start text-center"><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html"><i class="material-icons text-dark" id="showAlertBtn-4" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-14" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></a><a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-15" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i></a></td>
-                                            </tr>
+                                            @forelse ($courses as $course)
+                                                <tr style="max-width: 49px;">
+                                                    <td class="text-truncate" style="max-width: 200px;">{{ $course->id }}</td>
+                                                    <td class="text-truncate" style="max-width: 200px;">{{ $course->title }}</td>
+                                                    <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" style="max-width: 120px;max-height: 100px;" src="assets/img/OIP.webp"></td>
+                                                    <td class="text-break" style="max-width: 50px;">{{ Str::limit($course->description, 50) }}</td>
+                                                    <td class="text-break" style="max-width: 50px;">{{ $course->program->title ?? 'N/A' }}</td>
+                                                    <td>{{ $course->created_at->format('Y-m-d') }}</td>
+                                                    <td class="text-start">10</td>
+                                                    <td class="status-cell">
+                                                        @if($course->is_active)
+                                                            <span class="badge bg-success">Active</span>
+                                                        @else
+                                                            <span class="badge bg-secondary">Inactive</span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-nowrap text-start text-center">
+                                                        <a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="{{ route('class.index',$course->id) }}">
+                                                            <i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i>
+                                                        </a>
+                                                        <button class="btn btn-dark editBtn" id='editBtn' role="button" data-id="{{ $course->id }}" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;">
+                                                            <i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i>
+                                                        </button>
+                                                        <button class="btn btn-dark toggleStatus" data-id="{{ $course->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;">
+                                                            <i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                {{-- <tr>
+                                                    <td colspan="9" class="text-center">No courses found.</td>
+                                                </tr> --}}
+                                            @endforelse
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -134,90 +112,227 @@
                 <div class="text-center my-auto copyright"><span>Hao Lin© Brand 2025</span></div>
             </div>
         </footer>
-    </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-1">
         <div class="offcanvas-header">
             <h4 class="offcanvas-title" style="font-weight: bold;">Add New Course</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body" style="border-color: rgb(255,255,255);">
             <div class="container">
-                <div class="row" style="padding-bottom: 10px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;font-weight: bold;">Cover Image</p>
-                        <div class="position-relative rounded vPreviewImage" id="someId" style="width: 96px;height: 96px;background: url('assets/img/input_image_preview/upload_image.png') center / cover no-repeat;" input-data-index="0"><button class="btn position-sticky d-none close vClearPreviewImage" type="button"><span class="bg-white pl-2 pr-2" aria-hidden="true">&times;</span></button><input type="file" class="vInputImage" style="width: 96px;height: 96px;opacity: 0;cursor: pointer;" accept="image/*"></div>
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-12 col-xxl-12">
-                        <p style="margin-bottom: 2px;font-weight: bold;">Program Name</p>
-                        <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" id="PGdropdownMenuButton_1" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;border-color: rgb(4,0,0);height: 30px;border-radius: 5px;"></button>
-                            <div class="dropdown-menu pgdropdown" style="width: 100%;"><input type="text" id="PGdropdownSearchInput" class="form-control search"><a class="dropdown-item program" href="#" onclick="selectProgram(this)">风水</a><a class="dropdown-item program" href="#" onclick="selectProgram(this)">冥想</a><a class="dropdown-item program" href="#" onclick="selectProgram(this)">财经</a></div>
+                <form method="POST" action="{{route('course.store')}}">
+                @csrf
+                    <div class="row" style="padding-bottom: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Cover Image</p>
+                            <div class="position-relative rounded vPreviewImage" id="someId" style="width: 96px;height: 96px;background: url('assets/img/input_image_preview/upload_image.png') center / cover no-repeat;" input-data-index="0"><button class="btn position-sticky d-none close vClearPreviewImage" type="button"><span class="bg-white pl-2 pr-2" aria-hidden="true">&times;</span></button><input type="file" class="vInputImage" style="width: 96px;height: 96px;opacity: 0;cursor: pointer;" accept="image/*"></div>
                         </div>
                     </div>
-                </div>
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;font-weight: bold;">Course Name</p><input type="text" style="width: 100%;border-radius: 5px;border-width: 0.8px;border-color: rgb(0,0,0);" placeholder="Eg. Feng Shui">
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-12 col-xxl-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Program Name</p>
+                            <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" id="PGdropdownMenuButton_1" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;border-color: rgb(4,0,0);height: 30px;border-radius: 5px;"></button>
+                                <div class="dropdown-menu pgdropdown" style="width: 100%;">
+                                    <input type="text" id="PGdropdownSearchInput" class="form-control search">
+                                    <a class="dropdown-item program" href="#" onclick="selectProgram(this)">风水</a>
+                                    <a class="dropdown-item program" href="#" onclick="selectProgram(this)">冥想</a>
+                                    <a class="dropdown-item program" href="#" onclick="selectProgram(this)">财经</a>
+                                </div>
+                            </div>
+                            <select class="form-select" name="program_id" id="programSelect" required>
+                                <option value="" disabled selected>Select a program</option>
+                                @foreach($programs as $program)
+                                    <option value="{{ $program->id }}">{{ $program->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;font-weight: bold;">Description</p><textarea style="width: 100%;height: 150px;border-radius: 5px;" placeholder="Course Description"></textarea>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Course Name</p>
+                            <input type="text" name='title' id="courseName" style="width: 100%;border-radius: 5px;border-width: 0.8px;border-color: rgb(0,0,0);" placeholder="Eg. Feng Shui">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-lg-10 text-end" style="width: 100%;"><button class="btn btn-primary" id="btnaddinventory" type="button" data-bs-dismiss="offcanvas" style="background: rgb(78,115,223);margin: 0px 10px;">Add</button><button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" style="background: rgb(231,74,59);">Cancel</button></div>
-                </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Description</p>
+                            <textarea name='description' id="courseDescription" style="width: 100%;height: 150px;border-radius: 5px;" placeholder="Course Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-10 text-end" style="width: 100%;">
+                            <button class="btn btn-primary" id="btnaddinventory" type="submit" data-bs-dismiss="offcanvas" style="background: rgb(78,115,223);margin: 0px 10px;">Add</button>
+                            <button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" style="background: rgb(231,74,59);">Cancel</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-2">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="editCourseModal">
         <div class="offcanvas-header">
             <h4 class="offcanvas-title" style="font-weight: bold;">Edit Program</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body" style="border-color: rgb(255,255,255);">
             <div class="container">
-                <div class="row" style="padding-bottom: 10px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;font-weight: bold;">Cover Image</p>
-                        <div class="position-relative rounded vPreviewImage" id="someId" style="width: 96px;height: 96px;background: url('assets/img/input_image_preview/upload_image.png') center / cover no-repeat;" input-data-index="0"><button class="btn position-sticky d-none close vClearPreviewImage" type="button"><span class="bg-white pl-2 pr-2" aria-hidden="true">&times;</span></button><input type="file" class="vInputImage" style="width: 120px;height: 100px;opacity: 0;cursor: pointer;" accept="image/*"></div>
-                    </div>
-                </div>
-                <div class="row" style="margin: 0px -12px;margin-top: 15px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;font-weight: bold;">Program Name</p>
-                        <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;border-color: rgb(0,4,8);"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" id="E_PGdropdownMenuButton" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;height: 30px;border-radius: 5px;border-color: rgb(0,0,0);"></button>
-                            <div class="dropdown-menu e_pgdropdown" style="width: 100%;"><input type="text" id="E_PGdropdownSearchInput" class="form-control search"><a class="dropdown-item e_program" href="#" onclick="selectProgram(this)">风水</a><a class="dropdown-item e_program" href="#" onclick="selectProgram(this)">冥想</a><a class="dropdown-item e_program" href="#" onclick="selectProgram(this)">财经</a></div>
+                <form id="updateCourseForm">
+                @csrf
+                    <input type="hidden" id="course_id">
+                    <div class="row" style="padding-bottom: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Cover Image</p>
+                            <div class="position-relative rounded vPreviewImage" id="someId" style="width: 96px;height: 96px;background: url('assets/img/input_image_preview/upload_image.png') center / cover no-repeat;" input-data-index="0"><button class="btn position-sticky d-none close vClearPreviewImage" type="button"><span class="bg-white pl-2 pr-2" aria-hidden="true">&times;</span></button><input type="file" class="vInputImage" style="width: 120px;height: 100px;opacity: 0;cursor: pointer;" accept="image/*"></div>
                         </div>
                     </div>
-                </div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;font-weight: bold;">Course Name</p><input type="text" style="width: 100%;border-radius: 5px;border-width: 0.8px;border-color: rgb(0,0,0);" placeholder="Eg. Feng Shui">
+                    <div class="row" style="margin: 0px -12px;margin-top: 15px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Program Name</p>
+                            <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;border-color: rgb(0,4,8);"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" id="E_PGdropdownMenuButton" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;height: 30px;border-radius: 5px;border-color: rgb(0,0,0);"></button>
+                                <div class="dropdown-menu e_pgdropdown" style="width: 100%;">
+                                    <input type="text" id="E_PGdropdownSearchInput" class="form-control search">
+                                    <a class="dropdown-item e_program" href="#" onclick="selectProgram(this)">风水</a>
+                                    <a class="dropdown-item e_program" href="#" onclick="selectProgram(this)">冥想</a>
+                                    <a class="dropdown-item e_program" href="#" onclick="selectProgram(this)">财经</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="col-md-12">
-                        <p style="margin-bottom: 2px;font-weight: bold;">Description</p><textarea style="width: 100%;height: 130px;border-radius: 5px;" placeholder="Program Description"></textarea>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Course Name</p>
+                            <input type="text" id="course_title" style="width: 100%;border-radius: 5px;border-width: 0.8px;border-color: rgb(0,0,0);" placeholder="Eg. Feng Shui">
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="col-md-12 col-lg-10 text-end" style="width: 100%;"><button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" style="background: rgb(78,115,223);margin: 0px 10px;">Edit</button><button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" style="background: rgb(231,74,59);">Cancel</button></div>
-                </div>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Description</p>
+                            <textarea id="course_description" style="width: 100%;height: 130px;border-radius: 5px;" placeholder="Program Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-md-12 col-lg-10 text-end" style="width: 100%;">
+                            <button class="btn btn-primary" type="submit" data-bs-dismiss="offcanvas" style="background: rgb(78,115,223);margin: 0px 10px;">Edit</button>
+                            <button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" style="background: rgb(231,74,59);">Cancel</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
+    <div class="modal fade" role="dialog" tabindex="-1" id="confirmStatusModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Delete Alert!</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you confirm to deactivate this program?</p>
+                    <p id="courseActivation"></p>
                 </div>
-                <div class="modal-footer"><button class="btn btn-primary" id="showAlertBtn-7" type="button" data-bs-target="#modal-2" data-bs-toggle="modal" data-bs-dismiss="modal" style="background: rgb(231,74,59);">Yes</button><button class="btn btn-light" type="button" data-bs-dismiss="modal" style="background: rgb(13,110,253);color: rgb(255,255,255);">No</button></div>
+                <div class="modal-footer">
+                    <form id="updateCourseStatus">
+                        @csrf
+                        <input type="hidden" id="courseStatusId">
+                        <button class="btn btn-primary" id="showAlertBtn-7" type="submit" data-bs-target="#modal-2" data-bs-toggle="modal" data-bs-dismiss="modal" style="background: rgb(231,74,59);">Yes</button>
+                    </form>
+                    <button class="btn btn-light" type="button" data-bs-dismiss="modal" style="background: rgb(13,110,253);color: rgb(255,255,255);">No</button>
+                </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const editButtons = document.querySelectorAll(".editBtn");
+    const modal = new bootstrap.Offcanvas(document.getElementById('editCourseModal'));
+
+    editButtons.forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+
+            const response = await fetch(`/course/${id}/edit`);
+            const course = await response.json();
+
+            document.getElementById("course_id").value = course.id;
+            document.getElementById("course_title").value = course.title;
+            document.getElementById("course_description").value = course.description || '';
+            //document.getElementById("course_duration").value = course.duration || '';
+
+            modal.show();
+        });
+    });
+
+    // Update form submit
+    document.getElementById("updateCourseForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const id = document.getElementById("course_id").value;
+        const formData = new FormData();
+        formData.append('_token', document.querySelector('input[name="_token"]').value);
+        formData.append('title', document.getElementById("course_title").value);
+        formData.append('description', document.getElementById("course_description").value);
+        //formData.append('duration', document.getElementById("course_duration").value);
+
+        const res = await fetch(`/course/${id}/update`, {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            alert(data.message);
+            modal.hide();
+            location.reload(); // reload to refresh table
+        } else {
+            alert("Something went wrong!");
+        }
+    });
+});
+
+// Toggle Status Is Active AJAX Request using jQuery 
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.toggleStatus');
+    const toggleStatusModel = new bootstrap.Modal(document.getElementById('confirmStatusModal'));
+
+    buttons.forEach(button => {
+        button.addEventListener('click', async function() {
+            const id = this.dataset.id;
+            const row = this.closest('tr');
+            const badge = row.querySelector('.status-cell span');
+            const isCurrentlyActive = this.textContent.trim() === 'Active';
+            const confirmMessage = `Are you sure you want to ${isCurrentlyActive ? 'deactivate' : 'activate'} this course?`;
+
+            document.getElementById("courseActivation").textContent = confirmMessage;
+            document.getElementById("courseStatusId").value = id;
+
+            toggleStatusModel.show();
+        });
+    });
+
+    document.getElementById("updateCourseStatus").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        try {
+            const course_id = document.getElementById("courseStatusId").value;
+
+            const response = await fetch(`/course/${course_id}/toggle-status`, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            location.reload();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+});
+</script>
+@endpush

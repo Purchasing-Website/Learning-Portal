@@ -13,17 +13,23 @@ use Illuminate\Support\Facades\Storage;
 
 class LessonController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         $contentTypes = ContentType::cases();
 
         // Retrieve Lessons with pagination (10 per page)
-        $lessons = Lesson::orderBy('created_at', 'desc')->paginate(10);
+        if($id === 'all'){
+            $lessons = Lesson::orderBy('created_at', 'desc')->get();
+        }
+        else{
+            $lessons = Lesson::orderBy('created_at', 'desc')->where('class_id',$id)->get();
+        }
+        
 
         $classes = Classes::select('id', 'title')->where('is_active', true)->get();
 
         // Pass data to the view
-        return view('admins.lessons.lesson_view', compact('lessons', 'classes', 'contentTypes'));
+        return view('lesson', compact('lessons', 'classes', 'contentTypes'));
     }
 
     public function store(Request $request)
@@ -56,6 +62,7 @@ class LessonController extends Controller
             'title' => $validatedData['title'],
             'description' => $validatedData['description'] ?? null,
             //'image' => null, // Placeholder for image handling
+            'duration' => $validatedData['duration'],
             'is_active' => true,
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
@@ -136,7 +143,7 @@ class LessonController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'duration' => 'nullable|numeric|min:1',
-            'content_type' => ['required', new Enum(ContentType::class)],
+            //'content_type' => ['required', new Enum(ContentType::class)],
             'video_url' => 'nullable|url',
             'material' => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx|max:10240',
             'lesson_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
@@ -147,7 +154,7 @@ class LessonController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'duration' => $request->duration,
-            'content_type' => $request->content_type,
+            //'content_type' => $request->content_type,
             'updated_by' => Auth::id(),
         ]);
 
@@ -166,34 +173,34 @@ class LessonController extends Controller
         //     $lesson->lesson_image = $lessonImagePath;
         // }
 
-        // === Handle Content Type ===
-        if ($validatedData['content_type'] === ContentType::Document->value) {
-            // Handle document upload
-            if ($request->hasFile('material')) {
-                // Delete old material if exists
-                if ($lesson->source_url && Storage::disk('public')->exists($lesson->source_url)) {
-                    Storage::disk('public')->delete($lesson->source_url);
-                }
+        //=== Handle Content Type ===
+        // if ($validatedData['content_type'] === ContentType::Document->value) {
+        //     // Handle document upload
+        //     if ($request->hasFile('material')) {
+        //         // Delete old material if exists
+        //         if ($lesson->source_url && Storage::disk('public')->exists($lesson->source_url)) {
+        //             Storage::disk('public')->delete($lesson->source_url);
+        //         }
 
-                $file = $request->file('material');
-                $originalName = $file->getClientOriginalName();
+        //         $file = $request->file('material');
+        //         $originalName = $file->getClientOriginalName();
 
-                // lessonMaterial naming convention
-                $filename = 'Lesson_' . $lesson->id . '_' . Str::slug($lesson->title) . '_' . $originalName;
+        //         // lessonMaterial naming convention
+        //         $filename = 'Lesson_' . $lesson->id . '_' . Str::slug($lesson->title) . '_' . $originalName;
 
-                $path = $file->storeAs('lesson/lessonMaterial', $filename, 'public');
+        //         $path = $file->storeAs('lesson/lessonMaterial', $filename, 'public');
 
-                $lesson->source_url = 'storage/' . $path;
-            }
-        } elseif ($validatedData['content_type'] === ContentType::Video->value) {
+        //         $lesson->source_url = 'storage/' . $path;
+        //     }
+        // } elseif ($validatedData['content_type'] === ContentType::Video->value) {
             
-            // If switching from document to video, delete old file
-            if ($lesson->source_url && Storage::disk('public')->exists($lesson->source_url)) {
-                Storage::disk('public')->delete($lesson->source_url);
-            }
+        //     // If switching from document to video, delete old file
+        //     if ($lesson->source_url && Storage::disk('public')->exists($lesson->source_url)) {
+        //         Storage::disk('public')->delete($lesson->source_url);
+        //     }
 
-            $lesson->source_url = $validated['video_url'] ?? null;
-        }
+        //     $lesson->source_url = $validated['video_url'] ?? null;
+        // }
 
         return response()->json(['success' => true, 'message' => 'Lesson updated successfully.']);
 

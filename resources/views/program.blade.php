@@ -63,7 +63,7 @@
                                         <tbody>
                                             @forelse ($programs as $program)
                                                 <tr style="max-width: 49px;">
-                                                    <td class="text-truncate" style="max-width: 200px;">{{ $loop->iteration + ($programs->currentPage() - 1) * $programs->perPage() }}</td>
+                                                    <td class="text-truncate" style="max-width: 200px;">{{ $program->id }}</td>
                                                     <td class="text-truncate" style="max-width: 200px;">{{ $program->title }}</td>
                                                     <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" src="assets/img/OIP.webp" style="max-width: 120px;max-height: 100px;"></td>
                                                     <td style="max-width: 50px;">{{ Str::limit($program->description, 50) }}</td>
@@ -80,13 +80,13 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-nowrap text-start text-center">
-                                                        <a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
+                                                        <a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="{{route('course.index',$program->id)}}">
                                                             <i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i>
                                                         </a>
                                                         <button id='editBtn' data-id="{{ $program->id }}" class="btn btn-dark editBtn" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;">
                                                             <i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i>
                                                         </button>
-                                                        <button class="btn btn-dark toggleStatus" data-id="{{ $program->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal">
+                                                        <button class="btn btn-dark toggleStatus" data-id="{{ $program->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;">
                                                             <i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i>
                                                         </button>
                                                     </td>
@@ -99,9 +99,9 @@
                                         </tbody>
                                     </table>
                                     <!-- Pagination -->
-                                    <div class="d-flex justify-content-center">
+                                    {{-- <div class="d-flex justify-content-center">
                                         {{ $programs->links() }}
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="card-footer"></div>
@@ -210,7 +210,7 @@
                 <div class="modal-footer">
                     <form id="updateProgramStatus">
                         @csrf
-                        <input type="number" id="programStatusId" >
+                        <input type="hidden" id="programStatusId" >
                         <button class="btn btn-primary" id="showAlertBtn-7" type="submit" data-bs-target="#modal-2" data-bs-toggle="modal" data-bs-dismiss="modal" style="background: rgb(231,74,59);">Yes</button>
                     </form>
                     <button class="btn btn-light" type="button" data-bs-dismiss="modal" style="background: rgb(13,110,253);color: rgb(255,255,255);">No</button>
@@ -272,56 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Toggle Status Is Active AJAX Request using jQuery 
 document.addEventListener('DOMContentLoaded', function() {
-    // const buttons = document.querySelectorAll('.toggleStatus');
-
-    // buttons.forEach(button => {
-    //     button.addEventListener('click', async function() {
-    //         const id = this.dataset.id;
-    //         const row = this.closest('tr');
-    //         const badge = row.querySelector('.status-cell span');
-    //         const isCurrentlyActive = this.textContent.trim() === 'Active';
-    //         const confirmMessage = `Are you sure you want to ${isCurrentlyActive ? 'deactivate' : 'activate'} this program?`;
-
-    //         if (confirm(confirmMessage)) {
-    //             try {
-    //                 const response = await fetch(`/program/${id}/toggle-status`, {
-    //                     method: 'PATCH',
-    //                     headers: {
-    //                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-    //                         'Accept': 'application/json',
-    //                         'Content-Type': 'application/json',
-    //                     },
-    //                 });
-
-    //                 const data = await response.json();
-
-    //                 if (data.success) {
-    //                     // ✅ Update button and badge dynamically
-    //                     if (data.is_active) {
-    //                         this.classList.remove('btn-danger');
-    //                         this.classList.add('btn-success');
-    //                         this.textContent = 'Deactive';
-    //                         badge.classList.remove('bg-secondary');
-    //                         badge.classList.add('bg-success');
-    //                         badge.textContent = 'Activate';
-    //                     } else {
-    //                         this.classList.remove('btn-success');
-    //                         this.classList.add('btn-danger');
-    //                         this.textContent = 'Activate';
-    //                         badge.classList.remove('bg-success');
-    //                         badge.classList.add('bg-secondary');
-    //                         badge.textContent = 'Inactive';
-    //                     }
-    //                 } else {
-    //                     alert('Failed to update status.');
-    //                 }
-    //             } catch (error) {
-    //                 console.error('Error:', error);
-    //             }
-    //         }
-    //     });
-    // });
-
     const buttons = document.querySelectorAll('.toggleStatus');
     const toggleStatusModel = new bootstrap.Modal(document.getElementById('confirmStatusModal'));
 
@@ -346,8 +296,6 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const program_id = document.getElementById("programStatusId").value;
 
-            console.log(program_id + "no");
-
             const response = await fetch(`/program/${program_id}/toggle-status`, {
                 method: 'PATCH',
                 headers: {
@@ -357,28 +305,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
             });
 
-            // const data = await response.json();
-
-            // if (data.success) {
-            //     // ✅ Update button and badge dynamically
-            //     if (data.is_active) {
-            //         this.classList.remove('btn-danger');
-            //         this.classList.add('btn-success');
-            //         this.textContent = 'Deactive';
-            //         badge.classList.remove('bg-secondary');
-            //         badge.classList.add('bg-success');
-            //         badge.textContent = 'Activate';
-            //     } else {
-            //         this.classList.remove('btn-success');
-            //         this.classList.add('btn-danger');
-            //         this.textContent = 'Activate';
-            //         badge.classList.remove('bg-success');
-            //         badge.classList.add('bg-secondary');
-            //         badge.textContent = 'Inactive';
-            //     }
-            // } else {
-            //     alert('Failed to update status.');
-            // }
             location.reload();
         } catch (error) {
             console.error('Error:', error);

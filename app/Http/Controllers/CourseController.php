@@ -10,18 +10,21 @@ use App\Models\Program;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         // Retrieve course with pagination (10 per page)
-        $courses = Course::orderBy('created_at', 'desc')->paginate(10);
-
-        //dd ($courses);
+        if($id === 'all'){
+            $courses = Course::orderBy('created_at', 'desc')->get();
+        }
+        else{
+            $courses = Course::orderBy('created_at', 'desc')->where('program_id',$id)->get();
+        }
 
         // Retrieve all programs for potential use in the view
         $programs = Program::select('id', 'title')->where('is_active', true)->get();
 
         // Pass data to the view
-        return view('admins.courses.course_view', compact('courses', 'programs'));
+        return view('course', compact('courses', 'programs'));
     }
 
     public function store(Request $request)

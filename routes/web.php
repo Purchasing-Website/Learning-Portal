@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/testui', function () {
-    return view('program');
+    return view('lesson');
 });
 
 Auth::routes();
@@ -42,14 +42,14 @@ Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {
     Route::patch('/program/{id}/toggle-status', [ProgramController::class, 'toggleStatus'])->name('program.toggleStatus');
 
     //Course Management
-    Route::get('/admin/course', [CourseController::class, 'index'])->name('course.index');
+    Route::get('/admin/{id}/course', [CourseController::class, 'index'])->name('course.index');
     Route::post('/admin/course/store', [CourseController::class, 'store'])->name('course.store');
     Route::get('/course/{id}/edit', [CourseController::class, 'edit'])->name('course.edit');
     Route::post('/course/{id}/update', [CourseController::class, 'update'])->name('course.update');
     Route::patch('/course/{id}/toggle-status', [CourseController::class, 'toggleStatus'])->name('course.toggleStatus');
     
     //Class Management
-    Route::get('/admin/class', [ClasssController::class, 'index'])->name('class.index');
+    Route::get('/admin/{id}/class', [ClasssController::class, 'index'])->name('class.index');
     Route::post('/admin/class/store', [ClasssController::class, 'store'])->name('class.store');
     Route::get('/class/{id}/edit', [ClasssController::class, 'edit'])->name('class.edit');
     Route::post('/class/{id}/update', [ClasssController::class, 'update'])->name('class.update');
@@ -63,7 +63,7 @@ Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {
     Route::post('/class/{class}/soft-unassign-course/{course}', [ClasssController::class, 'softUnassignCourse']);
 
     //Lesson Management
-    Route::get('/admin/lesson', [LessonController::class, 'index'])->name('lesson.index');
+    Route::get('/admin/{id}/lesson', [LessonController::class, 'index'])->name('lesson.index');
     Route::post('/admin/lesson/store', [LessonController::class, 'store'])->name('lesson.store');
     Route::get('/lesson/{id}/edit', [LessonController::class, 'edit'])->name('lesson.edit');
     Route::post('/lesson/{id}/update', [LessonController::class, 'update'])->name('lesson.update');

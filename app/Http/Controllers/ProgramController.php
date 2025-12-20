@@ -11,7 +11,7 @@ class ProgramController extends Controller
     public function index()
     {
         // Retrieve programs with pagination (10 per page)
-        $programs = Program::orderBy('created_at', 'desc')->paginate(10);
+        $programs = Program::orderBy('created_at', 'desc')->get();
 
         // Pass data to the view
         //return view('admins.programs.program_view', compact('programs'));

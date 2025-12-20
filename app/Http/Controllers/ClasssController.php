@@ -9,16 +9,28 @@ use App\Models\Course;
 
 class ClasssController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         // Retrieve classes with pagination (10 per page)
-        $classes = Classes::orderBy('created_at', 'desc')->paginate(10);
+        $classes = null;
+        $course = null;
+        $show = null;
+        if($id === 'all'){
+            $classes = Classes::orderBy('created_at', 'desc')->get();
+            $show='all';
+        }
+        else{
+            $course = Course::with(['classes' => function ($q) {
+                    $q->orderBy('class_course.sequence_order');
+                }])->findOrFail($id);
+            $show='class';
+        }
 
         // Get all courses for potential use in the view
         $courses = Course::all();
 
         // Pass data to the view
-        return view('admins.classes.class_view', compact('classes', 'courses'));
+        return view('class', compact('show','classes','course', 'courses'));
     }
 
     public function store(Request $request)
