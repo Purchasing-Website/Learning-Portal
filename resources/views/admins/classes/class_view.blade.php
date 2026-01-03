@@ -36,7 +36,7 @@
             <tbody>
                 @forelse ($classes as $class)
                     <tr>
-                        <td>{{ $loop->iteration + ($classes->currentPage() - 1) * $classes->perPage() }}</td>
+                        <td>{{ $class->id }}</td>
                         <td>{{ $class->title }}</td>
                         <td>{{ Str::limit($class->description, 50) }}</td>
                         <td>{{ $class->created_by ?? 'N/A' }}</td>
@@ -78,9 +78,9 @@
         </table>
 
         <!-- Pagination -->
-        <div class="d-flex justify-content-center">
+        {{-- <div class="d-flex justify-content-center">
             {{ $classes->links() }}
-        </div>
+        </div> --}}
     </div>
 </div>
 

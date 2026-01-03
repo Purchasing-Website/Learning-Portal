@@ -68,6 +68,7 @@ Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {
     Route::get('/lesson/{id}/edit', [LessonController::class, 'edit'])->name('lesson.edit');
     Route::post('/lesson/{id}/update', [LessonController::class, 'update'])->name('lesson.update');
     Route::patch('/lesson/{id}/toggle-status', [LessonController::class, 'toggleStatus'])->name('lesson.toggleStatus');
+    Route::post('/lesson/sequenceUpdate', [LessonController::class, 'updateSequence'])->name('lesson.updateSequence');
 
     //Quiz Management
     Route::get('/admin/quiz', [QuizController::class, 'index'])->name('quiz.index');

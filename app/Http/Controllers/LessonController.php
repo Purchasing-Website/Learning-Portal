@@ -10,6 +10,8 @@ use App\Models\Classes;
 use App\Enums\ContentType;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
 {
@@ -218,6 +220,59 @@ class LessonController extends Controller
         ]);
     }
 
+    public function updateSequence(Request $req)
+    {
+        // 1. Validate the array structure
+        $validated = Validator::make($req->all(), [
+            'sequences' => 'required|array',
+            'sequences.*.id' => 'required|integer',
+            'sequences.*.sequence' => 'required|integer|min:1',
+        ]);
+
+        $validated->after(function ($validated) use ($req) {
+            $items = $req->input('sequences', ['sequence']);
+            
+            // 1. Extract just the 'sequence' values and ensure they are integers
+            $seqValues = collect($items)->pluck('sequence')->map(fn($v) => (int)$v);
+
+            // 2. Check for duplicates in the sequence list
+            if ($seqValues->count() !== $seqValues->unique()->count()) {
+                $validated->errors()->add('sequences', 'Duplicate sequence numbers detected.');
+                return;
+            }
+
+            // 3. Check for gaps (1 to N)
+            // Sort values so [3, 1, 2] becomes [1, 2, 3] for comparison
+            $sorted = $seqValues->sort()->values()->toArray();
+            $expected = range(1, count($items));
+
+            if ($sorted !== $expected) {
+                $validated->errors()->add('sequences', 'Sequences must be consecutive (1, 2, 3...) with no gaps.');
+            }
+        });
+
+        if ($validated->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validated->errors()
+            ]);
+        }
+
+        $items = $req->input('sequences');
+
+        // 2. Perform the high-performance update
+        DB::transaction(function () use ($items) {
+            foreach ($items as $item) {
+                Lesson::where('id', $item['id'])
+                    ->update(['sequence' => $item['sequence']]);
+            }
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Lessons sequence update successful',
+        ]);
+    }
 
     public function destroy($id)
     {

@@ -81,7 +81,7 @@
                                                         <td class="text-break" style="max-width: 50px;">{{ $class->description }}</td>
                                                         <td>{{ $class->created_at->format('Y-m-d') }}</td>
                                                         <td class="text-truncate">1</td>
-                                                        <td class="text-start">10</td>
+                                                        <td class="text-start">{{$class->enrollments_count}}</td>
                                                         <td class="status-cell">
                                                             @if($class->is_active)
                                                                 <span class="badge bg-success">Active</span>
@@ -119,7 +119,7 @@
                                                         <td class="text-break" style="max-width: 50px;">{{ $course->program->title }}</td>
                                                         <td>{{ $class->created_at->format('Y-m-d') }}</td>
                                                         <td class="text-truncate">1</td>
-                                                        <td class="text-start">10</td>
+                                                        <td class="text-start">{{$class->enrollments_count}}</td>
                                                         <td class="status-cell">
                                                             @if($class->is_active)
                                                                 <span class="badge bg-success">Active</span>

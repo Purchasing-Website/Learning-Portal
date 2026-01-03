@@ -16,12 +16,14 @@ class ClasssController extends Controller
         $course = null;
         $show = null;
         if($id === 'all'){
-            $classes = Classes::orderBy('created_at', 'desc')->get();
+            $classes = Classes::withCount('enrollments')
+                ->orderBy('created_at', 'desc')->get();
             $show='all';
         }
         else{
             $course = Course::with(['classes' => function ($q) {
-                    $q->orderBy('class_course.sequence_order');
+                    $q->withCount('enrollments')
+                    ->orderBy('class_course.sequence_order');
                 }])->findOrFail($id);
             $show='class';
         }

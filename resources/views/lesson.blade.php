@@ -35,62 +35,78 @@
                                             <p class="d-inline-block invisible" style="margin: 0px 10px;">course name</p>
                                         </div>
                                         <div class="col text-end d-xl-flex justify-content-xl-center align-items-xl-center justify-content-xxl-end" style="padding: 0px;width: initial;">
-                                            <div class="input-group" style="margin: 15px;width: auto;"><input class="form-control" type="text" placeholder="Search" aria-label="Search" aria-describedby="button-addon2"><button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fas fa-search"></i></button></div><button class="btn btn-primary" type="button" style="width: 100px;font-weight: bold;color: rgb(255,255,255);background: rgb(18,234,92);border-width: 0px;margin: 0px 10px;font-size: 16px;" data-bs-target="#offcanvas-1" data-bs-toggle="offcanvas">Reorder Sequence</button><button class="btn btn-primary" type="button" style="width: 100px;font-weight: bold;color: rgb(255,255,255);background: rgb(78,115,223);border-width: 0px;height: 60px;margin: 0px 10px;" data-bs-target="#offcanvas-1" data-bs-toggle="offcanvas"><i class="fas fa-plus-square" style="border-color: rgb(255,255,255);color: rgb(255,255,255);background: rgba(255,255,255,0);font-size: 18px;"></i>&nbsp; Add</button>
+                                            <div class="input-group" style="margin: 15px;width: auto;">
+                                                <input class="form-control" type="text" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                                                <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                            <button id="reorderSequence" class="btn btn-primary" type="button" style="width: 100px;font-weight: bold;color: rgb(255,255,255);background: rgb(18,234,92);border-width: 0px;margin: 0px 10px;font-size: 16px;">Reorder Sequence</button>
+                                            <button class="btn btn-primary" type="button" style="width: 100px;font-weight: bold;color: rgb(255,255,255);background: rgb(78,115,223);border-width: 0px;height: 60px;margin: 0px 10px;" data-bs-target="#offcanvas-1" data-bs-toggle="offcanvas"><i class="fas fa-plus-square" style="border-color: rgb(255,255,255);color: rgb(255,255,255);background: rgba(255,255,255,0);font-size: 18px;"></i>&nbsp; Add</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive text-break">
-                                        <table class="table table-striped table-hover" id="example">
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-nowrap">Lesson ID</th>
-                                                    <th class="text-nowrap">Lesson Name</th>
-                                                    <th class="text-nowrap">Description</th>
-                                                    <th class="text-nowrap">Class Name</th>
-                                                    <th class="text-nowrap">Status</th>
-                                                    <th class="text-nowrap">Content Type</th>
-                                                    <th class="text-nowrap">Duration</th>
-                                                    <th class="text-nowrap text-start">Sequence Order</th>
-                                                    <th class="text-nowrap text-start text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @forelse ($lessons as $lesson)
-                                                    <tr style="max-width: 49px;">
-                                                        <td class="text-truncate" style="max-width: 200px;">{{ $lesson->id }}</td>
-                                                        <td class="text-truncate" style="max-width: 200px;">{{ $lesson->title }}</td>
-                                                        <td class="text-break" style="max-width: 50px;">{{ Str::limit($lesson->description, 50) }}</td>
-                                                        <td class="text-break" style="max-width: 50px;">{{ $lesson->class->title ?? 'N/A' }}</td>
-                                                        <td class="status-cell">
-                                                            @if($lesson->is_active)
-                                                                <span class="badge bg-success">Active</span>
-                                                            @else
-                                                                <span class="badge bg-secondary">Inactive</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>{{$lesson->content_type}}</td>
-                                                        <td>{{ $lesson->duration ?? 'N/A' }} hrs</td>
-                                                        <td class="text-start" contenteditable="true">1</td>
-                                                        <td class="text-nowrap text-start text-center">
-                                                            <a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
-                                                                <i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i>
-                                                            </a>
-                                                            <button class="btn btn-dark editBtn" id='editBtn' data-id="{{ $lesson->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
-                                                                <i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i>
-                                                            </button>
-                                                            <button class="btn btn-dark toggleStatus" data-id="{{ $lesson->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
-                                                                <i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">delete_forever</i>
-                                                            </button>
-                                                        </td>
+                                        <form id="updateSequence">
+                                            @csrf
+                                            <table class="table table-striped table-hover" id="example">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-nowrap">Lesson ID</th>
+                                                        <th class="text-nowrap">Lesson Name</th>
+                                                        <th class="text-nowrap">Description</th>
+                                                        <th class="text-nowrap">Class Name</th>
+                                                        <th class="text-nowrap">Status</th>
+                                                        <th class="text-nowrap">Content Type</th>
+                                                        <th class="text-nowrap">Duration</th>
+                                                        <th class="text-nowrap text-start">Sequence Order</th>
+                                                        <th class="text-nowrap text-start text-center">Action</th>
                                                     </tr>
-                                                @empty
-                                                    {{-- <tr>
-                                                        <td colspan="9" class="text-center">No lessons found.</td>
-                                                    </tr> --}}
-                                                @endforelse
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse ($lessons as $lesson)
+                                                        <tr style="max-width: 49px;">
+                                                            <td class="text-truncate" style="max-width: 200px;">{{ $lesson->id }}</td>
+                                                            <td class="text-truncate" style="max-width: 200px;">{{ $lesson->title }}</td>
+                                                            <td class="text-break" style="max-width: 50px;">{{ Str::limit($lesson->description, 50) }}</td>
+                                                            <td class="text-break" style="max-width: 50px;">{{ $lesson->class->title ?? 'N/A' }}</td>
+                                                            <td class="status-cell">
+                                                                @if($lesson->is_active)
+                                                                    <span class="badge bg-success">Active</span>
+                                                                @else
+                                                                    <span class="badge bg-secondary">Inactive</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>{{$lesson->content_type}}</td>
+                                                            <td>{{ $lesson->duration ?? 'N/A' }} hrs</td>
+                                                            <td class="text-start" contenteditable="true">
+                                                                <div id="sequenceWrapper">
+                                                                    <span class="sequenceLabel">{{ $lesson->sequence }}</span>
+                                                                    <input type="hidden" name="sequences[{{ $lesson->id }}][id]" value="{{ $lesson->id }}">
+                                                                    <input class="editSequence" name="sequences[{{ $lesson->id }}][sequence]" type="number" value="{{ $lesson->sequence }}" defaultValue="{{ $lesson->sequence }}" style="display:none;"></input>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-nowrap text-start text-center">
+                                                                <a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
+                                                                    <i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i>
+                                                                </a>
+                                                                <button class="btn btn-dark editBtn" id='editBtn' data-id="{{ $lesson->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
+                                                                    <i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i>
+                                                                </button>
+                                                                <button class="btn btn-dark toggleStatus" data-id="{{ $lesson->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
+                                                                    <i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">delete_forever</i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    @empty
+                                                        {{-- <tr>
+                                                            <td colspan="9" class="text-center">No lessons found.</td>
+                                                        </tr> --}}
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </form>    
                                     </div>
                                 </div>
                                 <div class="card-footer"></div>
@@ -512,31 +528,56 @@ typeSelect.addEventListener('change', function () {
     }
 });
 
-const typeSelectEdit = document.getElementById('content_type_edit');
-const fileInputEdit = document.getElementById('document_upload_edit');
-const videoInputEdit = document.getElementById('video_url_edit');
+const sequenceBtn = document.getElementById("reorderSequence");
+const sequenceWrapper = document.getElementById('wrapper');
+const form = document.getElementById('updateSequence');
 
-typeSelectEdit.addEventListener('change', function () {
-    const typeEdit = this.value;
+// Combined Logic: Toggle UI or Save Data
+sequenceBtn.addEventListener("click", async function() {
+    const isEditing = sequenceWrapper.classList.contains('is-editing');
+    const sequenceLabels = document.querySelectorAll(".sequenceLabel");
+    const editSequences = document.querySelectorAll(".editSequence");
 
-    if (typeEdit === 'Document') {
-        fileInputEdit.style.display = 'block';
-        videoInputEdit.style.display = 'none';
-        fileInputEdit.required = true;
-        videoInputEdit.required = false;
-    } else if (typeEdit === 'Video') {
-        videoInputEdit.style.display = 'block';
-        fileInputEdit.style.display = 'none';
-        videoInputEdit.required = true;
-        fileInputEdit.required = false;
-    }
+    if (!isEditing) {
+        // --- SWITCH TO EDIT MODE ---
+        editSequences.forEach(el => el.style.display = 'block');
+        sequenceLabels.forEach(el => el.style.display = 'none');
+        sequenceWrapper.classList.add('is-editing');
+        sequenceBtn.textContent = "Save Changes"; // UI feedback
+    } 
     else {
-        fileInputEdit.style.display = 'none';
-        videoInputEdit.style.display = 'none';
-        fileInputEdit.required = false;
-        videoInputEdit.required = false;
+        // --- SAVE DATA & SWITCH TO VIEW MODE ---
+        const formData = new FormData(form);
+
+        
+        const response = await fetch('/lesson/sequenceUpdate', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                'Accept': 'application/json'
+            },
+            body: formData
+        });
+
+        const data = await response.json(); // Fixed "res" to "response"
+
+        if (data.success) {
+            // Reset UI on success
+            editSequences.forEach(el => el.style.display = 'none');
+            sequenceLabels.forEach(el => el.style.display = 'block');
+            sequenceWrapper.classList.remove('is-editing');
+            sequenceBtn.textContent = "Edit Sequence";
+            
+            alert('Updated successfully!');
+            location.reload(); 
+        } else {
+            let errorMessages = Object.values(data.message).flat().join('\n');
+            alert('Update failed. Reverting changes...');
+            alert(errorMessages);
+            // Optional: Reset inputs to default if save fails
+            editSequences.forEach(el => el.value = el.defaultValue);
+        }
     }
 });
-
 </script>
 @endpush

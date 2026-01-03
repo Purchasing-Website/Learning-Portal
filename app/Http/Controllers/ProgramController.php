@@ -11,10 +11,18 @@ class ProgramController extends Controller
     public function index()
     {
         // Retrieve programs with pagination (10 per page)
-        $programs = Program::orderBy('created_at', 'desc')->get();
+        $programs = Program::select('programs.*')
+            ->selectSub(function ($query) {
+                $query->from('enrollments')
+                    ->join('class_course', 'enrollments.class_id', '=', 'class_course.class_id')
+                    ->join('courses', 'class_course.course_id', '=', 'courses.id')
+                    ->whereColumn('courses.program_id', 'programs.id')
+                    ->selectRaw('COUNT(DISTINCT enrollments.student_id)');
+            }, 'students_count')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         // Pass data to the view
-        //return view('admins.programs.program_view', compact('programs'));
         return view('program', compact('programs'));
     }
 

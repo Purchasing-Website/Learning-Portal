@@ -100,7 +100,7 @@
             <tbody>
                 @forelse ($lessons as $lesson)
                     <tr>
-                        <td>{{ $loop->iteration + ($lessons->currentPage() - 1) * $lessons->perPage() }}</td>
+                        <td>{{ $lesson->id }}</td>
                         <td>{{ $lesson->title }}</td>
                         <td>{{ Str::limit($lesson->description, 50) }}</td>
                         <td>{{ $lesson->class->title ?? 'N/A' }}</td>
@@ -134,9 +134,9 @@
         </table>
 
         <!-- Pagination -->
-        <div class="d-flex justify-content-center">
+        {{-- <div class="d-flex justify-content-center">
             {{ $lessons->links() }}
-        </div>
+        </div> --}}
     </div>
 </div>
 

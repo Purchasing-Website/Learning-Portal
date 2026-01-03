@@ -46,4 +46,9 @@ class Classes extends Model
             ->where('class_id', $this->id)
             ->first();
     }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class, 'class_id');
+    }
 }

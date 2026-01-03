@@ -14,10 +14,24 @@ class CourseController extends Controller
     {
         // Retrieve course with pagination (10 per page)
         if($id === 'all'){
-            $courses = Course::orderBy('created_at', 'desc')->get();
+            $courses = Course::select('courses.*')
+                ->selectSub(function ($query) {
+                    $query->from('enrollments')
+                        ->join('class_course', 'enrollments.class_id', '=', 'class_course.class_id')
+                        ->whereColumn('class_course.course_id', 'courses.id')
+                        ->selectRaw('COUNT(DISTINCT enrollments.student_id)');
+                }, 'students_count')
+                ->orderBy('created_at', 'desc')->get();
         }
         else{
-            $courses = Course::orderBy('created_at', 'desc')->where('program_id',$id)->get();
+            $courses = Course::select('courses.*')
+                ->selectSub(function ($query) {
+                    $query->from('enrollments')
+                        ->join('class_course', 'enrollments.class_id', '=', 'class_course.class_id')
+                        ->whereColumn('class_course.course_id', 'courses.id')
+                        ->selectRaw('COUNT(DISTINCT enrollments.student_id)');
+                }, 'students_count')
+                ->orderBy('created_at', 'desc')->where('program_id',$id)->get();
         }
 
         // Retrieve all programs for potential use in the view

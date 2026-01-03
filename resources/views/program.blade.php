@@ -68,7 +68,7 @@
                                                     <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" src="assets/img/OIP.webp" style="max-width: 120px;max-height: 100px;"></td>
                                                     <td style="max-width: 50px;">{{ Str::limit($program->description, 50) }}</td>
                                                     <td>{{ $program->created_by ?? 'N/A' }}</td>
-                                                    <td class="text-start">10</td>
+                                                    <td class="text-start">{{$program->students_count}}</td>
                                                     <td class="status-cell">
                                                         @if($program->is_active)
                                                             <span class="badge bg-success">Active</span>

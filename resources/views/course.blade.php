@@ -71,7 +71,7 @@
                                                     <td class="text-break" style="max-width: 50px;">{{ Str::limit($course->description, 50) }}</td>
                                                     <td class="text-break" style="max-width: 50px;">{{ $course->program->title ?? 'N/A' }}</td>
                                                     <td>{{ $course->created_at->format('Y-m-d') }}</td>
-                                                    <td class="text-start">10</td>
+                                                    <td class="text-start">{{$course->students_count}}</td>
                                                     <td class="status-cell">
                                                         @if($course->is_active)
                                                             <span class="badge bg-success">Active</span>
