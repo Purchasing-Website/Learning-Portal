@@ -25,7 +25,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('enrollment', [UserController::class, 'studentClasses'])->name('student.classes')->middleware('auth','role:student');
+//Route::get('enrollment', [UserController::class, 'studentClasses'])->name('student.classes')->middleware('auth','role:student');
 
 Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {
     Route::view('/admin/dashboard', 'admins.dashboard')->name('dashboard');
@@ -71,6 +71,8 @@ Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {
     Route::post('/lesson/sequenceUpdate', [LessonController::class, 'updateSequence'])->name('lesson.updateSequence');
 
     //Quiz Management
+    Route::get('/admin/quiz-builder', [QuizController::class, 'showQuiz'])->name('quiz.inde');
+
     Route::get('/admin/quiz', [QuizController::class, 'index'])->name('quiz.index');
     Route::post('/admin/quiz/store', [QuizController::class, 'store'])->name('quiz.store');
     Route::get('/quiz/{id}/edit', [QuizController::class, 'edit'])->name('quiz.edit');

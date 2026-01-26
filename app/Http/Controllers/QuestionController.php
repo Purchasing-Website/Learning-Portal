@@ -17,7 +17,7 @@ class QuestionController extends Controller
         $quiz = Quiz::findOrFail($quizId);
         $questions = Question::where('quiz_id', $quizId)->paginate(10);
         $questionTypes = QuestionType::cases();
-
+        //dd($questionTypes);
         return view('admins.questions.question_view', compact('quiz', 'questions', 'questionTypes'));
     }
 

@@ -21,7 +21,7 @@ class CourseController extends Controller
                         ->whereColumn('class_course.course_id', 'courses.id')
                         ->selectRaw('COUNT(DISTINCT enrollments.student_id)');
                 }, 'students_count')
-                ->orderBy('created_at', 'desc')->get();
+                ->orderBy('updated_at', 'desc')->get();
         }
         else{
             $courses = Course::select('courses.*')
@@ -31,7 +31,7 @@ class CourseController extends Controller
                         ->whereColumn('class_course.course_id', 'courses.id')
                         ->selectRaw('COUNT(DISTINCT enrollments.student_id)');
                 }, 'students_count')
-                ->orderBy('created_at', 'desc')->where('program_id',$id)->get();
+                ->orderBy('updated_at', 'desc')->where('program_id',$id)->get();
         }
 
         // Retrieve all programs for potential use in the view

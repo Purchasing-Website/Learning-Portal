@@ -93,10 +93,10 @@
                                                             <a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="{{ route('lesson.index',$class->id) }}">
                                                                 <i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i>
                                                             </a>
-                                                            <button class="btn btn-dark editBtn" id='editBtn' data-id="{{ $class->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas">
+                                                            <button class="btn btn-dark editBtn" id='editBtn' data-id="{{ $class->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;">
                                                                 <i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i>
                                                             </button>
-                                                            <button class="btn btn-dark toggleStatus" data-id="{{ $class->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal">
+                                                            <button class="btn btn-dark toggleStatus" data-id="{{ $class->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;">
                                                                 <i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i>
                                                             </button>
                                                         </td>
@@ -131,10 +131,10 @@
                                                             <a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="{{ route('lesson.index',$class->id) }}">
                                                                 <i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i>
                                                             </a>
-                                                            <button class="btn btn-dark editBtn" id='editBtn' data-id="{{ $class->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas">
+                                                            <button class="btn btn-dark editBtn" id='editBtn' data-id="{{ $class->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;">
                                                                 <i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i>
                                                             </button>
-                                                            <button class="btn btn-dark toggleStatus" data-id="{{ $class->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html" data-bs-target="#modal-1" data-bs-toggle="modal">
+                                                            <button class="btn btn-dark toggleStatus" data-id="{{ $class->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;">
                                                                 <i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">do_not_disturb_alt</i>
                                                             </button>
                                                         </td>
@@ -189,6 +189,17 @@
                             <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" id="CSdropdownMenuButton" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;border-color: rgb(4,0,0);height: 30px;border-radius: 5px;"></button>
                                 <div class="dropdown-menu csdropdown" style="width: 100%;"><input type="text" id="CSdropdownSearchInput" class="form-control search"><a class="dropdown-item course" href="#" onclick="selectCourse(this)">风水 course</a><a class="dropdown-item course" href="#" onclick="selectCourse(this)">冥想</a><a class="dropdown-item course" href="#" onclick="selectCourse(this)">财经</a></div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Course Name</p>
+                            <select name="course_id" id="cource_id" class="form-select" required>
+                                <option value="">-- Choose a Course --</option>
+                                @foreach($courses as $course)
+                                    <option value="{{ $course->id }}">{{ $course->title }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 10px;">
@@ -281,7 +292,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
+    <div class="modal fade" role="dialog" tabindex="-1" id="confirmStatusModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -304,12 +315,22 @@
 @endsection
 @push('scripts')
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const editButtons = document.querySelectorAll(".editBtn");
-    const modal = new bootstrap.Offcanvas(document.getElementById('editClassModal'));
 
-    editButtons.forEach(btn => {
-        btn.addEventListener("click", async () => {
+const tableBody = document.querySelector('#example tbody'); 
+
+document.addEventListener("DOMContentLoaded", () => {
+    //const editButtons = document.querySelectorAll(".editBtn");
+    //const modal = new bootstrap.Offcanvas(document.getElementById('editClassModal'));
+
+    //editButtons.forEach(btn => {
+        //btn.addEventListener("click", async () => {
+        tableBody.addEventListener("click", async (event) => {
+            const modal = new bootstrap.Offcanvas(document.getElementById('editClassModal'));
+
+            const btn = event.target.closest(".editBtn");
+        
+            if (!btn) return; // Exit if something else was clicked
+
             const id = btn.dataset.id;
 
             const response = await fetch(`/class/${id}/edit`);
@@ -323,7 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             modal.show();
         });
-    });
+    //});
 
     // Update form submit
     document.getElementById("updateClassForm").addEventListener("submit", async (e) => {
@@ -343,9 +364,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await res.json();
 
         if (data.success) {
+            location.reload(); // reload to refresh table
             alert(data.message);
             modal.hide();
-            location.reload(); // reload to refresh table
         } else {
             alert("Something went wrong!");
         }
@@ -354,21 +375,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Toggle Status Is Active AJAX Request using jQuery 
 document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.toggleStatus');
+    //const buttons = document.querySelectorAll('.toggleStatus');
 
-    buttons.forEach(button => {
-        button.addEventListener('click', async function() {
-            const id = this.dataset.id;
-            const row = this.closest('tr');
+    //buttons.forEach(button => {
+        //button.addEventListener('click', async function() {
+        tableBody.addEventListener("click", async (event) => {
+            const toggleStatusModel = new bootstrap.Modal(document.getElementById('confirmStatusModal'));
+
+            const btn = event.target.closest(".toggleStatus");
+        
+            if (!btn) return; // Exit if something else was clicked
+
+            const id = btn.dataset.id;
+            const row = btn.closest('tr');
             const badge = row.querySelector('.status-cell span');
-            const isCurrentlyActive = this.textContent.trim() === 'Active';
+            const isCurrentlyActive = badge.textContent.trim() === 'Active';
             const confirmMessage = `Are you sure you want to ${isCurrentlyActive ? 'deactivate' : 'activate'} this program?`;
 
             document.getElementById("classActivation").textContent = confirmMessage;
             document.getElementById("classStatusId").value = id;
 
+            toggleStatusModel.show();
         });
-    });
+    //});
 
     // Update form submit
     document.getElementById("updateClassStatus").addEventListener("submit", async (e) => {

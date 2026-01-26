@@ -245,12 +245,22 @@
 
 @push('scripts')
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const editButtons = document.querySelectorAll(".editBtn");
-    const modal = new bootstrap.Offcanvas(document.getElementById('editCourseModal'));
 
-    editButtons.forEach(btn => {
-        btn.addEventListener("click", async () => {
+const tableBody = document.querySelector('#example tbody'); 
+
+document.addEventListener("DOMContentLoaded", () => {
+    //const editButtons = document.querySelectorAll(".editBtn");
+    //const modal = new bootstrap.Offcanvas(document.getElementById('editCourseModal'));
+
+    //editButtons.forEach(btn => {
+        //btn.addEventListener("click", async () => {
+        tableBody.addEventListener("click", async (event) => {
+            const modal = new bootstrap.Offcanvas(document.getElementById('editCourseModal'));
+
+            const btn = event.target.closest(".editBtn");
+        
+            if (!btn) return; // Exit if something else was clicked
+
             const id = btn.dataset.id;
 
             const response = await fetch(`/course/${id}/edit`);
@@ -263,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             modal.show();
         });
-    });
+    //});
 
     // Update form submit
     document.getElementById("updateCourseForm").addEventListener("submit", async (e) => {
@@ -284,9 +294,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await res.json();
 
         if (data.success) {
+            location.reload(); // reload to refresh table
             alert(data.message);
             modal.hide();
-            location.reload(); // reload to refresh table
         } else {
             alert("Something went wrong!");
         }
@@ -298,12 +308,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttons = document.querySelectorAll('.toggleStatus');
     const toggleStatusModel = new bootstrap.Modal(document.getElementById('confirmStatusModal'));
 
-    buttons.forEach(button => {
-        button.addEventListener('click', async function() {
-            const id = this.dataset.id;
-            const row = this.closest('tr');
+    //buttons.forEach(button => {
+        //button.addEventListener('click', async function() {
+            tableBody.addEventListener("click", async (event) => {
+            const toggleStatusModel = new bootstrap.Modal(document.getElementById('confirmStatusModal'));
+
+            const btn = event.target.closest(".toggleStatus");
+        
+            if (!btn) return; // Exit if something else was clicked
+
+            const id = btn.dataset.id;
+            const row = btn.closest('tr');
             const badge = row.querySelector('.status-cell span');
-            const isCurrentlyActive = this.textContent.trim() === 'Active';
+            const isCurrentlyActive = badge.textContent.trim() === 'Active';
             const confirmMessage = `Are you sure you want to ${isCurrentlyActive ? 'deactivate' : 'activate'} this course?`;
 
             document.getElementById("courseActivation").textContent = confirmMessage;
@@ -311,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             toggleStatusModel.show();
         });
-    });
+    //});
 
     document.getElementById("updateCourseStatus").addEventListener("submit", async (e) => {
         e.preventDefault();

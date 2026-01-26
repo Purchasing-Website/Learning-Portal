@@ -19,12 +19,14 @@ class LessonController extends Controller
     {
         $contentTypes = ContentType::cases();
 
+        $lessons = null;
+
         // Retrieve Lessons with pagination (10 per page)
         if($id === 'all'){
-            $lessons = Lesson::orderBy('created_at', 'desc')->get();
+            $lessons = Lesson::orderBy('updated_at', 'desc')->get();
         }
         else{
-            $lessons = Lesson::orderBy('created_at', 'desc')->where('class_id',$id)->get();
+            $lessons = Lesson::orderBy('updated_at', 'desc')->where('class_id',$id)->get();
         }
         
 
@@ -49,49 +51,55 @@ class LessonController extends Controller
             'source_url' => 'nullable|url',
         ]);
 
-        if ($validatedData['content_type'] === ContentType::Document->value && !$request->hasFile('file')) {
-            return back()->withErrors(['file' => 'Please upload a document file.'])->withInput();
-        }
+        // if ($validatedData['content_type'] === ContentType::Document->value && !$request->hasFile('file')) {
+        //     return back()->withErrors(['file' => 'Please upload a document file.'])->withInput();
+        // }
 
-        if ($validatedData['content_type'] === ContentType::Video->value && !$request->filled('source_url')) {
-            return back()->withErrors(['source_url' => 'Please provide a valid video URL.'])->withInput();
-        }
+        // if ($validatedData['content_type'] === ContentType::Video->value && !$request->filled('source_url')) {
+        //     return back()->withErrors(['source_url' => 'Please provide a valid video URL.'])->withInput();
+        // }
 
         $sourcePath = null;
         
+        $sequence = Lesson::latest('sequence')->where('class_id',$validatedData['class_id'])->first();
+
+        //dd($sequence);
+
         // Create new Lesson
         $lesson = Lesson::create([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'] ?? null,
             //'image' => null, // Placeholder for image handling
+            'content_type' => $validatedData['content_type'],
+            'source_url' => $validatedData['source_url'],
             'duration' => $validatedData['duration'],
+            'sequence' => $sequence->sequence + 1,
             'is_active' => true,
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
             'class_id' => $validatedData['class_id'],
         ]);
 
-        //dd($request);
-        if ($validatedData['content_type'] === ContentType::Document->value && $request->hasFile('file')) {
-            $file = $request->file('file');
-            $originalName = $file->getClientOriginalName();
+        // if ($validatedData['content_type'] === ContentType::Document->value && $request->hasFile('file')) {
+        //     $file = $request->file('file');
+        //     $originalName = $file->getClientOriginalName();
 
-            // lessonMaterial naming convention
-            $filename = 'Lesson_' . $lesson->id . '_' . Str::slug($lesson->title) . '_' . $originalName;
+        //     // lessonMaterial naming convention
+        //     $filename = 'Lesson_' . $lesson->id . '_' . Str::slug($lesson->title) . '_' . $originalName;
 
-            $path = $file->storeAs('lesson/lessonMaterial', $filename, 'public');
+        //     $path = $file->storeAs('lesson/lessonMaterial', $filename, 'public');
 
-            $lesson->content_type = ContentType::Document->value;
+        //     $lesson->content_type = ContentType::Document->value;
 
-            $lesson->source_url = $path;
-        }
+        //     $lesson->source_url = $path;
+        // }
 
         // ✅ Step 5: Handle video URL
-        if ($validatedData['content_type'] === ContentType::Video->value) {
+        // if ($validatedData['content_type'] === ContentType::Video->value) {
 
-            $lesson->content_type = ContentType::Video->value;
-            $lesson->source_url = $validatedData['source_url'];
-        }
+        //     $lesson->content_type = ContentType::Video->value;
+        //     $lesson->source_url = $validatedData['source_url'];
+        // }
 
         // ✅ Step 6: Handle optional background image
         if ($request->hasFile('image')) {
@@ -104,7 +112,6 @@ class LessonController extends Controller
             $lesson->background_image = 'storage/' . $bgPath;
         }
 
-        //dd($lesson);
         // ✅ Step 7: Save final record
         $lesson->save();
 
@@ -136,7 +143,7 @@ class LessonController extends Controller
             $fileUrl = asset('storage/' . $normalizedPath);
         }
         //dd( $normalizedPath);
-        return response()->json(['lesson' => $lesson, 'content_types' => $contentTypes, 'fileUrl' => $fileUrl]);
+        return response()->json(['lesson' => $lesson, 'content_types' => $contentTypes, 'fileUrl' => $fileUrl,'class_title'=>$lesson->class->title]);
     }
 
     public function update(Request $request, $id)
@@ -145,7 +152,8 @@ class LessonController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'duration' => 'nullable|numeric|min:1',
-            //'content_type' => ['required', new Enum(ContentType::class)],
+            'content_type' => ['required', new Enum(ContentType::class)],
+            'source_url' => 'required|url',
             'video_url' => 'nullable|url',
             'material' => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx|max:10240',
             'lesson_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
@@ -153,10 +161,11 @@ class LessonController extends Controller
 
         $lesson = Lesson::findOrFail($id);
         $lesson->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'duration' => $request->duration,
-            //'content_type' => $request->content_type,
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'duration' => $validatedData['duration'],
+            'content_type' => $validatedData['content_type'],
+            'source_url' => $validatedData['source_url'],
             'updated_by' => Auth::id(),
         ]);
 

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Quiz;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\QuestionType;
+use App\Models\Classes;
 
 class QuizController extends Controller
 {
@@ -77,6 +79,26 @@ class QuizController extends Controller
     {
         $quiz->load('questions.options');
         return view('quizzes.show', compact('quiz'));
+    }
+
+    public function showQuiz(){
+        $classes = Classes::all();
+        $quiz = Quiz::with('questions.options')->findOrFail(1);
+        $QuestionTypes=collect(QuestionType::cases())->map(fn ($type) => [
+            'value' => $type->value,
+            'label' => $type->label(),
+        ]);
+        
+
+        $formattedClasses = $classes->map(function ($item) {
+            return [
+                // Using sprintf to create the "CLS-" prefix with padding
+                'classId'   => $item->id, 
+                'className' => $item->title,
+            ];
+        });
+        // dd($formattedClasses);
+        return view('Quiz_Builder_1',['quiz'=>$quiz,'questionTypes'=>$QuestionTypes, 'classes' => $formattedClasses]);
     }
     
 }

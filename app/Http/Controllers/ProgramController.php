@@ -19,7 +19,7 @@ class ProgramController extends Controller
                     ->whereColumn('courses.program_id', 'programs.id')
                     ->selectRaw('COUNT(DISTINCT enrollments.student_id)');
             }, 'students_count')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->get();
 
         // Pass data to the view

@@ -50,7 +50,7 @@
                                     <div class="table-responsive text-break">
                                         <form id="updateSequence">
                                             @csrf
-                                            <table class="table table-striped table-hover" id="example">
+                                            <table class="table table-striped table-hover" id="exampleppp">
                                                 <thead>
                                                     <tr>
                                                         <th class="text-nowrap">Lesson ID</th>
@@ -88,14 +88,14 @@
                                                                 </div>
                                                             </td>
                                                             <td class="text-nowrap text-start text-center">
-                                                                <a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
-                                                                    <i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i>
+                                                                <a class="btn btn-dark" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" target="_blank" href="{{ $lesson->source_url }}">
+                                                                    <i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);">remove_red_eye</i>
                                                                 </a>
-                                                                <button class="btn btn-dark editBtn" id='editBtn' data-id="{{ $lesson->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
-                                                                    <i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i>
+                                                                <button class="btn btn-dark editBtn" data-id="{{ $lesson->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;">
+                                                                    <i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);">edit</i>
                                                                 </button>
-                                                                <button class="btn btn-dark toggleStatus" data-id="{{ $lesson->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" href="AdminOrderDetail.html">
-                                                                    <i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">delete_forever</i>
+                                                                <button class="btn btn-dark toggleStatus" data-id="{{ $lesson->id }}" role="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;">
+                                                                    <i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);">delete_forever</i>
                                                                 </button>
                                                             </td>
                                                         </tr>
@@ -106,7 +106,7 @@
                                                     @endforelse
                                                 </tbody>
                                             </table>
-                                        </form>    
+                                        </form> 
                                     </div>
                                 </div>
                                 <div class="card-footer"></div>
@@ -130,22 +130,25 @@
             <div class="container">
                 <form method="POST" action="{{route('lesson.store')}}" enctype="multipart/form-data">
                     @csrf
-                    <div class="row" style="padding-bottom: 10px;">
+                    {{-- <div class="row" style="padding-bottom: 10px;">
                         <div class="col-md-12">
                             <p style="margin-bottom: 2px;font-weight: bold;">Upload File</p>
                             <input type="file">
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-12 col-xxl-12">
                             <p style="margin-bottom: 2px;font-weight: bold;">Content Type</p>
                             <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" id="PGdropdownMenuButton_1" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;border-color: rgb(4,0,0);height: 30px;border-radius: 5px;"></button>
                                 <div class="dropdown-menu pgdropdown" style="width: 100%;">
                                     <input type="text" id="PGdropdownSearchInput" class="form-control search">
-                                    <a class="dropdown-item" href="#" onclick="selectProgram(this)">Video</a>
+                                    @foreach ($contentTypes as $contentType)
+                                        <a class="dropdown-item" href="#" onclick="selectProgram(this)">{{ $contentType->value }}</a>
+                                    @endforeach
+                                    {{-- <a class="dropdown-item" href="#" onclick="selectProgram(this)">Video</a>
                                     <a class="dropdown-item" href="#" onclick="selectProgram(this)">Image</a>
                                     <a class="dropdown-item" href="#" onclick="selectProgram(this)">PPT</a>
-                                    <a class="dropdown-item" href="#" onclick="selectProgram(this)">PDF</a>
+                                    <a class="dropdown-item" href="#" onclick="selectProgram(this)">PDF</a> --}}
                                 </div>
                             </div>
                             <select name="content_type" id="content_type" class="form-select @error('content_type') is-invalid @enderror">
@@ -173,7 +176,8 @@
                     </div>
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-12">
-                            <p style="margin-bottom: 2px;font-weight: bold;">Source URL</p><input type="text" style="width: 100%;border-radius: 5px;border-width: 0.8px;border-color: rgb(4,0,0);" placeholder=" Eg. Feng Shui">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Source URL</p>
+                            <input type="url" name='source_url' style="width: 100%;border-radius: 5px;border-width: 0.8px;border-color: rgb(4,0,0);" placeholder=" Eg. Feng Shui">
                         </div>
                     </div>
                     <div class="row" style="margin-top: 10px;">
@@ -190,10 +194,13 @@
                             <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;border-color: rgb(4,0,0);height: 30px;border-radius: 5px;"></button>
                                 <div class="dropdown-menu csdropdown" style="width: 100%;">
                                     <input type="text" class="form-control search">
-                                    <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class A</a>
+                                    @foreach($classes as $class)
+                                        <a class="dropdown-item" href="#" onclick="selectCourse(this)">{{ $class->title }}</a>
+                                    @endforeach
+                                    {{-- <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class A</a>
                                     <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class B</a>
                                     <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class C</a>
-                                    <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class D</a>
+                                    <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class D</a> --}}
                                 </div>
                             </div>
                             <select name="class_id" id="class_id" class="form-select" required>
@@ -240,37 +247,40 @@
     </div>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="editLessonModal">
         <div class="offcanvas-header">
-            <h4 class="offcanvas-title" style="font-weight: bold;">Edit Program</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="offcanvas"></button>
+            <h4 class="offcanvas-title" style="font-weight: bold;">Edit Lesson</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body" style="border-color: rgb(255,255,255);">
             <div class="container">
                 <form id="updateLessonForm">
                     @csrf
                     <input type="hidden" id="lesson_id">
-                    <div class="row" style="padding-bottom: 10px;">
+                    {{-- <div class="row" style="padding-bottom: 10px;">
                         <div class="col-md-12">
                             <p style="margin-bottom: 2px;font-weight: bold;">Upload File</p>
                             <input type="file">
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-12 col-xxl-12">
                             <p style="margin-bottom: 2px;font-weight: bold;">Content Type</p>
                             <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" id="PGdropdownMenuButton_1-1" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;border-color: rgb(4,0,0);height: 30px;border-radius: 5px;"></button>
                                 <div class="dropdown-menu pgdropdown" style="width: 100%;">
                                     <input type="text" id="PGdropdownSearchInput-1" class="form-control search">
-                                    <a class="dropdown-item" href="#" onclick="selectProgram(this)">Video</a>
+                                    @foreach ($contentTypes as $contentType)
+                                        <a class="dropdown-item" href="#" onclick="selectProgram(this)">{{ $contentType->value }}</a>
+                                    @endforeach
+                                    {{-- <a class="dropdown-item" href="#" onclick="selectProgram(this)">Video</a>
                                     <a class="dropdown-item" href="#" onclick="selectProgram(this)">Image</a>
                                     <a class="dropdown-item" href="#" onclick="selectProgram(this)">PPT</a>
-                                    <a class="dropdown-item" href="#" onclick="selectProgram(this)">PDF</a>
+                                    <a class="dropdown-item" href="#" onclick="selectProgram(this)">PDF</a> --}}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-12">
-                            <p style="margin-bottom: 2px;font-weight: bold;">Source URL</p>
-                            <input type="text" style="width: 100%;border-radius: 5px;border-width: 0.8px;border-color: rgb(4,0,0);" placeholder=" Eg. Feng Shui">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Source URL41</p>
+                            <input type="url" id="source_url_Edit" name='source_url' style="width: 100%;border-radius: 5px;border-width: 0.8px;border-color: rgb(4,0,0);" placeholder=" Eg. Feng Shui">
                         </div>
                     </div>
                     <div class="row" style="margin-top: 10px;">
@@ -285,8 +295,26 @@
                         <div class="col-md-12">
                             <p style="margin-bottom: 2px;font-weight: bold;">Class Name</p>
                             <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;border-color: rgb(4,0,0);height: 30px;border-radius: 5px;"></button>
-                                <div class="dropdown-menu csdropdown" style="width: 100%;"><input type="text" class="form-control search"><a class="dropdown-item" href="#" onclick="selectCourse(this)">Class A</a><a class="dropdown-item" href="#" onclick="selectCourse(this)">Class B</a><a class="dropdown-item" href="#" onclick="selectCourse(this)">Class C</a><a class="dropdown-item" href="#" onclick="selectCourse(this)">Class D</a></div>
+                                <div class="dropdown-menu csdropdown" style="width: 100%;">
+                                    <input type="text" class="form-control search">
+                                    <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class A</a>
+                                    <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class B</a>
+                                    <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class C</a>
+                                    <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class D</a>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Class Name</p>
+                            <input id='class_name' style="width: 100%;border-radius: 5px;border-width: 0.8px;border-color: rgb(4,0,0);" readonly>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-12">
+                            <p style="margin-bottom: 2px;font-weight: bold;">Content Type</p>
+                            <select id="content_type_edit" name="content_type" class="form-select"></select>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 10px;">
@@ -347,18 +375,34 @@
 
 @push('scripts')
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const editButtons = document.querySelectorAll(".editBtn");
-    const modal = new bootstrap.Offcanvas(document.getElementById('editLessonModal'));
 
-    editButtons.forEach(btn => {
-        btn.addEventListener("click", async () => {
+    $('#exampleppp').DataTable({
+    "order": []
+});
+const tableBody = document.querySelector('#exampleppp tbody'); 
+
+document.addEventListener("DOMContentLoaded", () => {
+    //const tableBody = document.querySelector('#example tbody'); 
+
+    //editButtons.forEach(btn => {
+        //btn.addEventListener("click", async () => {
+        tableBody.addEventListener("click", async (event) => {
+            const modal = new bootstrap.Offcanvas(document.getElementById('editLessonModal'));
+
+            const btn = event.target.closest(".editBtn");
+        
+            if (!btn) return; // Exit if something else was clicked
+
+            event.preventDefault(); 
+            event.stopPropagation();
+
             const id = btn.dataset.id;
 
             const response = await fetch(`/lesson/${id}/edit`);
             const data = await response.json();
 
             const lesson = data.lesson;
+            const classtitle = data.class_title;
             const contentTypes = data.content_types;
             const fileUrl = data.fileUrl;
 
@@ -366,21 +410,23 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("lesson_title").value = lesson.title;
             document.getElementById("lesson_description").value = lesson.description || '';
             document.getElementById("lesson_duration").value = lesson.duration || '';
+            document.getElementById("source_url_Edit").value = lesson.source_url || '';
+            document.getElementById("class_name").value = classtitle || '';
 
             // FIX: Populate dropdown options
-            // const select = document.getElementById("content_type_edit");
-            // select.innerHTML = ""; // Clear existing options
+            const select = document.getElementById("content_type_edit");
+            select.innerHTML = ""; // Clear existing options
 
-            // contentTypes.forEach((type) => {
-            //     const option = document.createElement("option");
-            //     option.value = type.value;
-            //     option.textContent = type.name;
+            contentTypes.forEach((type) => {
+                const option = document.createElement("option");
+                option.value = type.value;
+                option.textContent = type.name;
 
-            //     if (lesson.content_type === type.value) {
-            //        option.selected = true;
-            //     }
-            //     select.appendChild(option);
-            // });
+                if (lesson.content_type === type.value) {
+                   option.selected = true;
+                }
+                select.appendChild(option);
+            });
 
             // // Show file name or video URL depending on content type
             // const fileGroup = document.getElementById("document_upload_edit");
@@ -428,7 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             modal.show();
         });
-    });
+    //});
 
     // Update form submit
     document.getElementById("updateLessonForm").addEventListener("submit", async (e) => {
@@ -440,6 +486,8 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append('title', document.getElementById("lesson_title").value);
         formData.append('description', document.getElementById("lesson_description").value);
         formData.append('duration', document.getElementById("lesson_duration").value);
+        formData.append('content_type', document.getElementById("content_type_edit").value);
+        formData.append('source_url', document.getElementById("source_url_Edit").value);
 
         const res = await fetch(`/lesson/${id}/update`, {
             method: 'POST',
@@ -451,9 +499,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await res.json();
 
         if (data.success) {
+            location.reload(); // reload to refresh table
             alert(data.message);
             modal.hide();
-            location.reload(); // reload to refresh table
         } else {
             alert("Something went wrong!");
         }
@@ -462,15 +510,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Toggle Status Is Active AJAX Request using jQuery 
 document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.toggleStatus');
-    const toggleStatusModel = new bootstrap.Modal(document.getElementById('confirmStatusModal'));
+    //const buttons = document.querySelectorAll('.toggleStatus');
+    
 
-    buttons.forEach(button => {
-        button.addEventListener('click', async function() {
-            const id = this.dataset.id;
-            const row = this.closest('tr');
+    //buttons.forEach(button => {
+        //button.addEventListener('click', async function() {
+        tableBody.addEventListener("click", async (event) => {
+            const toggleStatusModel = new bootstrap.Modal(document.getElementById('confirmStatusModal'));
+
+            const btn = event.target.closest(".toggleStatus");
+        
+            if (!btn) return; // Exit if something else was clicked
+
+            event.preventDefault(); 
+            event.stopPropagation();
+
+            const id = btn.dataset.id;
+            const row = btn.closest('tr');
             const badge = row.querySelector('.status-cell span');
-            const isCurrentlyActive = this.textContent.trim() === 'Active';
+            const isCurrentlyActive = badge.textContent.trim() === 'Active';
             const confirmMessage = `Are you sure you want to ${isCurrentlyActive ? 'deactivate' : 'activate'} this program?`;
 
             document.getElementById("lessonActivation").textContent = confirmMessage;
@@ -478,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             toggleStatusModel.show();
         });
-    });
+    //});
 
     document.getElementById("updateLessonStatus").addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -502,31 +560,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-const typeSelect = document.getElementById('content_type');
-const fileInput = document.getElementById('document_upload');
-const videoInput = document.getElementById('video_url');
+// const typeSelect = document.getElementById('content_type');
+// const fileInput = document.getElementById('document_upload');
+// const videoInput = document.getElementById('video_url');
 
-typeSelect.addEventListener('change', function () {
-    const type = this.value;
+// typeSelect.addEventListener('change', function () {
+//     const type = this.value;
 
-    if (type === 'Document') {
-        fileInput.style.display = 'block';
-        videoInput.style.display = 'none';
-        fileInput.required = true;
-        videoInput.required = false;
-    } else if (type === 'Video') {
-        videoInput.style.display = 'block';
-        fileInput.style.display = 'none';
-        videoInput.required = true;
-        fileInput.required = false;
-    }
-    else {
-        fileInput.style.display = 'none';
-        videoInput.style.display = 'none';
-        fileInput.required = false;
-        videoInput.required = false;
-    }
-});
+//     if (type === 'Document') {
+//         fileInput.style.display = 'block';
+//         videoInput.style.display = 'none';
+//         fileInput.required = true;
+//         videoInput.required = false;
+//     } else if (type === 'Video') {
+//         videoInput.style.display = 'block';
+//         fileInput.style.display = 'none';
+//         videoInput.required = true;
+//         fileInput.required = false;
+//     }
+//     else {
+//         fileInput.style.display = 'none';
+//         videoInput.style.display = 'none';
+//         fileInput.required = false;
+//         videoInput.required = false;
+//     }
+// });
 
 const sequenceBtn = document.getElementById("reorderSequence");
 const sequenceWrapper = document.getElementById('wrapper');

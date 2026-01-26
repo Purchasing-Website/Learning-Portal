@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedInteger('sequence')->default(1); // lesson order within class
 
             // Lesson content source
-            $table->enum('content_type', ['Document', 'Video',])->default(null);
+            $table->enum('content_type', ['Document','Video','Image',])->default(null);
             $table->text('source_url')->nullable(); // can store file path or streaming link
 
             $table->integer('duration')->nullable(); // in minutes or seconds

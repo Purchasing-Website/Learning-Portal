@@ -17,7 +17,7 @@ class ClasssController extends Controller
         $show = null;
         if($id === 'all'){
             $classes = Classes::withCount('enrollments')
-                ->orderBy('created_at', 'desc')->get();
+                ->orderBy('updated_at', 'desc')->get();
             $show='all';
         }
         else{
@@ -41,15 +41,20 @@ class ClasssController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:150',
             'description' => 'nullable|string',
+            'course_id' => 'required|integer',
         ]);
         // Create new Classs
-        Classes::create([
+        $class = Classes::create([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'] ?? null,
             'image' => null, // Placeholder for image handling
             'is_active' => true,
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
+        ]);
+
+        $class->courses()->attach($request->course_id, [
+            'sequence_order' => 1,
         ]);
 
         return back()->with('success', 'Classs created successfully.');
