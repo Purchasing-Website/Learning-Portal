@@ -71,7 +71,9 @@ Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {
     Route::post('/lesson/sequenceUpdate', [LessonController::class, 'updateSequence'])->name('lesson.updateSequence');
 
     //Quiz Management
-    Route::get('/admin/quiz-builder', [QuizController::class, 'showQuiz'])->name('quiz.inde');
+    Route::get('/admin/quiz-builder', [QuizController::class, 'QuizIndex'])->name('quiz.inde');
+    Route::get('/admin/quiz-builder/{id}', [QuizController::class, 'getQuiz'])->name('quiz.inde');
+    Route::put('/admin/SaveQuiz', [QuizController::class, 'saveQuiz'])->name('quiz.Save');
 
     Route::get('/admin/quiz', [QuizController::class, 'index'])->name('quiz.index');
     Route::post('/admin/quiz/store', [QuizController::class, 'store'])->name('quiz.store');

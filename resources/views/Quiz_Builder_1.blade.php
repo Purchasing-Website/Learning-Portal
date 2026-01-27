@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Quiz Builder</title>
 
   <!-- Bootstrap CSS -->
@@ -69,8 +70,7 @@
 
   <script>
     // Laravel payload (quiz + questions + options)
-    window.QUIZ_PAYLOAD = {{ Js::from($quiz) }};
-
+    //window.QUIZ_PAYLOAD = {};
     let questionTypes = @json($questionTypes);
 
   </script>
@@ -220,10 +220,6 @@
                   @foreach ($questionTypes as $type)
                     <option value="{{ $type['value'] }}">{{ $type['label'] }}</option>
                   @endforeach
-                  {{-- <option value="mcq_single">MCQ (Single Correct)</option>
-                  <option value="mcq_multi">Multiple Correct</option>
-                  <option value="true_false">True / False</option>
-                  <option value="short_answer">Short Answer</option> --}}
                 </select>
               </div>
 
@@ -348,7 +344,31 @@ questionTypes.forEach(qt => {
 });
 
 // ======== State (UI shape) ========
-const state = {
+const Initialstate = {
+  // UI quiz shape (what your builder uses)
+  quiz: {
+    quizId: null,         // backend quiz id
+    classId: "",
+    className: "",
+    type: "final",        // "final" | "kc"
+    title: "",
+    passScore: 80,
+    status: "active",     // "active" | "inactive"
+    instructions: "",
+    questions: []
+  },
+
+  // Snapshot of original backend ids for delete detection
+  original: {
+    questionIds: new Set(),
+    optionIdsByQuestion: new Map() // qid -> Set(optionIds)
+  },
+
+  selectedQuestionId: null,
+  questionDraft: null
+};
+
+let state = {
   // UI quiz shape (what your builder uses)
   quiz: {
     quizId: null,         // backend quiz id
@@ -485,7 +505,8 @@ function renderClassDropdown(keyword = "") {
     : `<li><span class="dropdown-item-text text-muted">No matching class</span></li>`;
 
   [...el.classDropdown.querySelectorAll("[data-class-id]")].forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      getQuiz(e);
       el.classId.value = btn.getAttribute("data-class-id");
       el.classNameInput.value = btn.getAttribute("data-class-name");
     });
@@ -542,9 +563,7 @@ function renderQuestionList() {
   el.questionList.innerHTML = items.map(({ q, idx }) => {
     const active = q.id === state.selectedQuestionId ? "active" : "";
     const title = q.text?.trim() ? q.text.trim() : "(Untitled question)";
-    console.log(q.type);
     const typeLabel = typeToLabel(q.type);
-    console.log(typeToLabel(q.type));
     const hasCorrect = questionHasCorrectAnswer(q);
 
     return `
@@ -744,6 +763,7 @@ function addQuestion() {
 
   const q = {
     id: uid("tmpQ"),      // temp id for new question
+    _backendId: null,
     text: "",
     type: "single",
     points: 1,
@@ -874,25 +894,33 @@ function resetQuestionEditor() {
 
 function validateSelectedQuestion() {
   const q = getQuestionById(state.selectedQuestionId);
-  if (!q) return { ok: false, msg: "No question selected." };
+  return validateQuestionObject(q);
+}
 
-  gatherEditorToQuestionObject();
+function validateQuestionObject(q) {
+  if (!q) return { ok: false, msg: "No question selected." };
 
   if (!q.text || !q.text.trim()) return { ok: false, msg: "Question text is required." };
 
   if (q.type === "short_answer") {
-    if (!q.correctAnswer || !q.correctAnswer.trim()) return { ok: false, msg: "Correct answer is required." };
+    if (!q.correctAnswer || !q.correctAnswer.trim()) {
+      return { ok: false, msg: "Correct answer is required." };
+    }
     return { ok: true };
   }
 
   if (!q.options || q.options.length < 2) return { ok: false, msg: "At least 2 options required." };
   if (q.options.some(o => !o.text || !o.text.trim())) return { ok: false, msg: "Option text missing." };
 
+  // Keep your current schema: type + correctIndex/correctIndexes
   if (q.type === "single" || q.type === "true_false") {
     if (typeof q.correctIndex !== "number") return { ok: false, msg: "Select a correct option." };
   }
+
   if (q.type === "multiple") {
-    if (!q.correctIndexes || q.correctIndexes.length === 0) return { ok: false, msg: "Select at least one correct option." };
+    if (!Array.isArray(q.correctIndexes) || q.correctIndexes.length === 0) {
+      return { ok: false, msg: "Select at least one correct option." };
+    }
   }
 
   return { ok: true };
@@ -931,18 +959,33 @@ function validateQuizAll() {
   if (!state.quiz.title) return { ok: false, msg: "Quiz title is required." };
 
   if (state.quiz.type !== "kc") {
-    if (state.quiz.passScore === null || Number.isNaN(state.quiz.passScore)) return { ok: false, msg: "Pass score is required for Final Quiz." };
-    if (state.quiz.passScore < 0 || state.quiz.passScore > 100) return { ok: false, msg: "Pass score must be 0–100." };
+    if (state.quiz.passScore === null || Number.isNaN(state.quiz.passScore)) {
+      return { ok: false, msg: "Pass score is required for Final Quiz." };
+    }
+    if (state.quiz.passScore < 0 || state.quiz.passScore > 100) {
+      return { ok: false, msg: "Pass score must be 0–100." };
+    }
   }
 
   if (!state.quiz.questions.length) return { ok: false, msg: "Please add at least one question." };
 
-  // validate all questions quickly
+  // ✅ IMPORTANT:
+  // Sync editor -> state ONLY ONCE for the currently opened question
+  // so the latest edits are included, but no other questions get overwritten.
+  const currentSelectedId = state.selectedQuestionId;
+  if (currentSelectedId) {
+    gatherEditorToQuestionObject();
+  }
+
+  // ✅ Validate questions WITHOUT changing selectedQuestionId
   for (let i = 0; i < state.quiz.questions.length; i++) {
-    state.selectedQuestionId = state.quiz.questions[i].id;
-    const v = validateSelectedQuestion();
+    const q = state.quiz.questions[i];
+    const v = validateQuestionObject(q);
     if (!v.ok) return { ok: false, msg: `Question ${i + 1}: ${v.msg}` };
   }
+
+  // restore selection (optional but nice)
+  state.selectedQuestionId = currentSelectedId;
 
   return { ok: true };
 }
@@ -1051,17 +1094,17 @@ function snapshotOriginalIdsFromLaravel(raw) {
 // Build payload for Laravel controller to create/update/delete in one request
 function buildLaravelSavePayload() {
   gatherQuizMeta();
-  if (state.selectedQuestionId) gatherEditorToQuestionObject();
+  //if (state.selectedQuestionId) gatherEditorToQuestionObject();
 
   // figure out deleted question ids (existing only)
-  const currentExistingQIds = new Set(
-    state.quiz.questions
-      .map(q => q._backendId)
-      .filter(id => id != null)
-      .map(id => String(id))
-  );
+  // const currentExistingQIds = new Set(
+  //   state.quiz.questions
+  //     .map(q => q._backendId)
+  //     .filter(id => id != null)
+  //     .map(id => String(id))
+  // );
 
-  const deletedQuestionIds = [...state.original.questionIds].filter(oldId => !currentExistingQIds.has(oldId));
+  //const deletedQuestionIds = [...state.original.questionIds].filter(oldId => !currentExistingQIds.has(oldId));
 
   // Build questions payload
   const questionsPayload = state.quiz.questions.map((q, idx) => {
@@ -1083,32 +1126,90 @@ function buildLaravelSavePayload() {
     // map UI type -> backend questiontype
     let questiontype = "single";
     if (q.type === "single") questiontype = "single";
-    else if (q.type === "multiple") questiontype = "multi";
-    else if (q.type === "true_false") questiontype = "truefalse";
+    else if (q.type === "multiple") questiontype = "multiple";
+    else if (q.type === "true_false") questiontype = "true_false";
     else if (q.type === "short_answer") questiontype = "shortanswer";
 
-    return {
-      id: backendQuestionId,         // null => create new
-      sequence_no: idx + 1,
+    // return {
+    //   id: backendQuestionId,         // null => create new
+    //   sequence_no: idx + 1,
+    //   question: q.text,
+    //   questiontype,
+    //   points: q.points ?? 1,
+    //   is_active: 1,
+    //   explanation: q.explanation ?? "",
+
+    //   // correct fields (only send what you actually store)
+    //   correct_index: q.correctIndex ?? null,
+    //   correct_indexes: q.correctIndexes ?? [],
+    //   correct_answer: q.correctAnswer ?? "",
+
+    //   options: (q.options || []).map((o, optIdx) => ({
+    //     id: o._backendId ?? null,     // null => create new option
+    //     option: o.text,
+    //     sequence_no: optIdx + 1,
+    //     is_active: 1
+    //   })),
+
+    //   deleted_option_ids: deletedOptionIds
+    // };
+
+    let ppp = {
+      id: state.quiz._backendId ?? null,
       question: q.text,
       questiontype,
       points: q.points ?? 1,
-      is_active: 1,
-      explanation: q.explanation ?? "",
+      // ... quiz meta ...
+      questions: state.quiz.questions.map((q, idx) => {
+        return {
+          // ONLY send the database ID. If it's null, Laravel creates a new one.
+          id: q._backendId ?? null, 
+          sequence_no: idx + 1,
+          question: q.text,
+          questiontype: q.type,
+          points: q.points,
+          explanation: q.explanation,
+          correct_index: q.correctIndex,
+          correct_indexes: q.correctIndexes || [],
+          options: (q.options || []).map((o, optIdx) => ({
+            id: o._backendId ?? null,
+            option: o.text || o.option_text, // Handle both key names
+            sequence_no: optIdx + 1
+          })),
+          deleted_option_ids: q.deleted_option_ids || []
+        };
+      }),
+      deleted_question_ids: state.deleted_question_ids || []
+    };
 
-      // correct fields (only send what you actually store)
-      correct_index: q.correctIndex ?? null,
-      correct_indexes: q.correctIndexes ?? [],
-      correct_answer: q.correctAnswer ?? "",
+    console.log(ppp);
 
-      options: (q.options || []).map((o, optIdx) => ({
-        id: o._backendId ?? null,     // null => create new option
-        option: o.text,
-        sequence_no: optIdx + 1,
-        is_active: 1
-      })),
-
-      deleted_option_ids: deletedOptionIds
+    return {
+      id: state.quiz._backendId ?? null,
+      question: q.text,
+      questiontype,
+      points: q.points ?? 1,
+      // ... quiz meta ...
+      questions: state.quiz.questions.map((q, idx) => {
+        return {
+          // ONLY send the database ID. If it's null, Laravel creates a new one.
+          id: q._backendId ?? null, 
+          sequence_no: idx + 1,
+          question: q.text,
+          questiontype: q.type,
+          points: q.points,
+          explanation: q.explanation,
+          correct_index: q.correctIndex,
+          correct_indexes: q.correctIndexes || [],
+          options: (q.options || []).map((o, optIdx) => ({
+            id: o._backendId ?? null,
+            option: o.text || o.option_text, // Handle both key names
+            sequence_no: optIdx + 1
+          })),
+          deleted_option_ids: q.deleted_option_ids || []
+        };
+      }),
+      deleted_question_ids: state.deleted_question_ids || []
     };
   });
 
@@ -1129,18 +1230,28 @@ function buildLaravelSavePayload() {
 
 // ======== Backend save ========
 async function saveAll() {
+  gatherQuizMeta()
   const v = validateQuizAll();
   if (!v.ok) { alert(v.msg); return; }
 
-  const payload = buildLaravelSavePayload();
+  const classId = document.getElementById("classId").value;
+  const className = document.getElementById("classNameInput").value;
+  console.log('save' + state); 
+  console.log(state);
 
+  //const payload = buildLaravelSavePayload();
+  state.quiz.type = "final" ? "FinalQuiz" : "KnowledgeCheck";
+  const payload = state.quiz;
+  const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+  console.log(payload);
   try {
-    const res = await fetch(API_SAVE_URL(payload.id || "new"), {
-      method: "PUT", // one request for create/update/delete
+    //const res = await fetch(API_SAVE_URL(payload.id || "new"), {
+    const res = await fetch('/admin/SaveQuiz', {
+      method: "put", // one request for create/update/delete
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "X-CSRF-TOKEN": getCsrfToken()
+        "X-CSRF-TOKEN": csrfToken
       },
       body: JSON.stringify(payload)
     });
@@ -1152,9 +1263,10 @@ async function saveAll() {
 
     const saved = await res.json();
 
+    console.log(saved);
     // refresh UI + snapshot after save (so deletions work next time)
-    snapshotOriginalIdsFromLaravel(saved);
-    state.quiz = normalizeFromLaravel(saved);
+    snapshotOriginalIdsFromLaravel(saved.data);
+    state.quiz = normalizeFromLaravel(saved.data);
 
     hydrateMeta();
     renderQuestionList();
@@ -1165,6 +1277,63 @@ async function saveAll() {
     console.error(e);
     alert(e.message || "Save failed.");
   }
+
+    el.classId.value = classId;
+    el.classNameInput.value = className;
+}
+
+/**
+ * Triggered by the 'click' event listener on #classDropdown
+ */
+async function getQuiz(e) {
+    // e is the Event object passed automatically by the listener
+    const btn = e.target.closest('.dropdown-item');
+    
+    // Safety check: only proceed if a dropdown item (or its children) was clicked
+    if (!btn) return;
+
+    // Retrieve data from attributes
+    const classId = btn.getAttribute('data-class-id');
+    const className = btn.getAttribute('data-class-name');
+
+    console.log(`Fetching data for: ${className} (ID: ${classId})`);
+
+    try {
+        // Change this URL to your actual Laravel endpoint
+        const response = await fetch(`/admin/quiz-builder/${classId}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        // Success logic: process your Laravel data here
+        console.log('Data retrieved:', data);
+
+        if(data.quiz){
+          snapshotOriginalIdsFromLaravel(data.quiz);
+          state.quiz = normalizeFromLaravel(data.quiz);
+        } else {
+          state = Initialstate;
+        }
+
+        hydrateMeta();
+        renderQuestionList();
+        showEditor(false);
+
+        el.classId.value = classId;
+        el.classNameInput.value = className;
+
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
 }
 
 // ======== Hydrate meta UI ========
