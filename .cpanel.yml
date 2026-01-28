@@ -2,4 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/haolinmy/public_html/LMS
+    - /bin/mkdir -p $DEPLOYPATH
     - /bin/cp -rf ./* $DEPLOYPATH
+    - cd $DEPLOYPATH
+    - /usr/local/bin/composer install --no-dev --optimize-autoloader
+    - /bin/php artisan optimize
