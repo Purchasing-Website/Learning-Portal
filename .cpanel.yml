@@ -1,5 +1,6 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/hoalinmy/public_html
-    - /bin/cp -R * $DEPLOYPATH
+    - export DEPLOYPATH=/home/hoalinmy/public_html/LMS
+    - /usr/bin/rsync -av --delete --exclude='.git' --exclude='storage/logs/*' ./ $DEPLOYPATH
+    - php artisan optimize
