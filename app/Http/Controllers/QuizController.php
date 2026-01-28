@@ -137,7 +137,7 @@ class QuizController extends Controller
                     'description'  => $request->instructions,
                     'quizType'     => $request->type,
                     'pass_score'   => $request->passScore,
-                    'is_active'    => $request->status === 'active' ? 1 : 0,
+                    'is_active'    => $request->status = 'active' ? 1 : 0,
                 ]
             );
 

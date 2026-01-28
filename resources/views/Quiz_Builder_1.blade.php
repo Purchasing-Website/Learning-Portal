@@ -556,13 +556,13 @@ function renderQuestionList() {
     .map((q, idx) => ({ q, idx }))
     .filter(({ q }) => {
       if (!keyword) return true;
-      const t = (q.text || "").toLowerCase();
+      const t = (q.question || "").toLowerCase();
       return t.includes(keyword) || (q.type || "").includes(keyword);
     });
 
   el.questionList.innerHTML = items.map(({ q, idx }) => {
     const active = q.id === state.selectedQuestionId ? "active" : "";
-    const title = q.text?.trim() ? q.text.trim() : "(Untitled question)";
+    const title = q.question?.trim() ? q.question.trim() : "(Untitled question)";
     const typeLabel = typeToLabel(q.type);
     const hasCorrect = questionHasCorrectAnswer(q);
 
@@ -603,7 +603,7 @@ function updateMoveButtons() {
 }
 
 function hydrateEditorFromQuestion(q) {
-  el.qText.value = q.text || "";
+  el.qText.value = q.question || "";
   el.qType.value = q.type || "single";
   el.qPoints.value = q.points ?? 1;
   el.qRequired.value = String(!!q.required);
@@ -615,9 +615,10 @@ function hydrateEditorFromQuestion(q) {
 
 function gatherEditorToQuestionObject() {
   const q = getQuestionById(state.selectedQuestionId);
+  console.log('edit:'+state.selectedQuestionId);
   if (!q) return;
 
-  q.text = el.qText.value || "";
+  q.question = el.qText.value || "";
   q.type = el.qType.value;
   q.points = parseInt(el.qPoints.value || "1", 10);
   q.required = (el.qRequired.value === "true");
@@ -636,7 +637,7 @@ function gatherEditorToQuestionObject() {
   const options = rows.map(row => {
     const id = row.getAttribute("data-opt-id");
     const txt = row.querySelector("input[data-role='opt-text']")?.value ?? "";
-    return { id, text: txt };
+    return { id, option_text: txt };
   });
 
   q.options = options;
@@ -663,6 +664,7 @@ function selectQuestion(id) {
   if (!q) return;
 
   state.selectedQuestionId = id;
+  console.log('selected question id'+state.selectedQuestionId);
   state.questionDraft = deepClone(q);
   hydrateEditorFromQuestion(q);
   showEditor(true);
@@ -685,13 +687,13 @@ function renderAnswerUIForType(type, q) {
   // True/False forces 2 options
   if (isTF) {
     q.options = [
-      { id: q.options?.[0]?.id || uid("OPT"), text: "True" },
-      { id: q.options?.[1]?.id || uid("OPT"), text: "False" }
+      { id: q.options?.[0]?.id || uid("OPT"), option_text: "True" },
+      { id: q.options?.[1]?.id || uid("OPT"), option_text: "False" }
     ];
   } else {
     q.options = Array.isArray(q.options) ? q.options : [];
     if (q.options.length < 2) {
-      while (q.options.length < 2) q.options.push({ id: uid("OPT"), text: "" });
+      while (q.options.length < 2) q.options.push({ id: uid("OPT"), option_text: "" });
     }
   }
 
@@ -702,7 +704,7 @@ function renderAnswerUIForType(type, q) {
   }
 
   el.optionsList.innerHTML = q.options.map((opt, idx) => {
-    const text = opt.text ?? opt.option_text ?? "";
+    const text = opt.option_text ?? "";
     const optId = String(opt.id);
 
     const isSingle = (type === "single" || type === "true_false");
@@ -764,7 +766,7 @@ function addQuestion() {
   const q = {
     id: uid("tmpQ"),      // temp id for new question
     _backendId: null,
-    text: "",
+    question: "",
     type: "single",
     points: 1,
     required: true,
@@ -811,7 +813,7 @@ function duplicateSelectedQuestion() {
 
   const copy = deepClone(q);
   copy.id = uid("tmpQ");
-  copy.options = (copy.options || []).map(o => ({ id: uid("tmpOPT"), text: o.text || "" }));
+  copy.options = (copy.options || []).map(o => ({ id: uid("tmpOPT"), option_text: o.option_text || "" }));
 
   copy.correctIndex = null;
   copy.correctIndexes = [];
@@ -856,8 +858,8 @@ function onTypeChange() {
     q.options = Array.isArray(q.options) ? q.options : [];
     if (q.type === "true_false") {
       q.options = [
-        { id: q.options?.[0]?.id || uid("OPT"), text: "True" },
-        { id: q.options?.[1]?.id || uid("OPT"), text: "False" }
+        { id: q.options?.[0]?.id || uid("OPT"), option_text: "True" },
+        { id: q.options?.[1]?.id || uid("OPT"), option_text: "False" }
       ];
     } else if (q.options.length < 2) {
       while (q.options.length < 2) q.options.push({ id: uid("OPT"), option_text: "" });
@@ -893,14 +895,38 @@ function resetQuestionEditor() {
 }
 
 function validateSelectedQuestion() {
-  const q = getQuestionById(state.selectedQuestionId);
-  return validateQuestionObject(q);
+  const q = gatherEditorToQuestionObject();
+  console.log('select question:'+q);
+  if (!q) return { ok:false, msg:"No question selected." };
+
+  if (!q.question || !q.question.trim()) return { ok:false, msg:"Question text is required." };
+  if (!q.type) return { ok:false, msg:"Question type is required." };
+
+  if (q.type === "short_answer") {
+    if (!q.correctAnswer || !q.correctAnswer.trim()) return { ok:false, msg:"Short answer requires a correct answer." };
+    return { ok:true };
+  }
+
+  // Options types
+  if (!Array.isArray(q.options) || q.options.length < 2) return { ok:false, msg:"Please provide at least 2 options." };
+
+  const emptyOpt = q.options.find(o => !o.option_text || !o.option_text.trim());
+  if (emptyOpt) return { ok:false, msg:"All options must have text." };
+
+  if (q.type === "mcq_single" || q.type === "true_false") {
+    if (typeof q.correctIndex !== "number") return { ok:false, msg:"Please select the correct option." };
+  }
+  if (q.type === "mcq_multi") {
+    if (!q.correctIndexes || q.correctIndexes.length === 0) return { ok:false, msg:"Please select at least one correct option." };
+  }
+
+  return { ok:true };
 }
 
 function validateQuestionObject(q) {
   if (!q) return { ok: false, msg: "No question selected." };
 
-  if (!q.text || !q.text.trim()) return { ok: false, msg: "Question text is required." };
+  if (!q.question || !q.question.trim()) return { ok: false, msg: "Question text is required." };
 
   if (q.type === "short_answer") {
     if (!q.correctAnswer || !q.correctAnswer.trim()) {
@@ -910,7 +936,7 @@ function validateQuestionObject(q) {
   }
 
   if (!q.options || q.options.length < 2) return { ok: false, msg: "At least 2 options required." };
-  if (q.options.some(o => !o.text || !o.text.trim())) return { ok: false, msg: "Option text missing." };
+  if (q.options.some(o => !o.option_text || !o.option_text.trim())) return { ok: false, msg: "Option text missing." };
 
   // Keep your current schema: type + correctIndex/correctIndexes
   if (q.type === "single" || q.type === "true_false") {
@@ -930,6 +956,7 @@ function applyQuestionChanges() {
   const v = validateSelectedQuestion();
   if (!v.ok) { alert(v.msg); return; }
 
+  // Save snapshot as new draft
   const q = getQuestionById(state.selectedQuestionId);
   state.questionDraft = deepClone(q);
 
@@ -954,38 +981,97 @@ function gatherQuizMeta() {
 
 function validateQuizAll() {
   gatherQuizMeta();
+	  if (!state.quiz.classId) return { ok:false, msg:"Please select a class." };
+	  if (!state.quiz.title) return { ok:false, msg:"Quiz title is required." };
+      if (!state.quiz.title) return { ok:false, msg:"Quiz title is required." };
+      if (state.quiz.type !== "kc") {
+		  if (state.quiz.passScore === null || Number.isNaN(state.quiz.passScore))
+			return { ok:false, msg:"Pass score is required for Final Quiz." };
 
-  if (!state.quiz.classId) return { ok: false, msg: "Please select a class." };
-  if (!state.quiz.title) return { ok: false, msg: "Quiz title is required." };
+		  if (state.quiz.passScore < 0 || state.quiz.passScore > 100)
+			return { ok:false, msg:"Pass score must be 0–100." };
+		}
 
-  if (state.quiz.type !== "kc") {
-    if (state.quiz.passScore === null || Number.isNaN(state.quiz.passScore)) {
-      return { ok: false, msg: "Pass score is required for Final Quiz." };
+
+      if (!state.quiz.questions.length) return { ok:false, msg:"Please add at least one question." };
+
+      // Validate every question
+      for (let i = 0; i < state.quiz.questions.length; i++) {
+        const q = state.quiz.questions[i];
+        if (!q.question || !q.question.trim()) return { ok:false, msg:`Question ${i+1}: text is required.` };
+
+        if (q.type === "short_answer") {
+          if (!q.correctAnswer || !q.correctAnswer.trim()) return { ok:false, msg:`Question ${i+1}: correct answer required.` };
+        } else {
+          if (!q.options || q.options.length < 2) return { ok:false, msg:`Question ${i+1}: at least 2 options required.` };
+          if (q.options.some(o => !o.option_text || !o.option_text.trim())) return { ok:false, msg:`Question ${i+1}: option text missing.` };
+
+          if (q.type === "mcq_single" || q.type === "true_false") {
+            if (typeof q.correctIndex !== "number") return { ok:false, msg:`Question ${i+1}: select correct option.` };
+          }
+          if (q.type === "mcq_multi") {
+            if (!q.correctIndexes || q.correctIndexes.length === 0) return { ok:false, msg:`Question ${i+1}: select at least one correct option.` };
+          }
+        }
+      }
+      return { ok:true };
+}
+
+function validateStateJsonStructure() {
+  const quiz = state?.quiz;
+  if (!quiz || typeof quiz !== "object") return { ok: false, msg: "Quiz data is missing." };
+
+  if (!quiz.classId || !String(quiz.classId).trim()) return { ok: false, msg: "Please select a class." };
+  if (!quiz.title || !String(quiz.title).trim()) return { ok: false, msg: "Quiz title is required." };
+  if (!Array.isArray(quiz.questions)) return { ok: false, msg: "Questions must be an array." };
+  if (quiz.questions.length === 0) return { ok: false, msg: "Please add at least one question." };
+
+  for (let i = 0; i < quiz.questions.length; i++) {
+    const q = quiz.questions[i];
+    if (!q || typeof q !== "object") return { ok: false, msg: `Question ${i + 1}: invalid data.` };
+    if (!q.question || !String(q.question).trim()) return { ok: false, msg: `Question ${i + 1}: text is required.` };
+
+    const rawType = q.type;
+    if (!rawType || !String(rawType).trim()) return { ok: false, msg: `Question ${i + 1}: type is required.` };
+    const type = rawType === "mcq_single" ? "single" : (rawType === "mcq_multi" ? "multiple" : rawType);
+
+    if (type === "short_answer") {
+      if (!q.correctAnswer || !String(q.correctAnswer).trim()) {
+        return { ok: false, msg: `Question ${i + 1}: correct answer required.` };
+      }
+      continue;
     }
-    if (state.quiz.passScore < 0 || state.quiz.passScore > 100) {
-      return { ok: false, msg: "Pass score must be 0–100." };
+
+    const options = q.options;
+    if (!Array.isArray(options) || options.length < 2) {
+      return { ok: false, msg: `Question ${i + 1}: at least 2 options required.` };
+    }
+
+    for (let j = 0; j < options.length; j++) {
+      const opt = options[j];
+      if (!opt || typeof opt !== "object") return { ok: false, msg: `Question ${i + 1}: option ${j + 1} invalid.` };
+      const optText = opt.option_text ?? "";
+      if (!String(optText).trim()) return { ok: false, msg: `Question ${i + 1}: option text missing.` };
+    }
+
+    if (type === "single" || type === "true_false") {
+      if (!Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex >= options.length) {
+        return { ok: false, msg: `Question ${i + 1}: select a valid correct option.` };
+      }
+    } else if (type === "multiple") {
+      if (!Array.isArray(q.correctIndexes) || q.correctIndexes.length === 0) {
+        return { ok: false, msg: `Question ${i + 1}: select at least one correct option.` };
+      }
+      for (let k = 0; k < q.correctIndexes.length; k++) {
+        const idx = q.correctIndexes[k];
+        if (!Number.isInteger(idx) || idx < 0 || idx >= options.length) {
+          return { ok: false, msg: `Question ${i + 1}: correct option index out of range.` };
+        }
+      }
+    } else {
+      return { ok: false, msg: `Question ${i + 1}: unsupported question type.` };
     }
   }
-
-  if (!state.quiz.questions.length) return { ok: false, msg: "Please add at least one question." };
-
-  // ✅ IMPORTANT:
-  // Sync editor -> state ONLY ONCE for the currently opened question
-  // so the latest edits are included, but no other questions get overwritten.
-  const currentSelectedId = state.selectedQuestionId;
-  if (currentSelectedId) {
-    gatherEditorToQuestionObject();
-  }
-
-  // ✅ Validate questions WITHOUT changing selectedQuestionId
-  for (let i = 0; i < state.quiz.questions.length; i++) {
-    const q = state.quiz.questions[i];
-    const v = validateQuestionObject(q);
-    if (!v.ok) return { ok: false, msg: `Question ${i + 1}: ${v.msg}` };
-  }
-
-  // restore selection (optional but nice)
-  state.selectedQuestionId = currentSelectedId;
 
   return { ok: true };
 }
@@ -1051,7 +1137,7 @@ function normalizeFromLaravel(raw) {
     return {
       id: String(qid), // store as string for consistent DOM usage
       _backendId: qid, // keep numeric id for saving
-      text: q.question ?? q.text ?? "",
+      question: q.question ?? "",
       type: uiType,
       points: q.points ?? 1,
       required: (q.is_required ?? q.required ?? 1) ? true : false,
@@ -1060,7 +1146,7 @@ function normalizeFromLaravel(raw) {
       options: opts.map(o => ({
         id: String(o.id ?? uid("tmpOPT")),
         _backendId: o.id ?? null,
-        option_text: o.option ?? o.option_text ?? ""
+        option_text: o.option_text ?? ""
       })),
 
       // correct answer fields (if your backend has them)
@@ -1156,7 +1242,7 @@ function buildLaravelSavePayload() {
 
     let ppp = {
       id: state.quiz._backendId ?? null,
-      question: q.text,
+      question: q.question,
       questiontype,
       points: q.points ?? 1,
       // ... quiz meta ...
@@ -1165,7 +1251,7 @@ function buildLaravelSavePayload() {
           // ONLY send the database ID. If it's null, Laravel creates a new one.
           id: q._backendId ?? null, 
           sequence_no: idx + 1,
-          question: q.text,
+          question: q.question,
           questiontype: q.type,
           points: q.points,
           explanation: q.explanation,
@@ -1173,7 +1259,7 @@ function buildLaravelSavePayload() {
           correct_indexes: q.correctIndexes || [],
           options: (q.options || []).map((o, optIdx) => ({
             id: o._backendId ?? null,
-            option: o.text || o.option_text, // Handle both key names
+            option: o.option_text, // Handle both key names
             sequence_no: optIdx + 1
           })),
           deleted_option_ids: q.deleted_option_ids || []
@@ -1182,11 +1268,9 @@ function buildLaravelSavePayload() {
       deleted_question_ids: state.deleted_question_ids || []
     };
 
-    console.log(ppp);
-
     return {
       id: state.quiz._backendId ?? null,
-      question: q.text,
+      question: q.question,
       questiontype,
       points: q.points ?? 1,
       // ... quiz meta ...
@@ -1195,7 +1279,7 @@ function buildLaravelSavePayload() {
           // ONLY send the database ID. If it's null, Laravel creates a new one.
           id: q._backendId ?? null, 
           sequence_no: idx + 1,
-          question: q.text,
+          question: q.question,
           questiontype: q.type,
           points: q.points,
           explanation: q.explanation,
@@ -1203,7 +1287,7 @@ function buildLaravelSavePayload() {
           correct_indexes: q.correctIndexes || [],
           options: (q.options || []).map((o, optIdx) => ({
             id: o._backendId ?? null,
-            option: o.text || o.option_text, // Handle both key names
+            option: o.option_text, // Handle both key names
             sequence_no: optIdx + 1
           })),
           deleted_option_ids: q.deleted_option_ids || []
@@ -1231,19 +1315,18 @@ function buildLaravelSavePayload() {
 // ======== Backend save ========
 async function saveAll() {
   gatherQuizMeta()
-  const v = validateQuizAll();
-  if (!v.ok) { alert(v.msg); return; }
+  // const v = validateQuizAll();
+  // if (!v.ok) { alert(v.msg); return; }
+  const s = validateStateJsonStructure();
+  if (!s.ok) { alert(s.msg); return; }
 
   const classId = document.getElementById("classId").value;
   const className = document.getElementById("classNameInput").value;
-  console.log('save' + state); 
-  console.log(state);
 
   //const payload = buildLaravelSavePayload();
   state.quiz.type = "final" ? "FinalQuiz" : "KnowledgeCheck";
   const payload = state.quiz;
   const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-  console.log(payload);
   try {
     //const res = await fetch(API_SAVE_URL(payload.id || "new"), {
     const res = await fetch('/admin/SaveQuiz', {
@@ -1263,7 +1346,6 @@ async function saveAll() {
 
     const saved = await res.json();
 
-    console.log(saved);
     // refresh UI + snapshot after save (so deletions work next time)
     snapshotOriginalIdsFromLaravel(saved.data);
     state.quiz = normalizeFromLaravel(saved.data);
@@ -1315,7 +1397,6 @@ async function getQuiz(e) {
         const data = await response.json();
         
         // Success logic: process your Laravel data here
-        console.log('Data retrieved:', data);
 
         if(data.quiz){
           snapshotOriginalIdsFromLaravel(data.quiz);
