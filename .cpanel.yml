@@ -2,5 +2,5 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/hoalinmy/public_html/LMS
-    - /usr/bin/rsync -av --delete --exclude='.git' --exclude='.env' --exclude='storage' ./ $DEPLOYPATH
-    - /usr/local/bin/php $DEPLOYPATH/artisan optimize
+    - /bin/rsync -av --delete --exclude='.git' --exclude='.env' --exclude='storage' ./ $DEPLOYPATH
+    - /bin/php $DEPLOYPATH/artisan optimize
