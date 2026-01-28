@@ -4,5 +4,3 @@ deployment:
     - export DEPLOYPATH=/home/haolinmy/public_html/LMS
     - /bin/mkdir -p $DEPLOYPATH
     - /bin/cp -rf ./* $DEPLOYPATH
-    - cd $DEPLOYPATH
-    - /bin/php artisan optimize
