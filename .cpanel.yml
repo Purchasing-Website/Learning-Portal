@@ -5,5 +5,4 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH
     - /bin/cp -rf ./* $DEPLOYPATH
     - cd $DEPLOYPATH
-    - /usr/local/bin/composer install --no-dev --optimize-autoloader
     - /bin/php artisan optimize
