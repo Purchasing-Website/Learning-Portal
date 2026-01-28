@@ -896,7 +896,6 @@ function resetQuestionEditor() {
 
 function validateSelectedQuestion() {
   const q = gatherEditorToQuestionObject();
-  console.log('select question:'+q);
   if (!q) return { ok:false, msg:"No question selected." };
 
   if (!q.question || !q.question.trim()) return { ok:false, msg:"Question text is required." };
