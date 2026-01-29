@@ -166,7 +166,7 @@ class QuizController extends Controller
                     ['id' => $questionId],
                     [
                         'quiz_id'      => $quiz->id,
-                        'question'     => $qData['text'],
+                        'question'     => $qData['question'],
                         'questiontype' => $qData['type'],
                         'points'       => $qData['points'] ?? 1,
                         //'sequence_no'  => $qData['sequence_no'],

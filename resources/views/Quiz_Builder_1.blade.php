@@ -615,7 +615,6 @@ function hydrateEditorFromQuestion(q) {
 
 function gatherEditorToQuestionObject() {
   const q = getQuestionById(state.selectedQuestionId);
-  console.log('edit:'+state.selectedQuestionId);
   if (!q) return;
 
   q.question = el.qText.value || "";
@@ -657,6 +656,8 @@ function gatherEditorToQuestionObject() {
   }
 
   q.correctAnswer = "";
+
+  return q;
 }
 
 function selectQuestion(id) {
@@ -664,7 +665,6 @@ function selectQuestion(id) {
   if (!q) return;
 
   state.selectedQuestionId = id;
-  console.log('selected question id'+state.selectedQuestionId);
   state.questionDraft = deepClone(q);
   hydrateEditorFromQuestion(q);
   showEditor(true);
@@ -896,6 +896,7 @@ function resetQuestionEditor() {
 
 function validateSelectedQuestion() {
   const q = gatherEditorToQuestionObject();
+  
   if (!q) return { ok:false, msg:"No question selected." };
 
   if (!q.question || !q.question.trim()) return { ok:false, msg:"Question text is required." };
@@ -1376,8 +1377,6 @@ async function getQuiz(e) {
     // Retrieve data from attributes
     const classId = btn.getAttribute('data-class-id');
     const className = btn.getAttribute('data-class-name');
-
-    console.log(`Fetching data for: ${className} (ID: ${classId})`);
 
     try {
         // Change this URL to your actual Laravel endpoint
