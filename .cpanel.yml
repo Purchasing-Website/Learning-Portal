@@ -3,4 +3,9 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/haolinmy/public_html/lms
     - /bin/mkdir -p $DEPLOYPATH
-    - rsync -av --exclude='.env' --exclude='vendor/' ./ $DEPLOYPATH
+    - |
+      for item in ./* .[^.]*; do
+        if [ "$item" != "./.env" ] && [ "$item" != "./vendor" ] && [ "$item" != "./.git" ]; then
+          /bin/cp -rf "$item" $DEPLOYPATH
+        fi
+      done
