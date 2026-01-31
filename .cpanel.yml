@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/haolinmy/public_html/LMS
+    - export DEPLOYPATH=/home/haolinmy/public_html/lms
     - /bin/mkdir -p $DEPLOYPATH
     - /bin/cp -rf ./* $DEPLOYPATH
