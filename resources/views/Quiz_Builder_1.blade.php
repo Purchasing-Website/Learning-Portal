@@ -83,7 +83,7 @@
     <!-- Header -->
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
       <div>
-        <h2 class="mb-1">Quiz Builder</h2>
+        <h2 class="mb-1">Quiz Builder hello</h2>
         <div class="qb-muted">Add & edit questions and answer options in one page.</div>
       </div>
 

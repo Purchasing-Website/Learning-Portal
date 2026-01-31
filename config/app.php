@@ -52,7 +52,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://haolin.my'),
+
+    'admin_url' => env('ADMIN_APP_URL', 'https://admin.haolin.my'),
 
     /*
     |--------------------------------------------------------------------------
