@@ -1,0 +1,17 @@
+/* Footer */
+.lp-footer{
+  border-top: 1px solid rgba(229,231,235,.9);
+  color: var(--lp-muted);
+}
+
+/* === Sticky footer layout === */
+html, body {
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* THIS pushes footer down */
+}

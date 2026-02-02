@@ -1,4 +1,4 @@
-@extends('layouts.Custom_app', ['title' => 'Class'])
+@extends('layouts.student_app')
 
 @section('content')
     <div class="d-flex flex-column" id="content-wrapper">

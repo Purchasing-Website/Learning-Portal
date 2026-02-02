@@ -1,0 +1,295 @@
+    :root{
+      --lp-navbar-h: 64px;
+      --lp-sidebar-w: 300px;
+      --lp-border: rgba(255,255,255,.12);
+      --lp-text: #eaf0ff;
+      --lp-muted: rgba(234,240,255,.68);
+      --lp-shadow: 0 12px 30px rgba(0,0,0,.35);
+      --lp-radius: 16px;
+    }
+
+    body{
+      min-height: 100vh;
+      color: var(--lp-text);
+      overflow-x: hidden;
+    }
+
+    /* Full-page structure: header + (content grows) + footer at bottom */
+    .lp-page{
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .lp-content{
+      flex: 1; /* pushes footer to bottom */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar */
+    .lp-topbar{
+      height: var(--lp-navbar-h);
+      background: linear-gradient(135deg, #20d5e6 0%, #4f7cf7 35%, #7b4cf7 70%, #c02cf3 100%) !important;
+      border-bottom: 1px solid var(--lp-border);
+      position: sticky;
+      top: 0;
+      z-index: 1030;
+    }
+    .lp-brand{
+      display:flex; align-items:center; gap:.65rem;
+      font-weight: 800; letter-spacing:.06em;
+      text-transform: uppercase;
+    }
+    .lp-logo{
+      width: 34px; height: 34px; border-radius: 50%;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.12);
+      border: 1px solid var(--lp-border);
+    }
+
+    /* Layout */
+    .lp-shell{
+      flex: 1;
+      display:flex;
+      min-height: calc(100vh - var(--lp-navbar-h));
+    }
+
+    /* Offcanvas -> Desktop sidebar */
+	@media (min-width: 992px){
+	  #lpSidebar.offcanvas{
+		position: fixed;                 /* not sticky */
+		top: var(--lp-navbar-h);          /* BELOW top bar */
+		left: 0;
+		transform: none !important;
+		visibility: visible !important;
+
+		width: var(--lp-sidebar-w);
+		height: calc(100vh - var(--lp-navbar-h));
+
+		border-right: 1px solid var(--lp-border);
+		backdrop-filter: blur(10px);
+		z-index: 1020;                    /* below navbar (1030) */
+	  }
+
+	  #lpSidebar .offcanvas-header{
+		display: none;
+	  }
+
+	  #lpSidebar .offcanvas-body{
+		overflow-y: auto;
+	  }
+
+	  .offcanvas-backdrop{
+		display: none !important;
+	  }
+	}
+	
+	/* =========================================================
+   Sidebar toggle (Desktop: hide/show fixed sidebar)
+   ========================================================= */
+	@media (min-width: 992px){
+	  /* smooth transition */
+	  #lpSidebar.offcanvas,
+	  .lp-main{
+		transition: transform .2s ease, margin-left .2s ease;
+	  }
+
+	  /* when collapsed, slide sidebar out and remove main margin */
+	  body.lp-sidebar-collapsed #lpSidebar.offcanvas{
+		transform: translateX(-100%) !important;   /* override your transform:none !important */
+	  }
+
+	  body.lp-sidebar-collapsed .lp-main{
+		margin-left: 0 !important;
+	  }
+	}
+
+	@media (min-width: 992px){
+	  .lp-main{
+		margin-left: var(--lp-sidebar-w);
+	  }
+	}
+
+
+    @media (max-width: 991.98px){
+      #lpSidebar.offcanvas{
+        background: rgba(11,18,32,.96);
+        backdrop-filter: blur(10px);
+        border-right: 1px solid rgba(255,255,255,.12);
+      }
+    }
+
+    /* Sidebar */
+    .lp-nav{
+      border-radius: var(--lp-radius);
+      border: 1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      background: rgba(255,255,255,.03);
+    }
+    .lp-nav a{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px;
+      color: var(--lp-text);
+      text-decoration: none;
+      border-top: 1px solid rgba(255,255,255,.06);
+      transition: .15s ease;
+    }
+    .lp-nav a:first-child{ border-top: 0; }
+    .lp-nav a:hover{ background: rgba(255,255,255,.06); }
+    .lp-nav a.active{
+      background: rgba(255,255,255,.08);
+      box-shadow: inset 3px 0 0 rgba(46, 204, 113, .9);
+    }
+    .lp-done{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(46,204,113,.16);
+      border: 1px solid rgba(46,204,113,.35);
+      color: #76ffb8;
+    }
+
+    /* Main */
+    .lp-main{
+	  background: #ffffff;
+      flex: 1;
+      padding: 18px 22px 10px;
+      display:flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Dynamic class name header (replaces static "Lesson") */
+    .lp-classname{
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: rgba(234,240,255,.85);
+      letter-spacing: .2px;
+    }
+
+    .lp-title{
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 0;
+      color: #000000;
+    }
+
+    .lp-card{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--lp-radius);
+      box-shadow: var(--lp-shadow);
+    }
+    .lp-stage{
+      padding: 18px;
+    }
+
+    .lp-viewbox{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 10px;
+      min-height: 160px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px;
+    }
+    .lp-viewbox img{
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      display:block;
+    }
+    .lp-iframe{
+      width: 100%;
+      height: 75vh;
+      min-height: 420px;
+      border: 0;
+      display:block;
+      background: #0b1220;
+      border-radius: 10px;
+    }
+
+    /* Bottom next button like screenshot */
+    .lp-nextbar{
+      text-align: center;
+      margin-top: 2px;
+    }
+    .lp-nextbtn{
+      background: transparent;
+      border: 0;
+      color: #000000;
+      font-weight: 500;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+    }
+    .lp-nextbtn:hover{ color: #fff; }
+
+    /* Footer pinned to bottom */
+    footer{
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding: 14px 0;
+      text-align:center;
+      color: rgba(234,240,255,.65);
+      background: rgba(255,255,255,.02);
+    }
+
+    /* Dropdown styling to match dark theme */
+    .dropdown-menu{
+      background: rgba(20,24,32,.98);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--lp-shadow);
+    }
+    .dropdown-item{
+      color: rgba(234,240,255,.85);
+    }
+    .dropdown-item:hover{
+      background: rgba(255,255,255,.08);
+      color: #fff;
+    }
+    .dropdown-divider{
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    @media (max-width: 575.98px){
+      .lp-main{ padding: 14px 14px 8px; }
+      .lp-title{ font-size: 1.6rem; }
+      .lp-iframe{ min-height: 320px; height: 62vh; }
+    }
+	
+	/* default stage center (for images/video landing) */
+	#stage{
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	}
+
+	/* when quiz is running */
+	#stage.lp-quiz-left{
+	  justify-content: flex-start;
+	  align-items: flex-start;
+	  text-align: left;
+	}
+	
+	/* =========================
+   Sidebar Background Redesign
+   ========================= */
+
+
+  #lpSidebar.offcanvas-start{
+    background:
+        linear-gradient(135deg, #20d5e6 0%, #c02cf3 80%, #c02cf3 100%);
+  }
+  
+  #lpClassNameSide{
+	  color: #000000;
+  }
+
+

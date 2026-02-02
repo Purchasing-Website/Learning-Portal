@@ -1,0 +1,145 @@
+:root{
+  --lp-blue: #20d5e6;
+  --lp-blue2:#4f7cf7;
+  --lp-purple:#7b4cf7;
+  --lp-pink:#c02cf3;
+
+  --lp-text:#0f172a;
+  --lp-muted:#64748b;
+  --lp-border:#e5e7eb;
+
+  --lp-radius: 16px;
+  --lp-shadow: 0 12px 28px rgba(15,23,42,.10);
+  --lp-shadow-soft: 0 6px 18px rgba(15,23,42,.08);
+}
+
+body{
+  background: #ffffff;
+  color: var(--lp-text);
+  overflow-x: hidden;
+}
+
+/* Page header */
+.lp-title{
+  font-weight: 900;
+  letter-spacing: .2px;
+  margin: 0;
+}
+.lp-subtitle{
+  margin: 0;
+  color: var(--lp-muted);
+}
+
+/* Cards */
+.lp-card{
+  border: 1px solid var(--lp-border);
+  border-radius: calc(var(--lp-radius) + 6px);
+  background: #fff;
+  box-shadow: var(--lp-shadow-soft);
+  overflow: hidden;
+}
+.lp-accent{
+  height: 10px;
+  background: linear-gradient(90deg, var(--lp-blue2), var(--lp-purple), var(--lp-pink));
+}
+
+/* Avatar block */
+.lp-avatar{
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: .5px;
+  background: linear-gradient(135deg, var(--lp-blue2), var(--lp-purple), var(--lp-pink));
+  box-shadow: 0 10px 18px rgba(79,124,247,.20);
+  user-select: none;
+}
+
+/* Inputs */
+.lp-field{
+  border-radius: 14px;
+  border: 1px solid var(--lp-border);
+  min-height: 46px;
+}
+.lp-field:focus{
+  box-shadow: 0 0 0 .2rem rgba(79,124,247,.15);
+  border-color: rgba(79,124,247,.6);
+}
+.lp-required::after{
+  content:" *";
+  color: #ef4444;
+  font-weight: 800;
+}
+
+/* Save button styling */
+.lp-btn-save{
+  border: 0;
+  color: #fff;
+  font-weight: 900;
+  border-radius: 999px;
+  padding: 11px 16px;
+  background: linear-gradient(135deg, var(--lp-blue2), var(--lp-purple), var(--lp-pink));
+  box-shadow: 0 12px 22px rgba(79,124,247,.20);
+}
+.lp-btn-save:disabled{
+  filter: grayscale(.2);
+  opacity: .65;
+  box-shadow: none;
+}
+.lp-btn-outline{
+  border-radius: 999px;
+  font-weight: 800;
+  padding: 11px 14px;
+  border: 1px solid rgba(79,124,247,.45);
+  color: var(--lp-blue2);
+  background: #fff;
+}
+
+/* Sticky save panel (desktop) */
+.lp-sticky{
+  position: sticky;
+  top: 14px;
+}
+
+/* Mobile bottom save bar */
+.lp-bottom-bar{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1030;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(229,231,235,.9);
+  padding: 12px 12px;
+  display: none;
+}
+@media (max-width: 991.98px){
+  .lp-bottom-bar{ display: block; }
+  .lp-sticky{ position: static; }
+  main{ padding-bottom: 90px; } /* space for bottom bar */
+}
+
+/* Small helper badges */
+.lp-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: .9rem;
+  border: 1px solid rgba(229,231,235,.9);
+  color: var(--lp-muted);
+  background: #fff;
+}
+
+/* Toast-ish status */
+.lp-status{
+  font-size: .9rem;
+  color: var(--lp-muted);
+}
+.lp-status.ok{ color: #16a34a; font-weight: 800; }
+.lp-status.err{ color: #ef4444; font-weight: 800; }

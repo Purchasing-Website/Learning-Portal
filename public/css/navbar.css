@@ -1,0 +1,53 @@
+/* Navbar */
+.lp-navbar{
+  background: linear-gradient(135deg, var(--lp-blue) 20%, var(--lp-blue2) 50%, var(--lp-purple) 70%, var(--lp-pink) 100%);
+  box-shadow: 0 1px 10px rgba(15,23,42,.10);
+}
+.lp-navbar .navbar-toggler {
+  padding: 4px;
+  border: none;
+  background: rgba(255,255,255,.15);
+  border-radius: 10px;
+}
+
+.lp-navbar .navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
+
+.lp-navbar .navbar-toggler:focus,
+.lp-navbar .navbar-toggler:active,
+.lp-navbar .navbar-toggler:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+.lp-navbar .navbar-brand{ font-weight:800; letter-spacing:.5px; }
+.lp-nav-link{
+  color: rgba(255,255,255,.92) !important;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: .45rem .75rem;
+  transition: all .18s ease;
+}
+.lp-nav-link:hover{
+  color: rgba(240,240,240,.85) !important;
+  background: rgba(255,255,255,.12);
+  text-decoration: none;
+}
+.lp-nav-link.active{
+  color:#fff !important;
+  background: rgba(255,255,255,.18);
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .lp-navbar .nav-link {
+    padding: .8rem 1rem;
+  }
+}
+
+.dropdown-toggle::after{ display:none !important; }
+
+/* Remove Bootstrap dropdown caret */
+.dropdown-toggle::after {
+  display: none !important;
+}
