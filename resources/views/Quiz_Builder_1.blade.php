@@ -1102,7 +1102,7 @@ function normalizeFromLaravel(raw) {
     type: (raw.quizType === "FinalQuiz" || raw.type === "final") ? "final" : "kc",
     title: raw.title ?? "",
     passScore: raw.pass_score != null ? parseInt(String(raw.pass_score), 10) : (raw.passScore ?? 80),
-    status: (raw.is_active === 1 || raw.status === "active") ? "active" : "inactive",
+    status: (parseInt(raw.is_active) === 1 || raw.status === "active") ? "active" : "inactive",
     instructions: raw.description ?? raw.instructions ?? "",
     questions: []
   };
@@ -1127,7 +1127,7 @@ function normalizeFromLaravel(raw) {
     let correctIndexes = [];
 
     opts.forEach((o, index) => {
-      if (o.is_correct === 1 || o.is_correct === true) {
+      if (parseInt(o.is_correct) === 1 || o.is_correct === true) {
         correctIndexes.push(index);
         if (correctIndex === null) correctIndex = index;
       }
