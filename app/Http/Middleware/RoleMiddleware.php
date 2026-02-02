@@ -18,7 +18,11 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
         if (!Auth::check()) {
-            return redirect()->route('login');
+            $adminHost = config('app.admin_url');
+            if ($request->getHost() === $adminHost) {
+                return view('auth.admin_login');
+            }
+            return view('auth.login');
         }
 
         $user = $request->user();
