@@ -61,4 +61,16 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
+
+    public function showLoginForm()
+    {
+        $adminHost = config('app.admin_url');
+
+        if (request()->getHost() === $adminHost) {
+            return view('auth.admin_login'); // admin UI
+        }
+
+        return view('auth.login'); // normal UI
+    }
+
 }

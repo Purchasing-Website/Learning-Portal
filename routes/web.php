@@ -13,6 +13,13 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 
+Route::get('/check-session', function () {
+    return response()->json([
+        'host' => request()->getHost(),
+        'session_cookie' => config('session.cookie'),
+    ]);
+});
+
 $mainHost = parse_url(config('app.url'), PHP_URL_HOST);
 $adminHost = parse_url(config('app.admin_url'), PHP_URL_HOST);
 
