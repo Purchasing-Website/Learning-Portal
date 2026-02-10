@@ -8,25 +8,19 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,400,500,600,700&amp;display=swap">
-    <link rel="stylesheet" href="{{ asset('fonts/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts/ionicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts/material-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bss-overrides.css') }}">
     <link rel="stylesheet" href="{{ asset('css/alert.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/Form-Input.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.bootstrap5.css">
-    <link rel="stylesheet" href="{{ asset('css/Checkbox-Input.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="{{ asset('css/iframe.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/LessonArrangement.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('css/offcanvas.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/input.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/student.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-
     @stack('styles')
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 </head>
 
 <body id="page-top">
@@ -84,31 +78,21 @@
                         </ul>
                     </div>
                 </nav>
-                <div class="container" style="padding: 0px;">
                     @yield('content')
-                </div>
-                <footer class="bg-white sticky-footer">
-                    <div class="container my-auto">
-                        <div class="text-center my-auto copyright"><span>Copyright © Brand 2024</span></div>
-                    </div>
-                </footer>
             </div>
         </div>
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/chart.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/bs-init.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"></script>
-    <script src="assets/js/Alert.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/2.1.7/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.7/js/dataTables.bootstrap5.js"></script>
-    <script src="assets/js/Input-Image-With-Preview-input_image_preview.js"></script>
-    <script src="assets/js/DashboardCharts.js"></script>
-    <script src="assets/js/sidebar.js"></script>
+    <script src="{{ asset('js/sidebar.js') }}"></script>
+    <script src="{{ asset('js/QueryTable.js') }}"></script>
     <!-- Inject scripts pushed from child views -->
     @stack('scripts')
 </body>

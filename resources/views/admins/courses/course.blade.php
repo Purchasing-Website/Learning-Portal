@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/offcanvas.css') }}">
+@endpush
+
 @section('content')
     <div class="container-fluid d-flex justify-content-center" style="width: 100%;padding: 0px 24px;">
         <div class="alert alert-success text-center d-none z-3 alert-dismissible" role="alert" id="successMessage" style="border: 1px solid #0C6D38;position: absolute;background: #98f2c0;width: 50%;"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="alert" id="close_alert"></button><i class="icon ion-checkmark-round me-1"></i><span style="color: #0C6D38 !important;">Record Added Successfully</span></div>
@@ -91,11 +95,8 @@
             </div>
         </div>
     </div>
-            <footer class="bg-white sticky-footer">
-                <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Hao Lin© Brand 2025</span></div>
-                </div>
-            </footer>
+@endsection
+
     <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -147,22 +148,7 @@
             </form>
         </div>
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"></script>
-    <script src="assets/js/Alert.js"></script>
-    <script src="assets/js/Course%20Searchable%20Dropdown.js"></script>
-    <script src="assets/js/Searchable%20Dropdown.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.datatables.net/2.1.7/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.1.7/js/dataTables.bootstrap5.js"></script>
-    <script src="assets/js/Input-Image-With-Preview-input_image_preview.js"></script>
-    <script src="assets/js/QueryTable.js"></script>
-    <script src="assets/js/sidebar.js"></script>
-    <script src="assets/js/course_offcanvas.js"></script>
-</body>
-
-</html>
+    @push('scripts')
+    <script src="{{ asset('js/Alert.js') }}"></script>
+    <script src="{{ asset('js/course_offcanvas.js') }}"></script>
+    @endpush
