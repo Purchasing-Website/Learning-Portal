@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_app')
 @section('content')
     <div class="container-fluid d-flex justify-content-center" style="width: 100%;padding: 0px 24px;">
         <div class="row justify-content-center" style="margin: 0px;width: 100%;">
