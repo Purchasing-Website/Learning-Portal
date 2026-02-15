@@ -1,0 +1,158 @@
+/* Wrapper */
+
+#classList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Class card */
+
+.lp-class-card {
+  border-radius: 16px;
+  background: rgba(255,255,255,.78);
+  border: 1px solid rgba(15,23,42,.08);
+  box-shadow: 0 8px 24px rgb(126,126,126);
+  padding: 16px;
+}
+
+/* Header row */
+
+.lp-class-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.lp-class-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.lp-meta {
+  margin-top: 6px;
+  color: rgba(15,23,42,.65);
+  font-size: 13px;
+}
+
+.lp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid rgba(15,23,42,.10);
+  background: rgba(15,23,42,.04);
+  color: rgba(15,23,42,.75);
+}
+
+/* Progress bar */
+
+.lp-progress-wrap {
+  margin-top: 12px;
+  background: rgba(15,23,42,.08);
+  border-radius: 999px;
+  height: 10px;
+  overflow: hidden;
+}
+
+.lp-progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(32,213,230,1), rgba(123,76,247,1), rgba(192,44,243,1));
+}
+
+/* Actions */
+
+.lp-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.lp-btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .08s ease, box-shadow .08s ease;
+  box-shadow: 0 8px 16px rgba(15,23,42,.10);
+}
+
+.lp-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 6px 12px rgba(15,23,42,.08);
+}
+
+.lp-btn-primary {
+  background: linear-gradient(135deg, #20d5e6 0%, #7b4cf7 55%, #c02cf3 100%);
+  color: #fff;
+}
+
+.lp-btn-ghost {
+  background: rgba(15,23,42,.04);
+  color: rgba(15,23,42,.85);
+  border: 1px solid rgba(15,23,42,.10);
+  box-shadow: none;
+}
+
+/* Responsive: keep layout nice on mobile */
+
+@media (max-width: 576px) {
+  .lp-class-top {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 576px) {
+  .lp-actions {
+    justify-content: flex-start;
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .lp-btn {
+    width: 100%;
+  }
+}
+
+.lp-submeta {
+  font-size: 13px;
+  color: rgba(15,23,42,.6);
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(15,23,42,.04);
+  border: 1px solid rgba(15,23,42,.08);
+}
+
+.lp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.75);
+  border: 1px solid rgba(15,23,42,.10);
+  box-shadow: 0 8px 18px rgba(15,23,42,.08);
+  font-weight: 500;
+}
+
+/* ✅ Completed (100%) badge becomes green */
+
+.lp-pill-complete {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #065f46;
+  font-weight: 700;
+}
+

@@ -1,0 +1,138 @@
+/* ==========================================================================
+   Login (combined + fully responsive)
+   - Single source of truth for inputs/buttons/card
+   - Scales nicely from small phones -> tablets (iPad) -> desktop
+   ========================================================================== */
+
+:root{
+  --card-radius: 18px;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+
+html,body{ height:100%; }
+
+body{
+  min-height:100vh;
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(1200px 600px at 15% 20%, rgba(0,255,255,.22), transparent 60%),
+    radial-gradient(900px 500px at 85% 30%, rgba(255,0,255,.22), transparent 55%),
+    linear-gradient(135deg,#05d6d6 0%,#7a5cff 45%,#d600ff 100%);
+  overflow-x:hidden;
+}
+
+/* Background shapes (nice on tablet/desktop, hidden on phones) */
+.bg-shape{
+  position:absolute;
+  width:clamp(240px,35vw,520px);
+  height:clamp(240px,35vw,520px);
+  border-radius:28px;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(1px);
+  -webkit-backdrop-filter:blur(1px);
+  filter:drop-shadow(0 20px 40px rgba(0,0,0,.12));
+  pointer-events:none;
+}
+.bg-shape.one{
+  left:clamp(-120px,-10vw,-60px);
+  top:clamp(40px,10vh,140px);
+  transform:rotate(18deg);
+}
+.bg-shape.two{
+  right:clamp(-160px,-12vw,-80px);
+  top:clamp(20px,8vh,120px);
+  transform:rotate(-16deg);
+}
+@media (max-width:768px){ .bg-shape{ display:none; } }
+
+/* Card container: THIS is what makes tablet feel responsive */
+.card-wrap{
+  /* clamp(min, preferred, max) */
+  width: clamp(320px, 60vw, 600px);
+  margin-inline:auto;
+}
+
+/* Card */
+.login-card{
+  border:0;
+  border-radius:var(--card-radius);
+  box-shadow:0 20px 60px rgba(0,0,0,.22);
+}
+.login-card .card-body{
+  /* smoother spacing across sizes */
+  padding: clamp(20px, 4vw, 46px) clamp(18px, 4vw, 44px);
+}
+
+/* Typography scales a bit */
+.login-card h2{
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem) !important;
+}
+
+/* Form labels */
+label{
+  display:inline-block;
+  margin-bottom:.45rem;
+  font-weight:700;
+  font-size: .9rem;
+}
+
+/* Inputs */
+.form-control{
+  border:0;
+  border-bottom:2px solid #e8e8ee;
+  border-radius:0;
+  padding-left:42px;
+  padding-right:12px;
+  height: clamp(44px, 5.2vh, 52px);
+  background:transparent;
+  color:#495057;
+  font-size: clamp(.92rem, 1.6vw, 1rem);
+  line-height:1.3;
+}
+.form-control::placeholder{ color:#9aa0aa; }
+.form-control:focus{
+  box-shadow:none;
+  border-bottom-color:#7a5cff;
+  color:#212529;
+}
+
+/* Inline icon next to label (your HTML uses <span> after label) */
+.position-relative > span{
+  color:#6c757d;
+}
+
+/* Button */
+.btn-gradient{
+  border:0;
+  height: clamp(44px, 5.2vh, 52px);
+  border-radius:999px;
+  background:linear-gradient(90deg,#05d6d6 0%,#7a5cff 55%,#d600ff 100%);
+  box-shadow:0 10px 22px rgba(122,92,255,.25);
+}
+.btn-gradient:active{ transform:translateY(1px); }
+
+/* Links */
+.small-link{
+  font-size: clamp(.88rem, 1.4vw, .95rem);
+  color:#6c757d;
+  text-decoration:none;
+}
+.small-link:hover{ color:#212529; text-decoration:underline; }
+
+/* Tighten spacing on very small screens */
+@media (max-width:420px){
+  .form-control{ padding-left:38px; }
+}
+
+/* Improve iPad landscape: a bit wider and more “balanced” */
+@media (min-width:768px) and (max-width:1024px){
+  .card-wrap{ width: clamp(420px, 52vw, 640px); }
+}
+
+/* Large desktop: keep nice max and avoid overly huge card */
+@media (min-width:1400px){
+  .card-wrap{ width: 620px; }
+}
