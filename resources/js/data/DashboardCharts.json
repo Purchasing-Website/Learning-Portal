@@ -1,0 +1,14 @@
+{
+  "charts": {
+    "chart-student-by-program": {
+      "labels": ["Program A", "Program B", "Program C"],
+      "values": [120, 80, 40],
+      "colors": ["#4e79a7", "#f28e2b", "#59a14f"]
+    },
+    "chart-user-by-membership": {
+      "labels": ["Course A", "Course B", "Course C"],
+      "values": [30, 45, 25],
+      "colors": ["#22c55e", "#06b6d4", "#8b5cf6"]
+    }
+  }
+}

@@ -1,0 +1,77 @@
+:root {
+  --panel-radius: 14px;
+}
+
+body {
+  background: #f7f8fb;
+}
+
+.qb-shell {
+  max-width: 1320px;
+}
+
+.qb-card {
+  border: 1px solid rgba(15,23,42,.08);
+  border-radius: var(--panel-radius);
+  box-shadow: 0 6px 24px rgba(15,23,42,.06);
+  background: #fff;
+}
+
+.qb-list {
+  max-height: calc(100vh - 210px);
+  overflow: auto;
+}
+
+.qb-list .list-group-item {
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
+}
+
+.qb-list .list-group-item.active {
+  background: rgba(37,99,235,.10);
+  color: #0f172a;
+  border-color: rgba(37,99,235,.25);
+}
+
+.qb-badge {
+  font-size: .75rem;
+  border: 1px solid rgba(15,23,42,.10);
+  background: rgba(15,23,42,.04);
+  color: rgba(15,23,42,.75);
+}
+
+.qb-muted {
+  color: rgba(15,23,42,.65);
+}
+
+.qb-option-row {
+  border: 1px solid rgba(15,23,42,.10);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(15,23,42,.02);
+}
+
+.qb-sticky-actions {
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(to top, #fff 65%, rgba(255,255,255,.65));
+  padding-top: 12px;
+  margin-top: 14px;
+}
+
+.qb-required::after {
+  content: " *";
+  color: #dc3545;
+}
+
+.qb-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: .86rem;
+  white-space: pre-wrap;
+  background: #0b1220;
+  color: #dbeafe;
+  border-radius: 12px;
+  padding: 12px;
+}
+
