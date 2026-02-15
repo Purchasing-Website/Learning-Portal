@@ -1,110 +1,90 @@
-:root{
-  --lp-blue: #20d5e6;
-  --lp-blue2:#4f7cf7;
-  --lp-purple:#7b4cf7;
-  --lp-pink:#c02cf3;
+/* ===============================   DECORATED COURSE BUTTON================================ */
 
-  --lp-text:#0f172a;
-  --lp-muted:#64748b;
-  --lp-border:#e5e7eb;
-
-  --lp-radius: 16px;
-  --lp-shadow: 0 12px 28px rgba(15,23,42,.10);
-  --lp-shadow-soft: 0 6px 18px rgba(15,23,42,.08);
-}
-
-body{ background:#fff; color:var(--lp-text); overflow-x:hidden; }
-
-/* Controls */
-.lp-controls{
-  border: 1px solid rgba(229,231,235,.9);
-  border-radius: calc(var(--lp-radius) + 6px);
-  background:#fff;
-  box-shadow: var(--lp-shadow-soft);
-}
-.lp-search-wrap{ position: relative; }
-.lp-search-wrap .bi-search{
-  position:absolute; left:16px; top:50%; transform:translateY(-50%);
-  color: var(--lp-muted);
-}
-.lp-input{
-  border-radius:999px;
-  border:1px solid var(--lp-border);
-  padding-left:42px;
-  height:44px;
-}
-.lp-input:focus{
-  box-shadow:0 0 0 .2rem rgba(79,124,247,.15);
-  border-color: rgba(79,124,247,.6);
-}
-.lp-select{
-  border-radius:999px;
-  height:44px;
-  border:1px solid var(--lp-border);
-}
-
-/* Tile (same as your home program tile) */
-.lp-tile{
-  border: 1px solid rgba(229,231,235,.9);
-  border-radius: calc(var(--lp-radius) + 6px);
-  background:#fff;
-  box-shadow: var(--lp-shadow-soft);
-  padding: 16px;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-.lp-tile:hover{
-  transform: translateY(-2px);
-  box-shadow: var(--lp-shadow);
-}
-.lp-tile::after{
-  content:"";
-  position:absolute;
-  right:-40px; bottom:-40px;
-  width: 140px; height: 140px;
-  border-radius: 32px;
-  background: linear-gradient(135deg, rgba(79,124,247,.14), rgba(192,44,243,.12));
-  transform: rotate(18deg);
-}
-.lp-tile h3{
-  font-weight: 950;
-  margin: 0 0 6px 0;
-  position: relative;
-  z-index: 1;
-}
-.lp-tile p{
-  color: var(--lp-muted);
+.lp-course-primary {
+  height: 92px;
+  min-width: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.2rem;
   margin: 0;
-  position: relative;
-  z-index: 1;
-  max-width: 42ch;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: .4px;
+  text-align: center;
+  color: #0f172a;
+  background: linear-gradient( 135deg, #f3f4f6 0%, #cccccc 100% );
+  border-radius: 18px;
+  border: 1px solid rgba(15,23,42,.08);
+  box-shadow: 0 10px 24px rgba(15,23,42,.12), inset 0 1px 0 rgba(255,255,255,.6);
+  cursor: pointer;
+  user-select: none;
+  /*IMPORTANT: remove default button styles;*/
+  appearance: none;
+  -webkit-appearance: none;
+  background-clip: padding-box;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
 }
 
-/* count badge */
-.lp-count{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding: 8px 10px;
-  border-radius: 12px;
-  border: 1px solid rgba(229,231,235,.9);
-  background:#fff;
-  color: var(--lp-muted);
-  font-size: .88rem;
-  position: relative;
-  z-index: 1;
+/* Hover */
+
+.lp-course-primary:hover {
+  transform: translateY(-4px);
+  background: linear-gradient( 135deg, #20d5e6 0%, #4f7cf7 45%, #7b4cf7 100% );
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgba(15,23,42,.22);
+}
+
+/* Active / pressed */
+
+.lp-course-primary:active {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(15,23,42,.18);
+}
+
+/* Keyboard focus (accessible, subtle) */
+
+.lp-course-primary:focus-visible {
+  outline: 2px solid #4f7cf7;
+  outline-offset: 3px;
+}
+
+/* Course grid spacing */
+
+#courseGrid {
   margin-top: 12px;
 }
 
-/* Empty */
-.lp-empty{
-  border: 1px dashed rgba(100,116,139,.35);
-  border-radius: calc(var(--lp-radius) + 6px);
-  padding: 22px;
-  color: var(--lp-muted);
+/* Course button: responsive, centered, consistent size */
+
+.lp-course {
+  width: 100%;
+  max-width: 420px;
+  min-height: 96px;
+  border-radius: 18px;
+  font-weight: 700;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  background: rgba(79,124,247,.03);
 }
+
+/* Mobile tuning */
+
+@media (max-width: 576px) {
+  .lp-course {
+    max-width: 100%;
+    font-size: 20px;
+    min-height: 84px;
+  }
+}
+
+/* Tablet tuning */
+
+@media (min-width: 577px) and (max-width: 992px) {
+  .lp-course {
+    max-width: 360px;
+  }
+}
+

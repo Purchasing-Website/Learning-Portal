@@ -1,0 +1,98 @@
+/* Background similar to screenshot */
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 20%, #ffffff 0%, #eef2f6 45%, #e6ebf2 100%);
+}
+
+/* Card */
+
+.login-card {
+  width: min(520px, 92vw);
+  border: 0;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+
+.login-card .card-body {
+  padding: 48px 48px 36px;
+}
+
+.login-title {
+  font-size: clamp(2rem, 3.8vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #2f3a45;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+/* Inputs */
+
+.form-control {
+  height: 56px;
+  border-radius: 10px;
+  border: 1px solid #d7dee8;
+  padding: 0 18px;
+  font-size: 1.1rem;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #8bb8ff;
+  box-shadow: 0 0 0 4px rgba(13,110,253,0.15);
+}
+
+/* Checkbox alignment */
+
+.form-check-input {
+  width: 20px;
+  height: 20px;
+  margin-top: 0.15rem;
+}
+
+.form-label {
+  font-size: 1.05rem;
+  color: #3a4653;
+}
+
+/* Gradient button */
+
+.btn-login {
+  height: 58px;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: 0;
+  background: linear-gradient(90deg, #0d6efd 0%, #0aa2ff 100%);
+  box-shadow: 0 12px 24px rgba(13,110,253,0.25);
+}
+
+.btn-login:hover {
+  filter: brightness(0.98);
+  transform: translateY(-1px);
+}
+
+.btn-login:active {
+  transform: translateY(0);
+}
+
+/* Link */
+
+.forgot-link {
+  display: inline-block;
+  margin-top: 18px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  color: #3a4653;
+}
+
+.forgot-link:hover {
+  color: #0d6efd;
+  text-decoration: underline;
+}
+

@@ -1,0 +1,34 @@
+th.select-col, td.select-col {
+  width: 46px;
+  min-width: 46px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#example tbody tr {
+  cursor: pointer;
+}
+
+#example tbody tr.is-selected {
+  background: rgba(13, 110, 253, 0.08) !important;
+}
+
+.bulk-bar {
+  display: none;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 10px;
+  background: #fff;
+  margin-bottom: 12px;
+}
+
+.bulk-count {
+  font-weight: 700;
+}
+
+.no-row-toggle {
+  cursor: default !important;
+}
+

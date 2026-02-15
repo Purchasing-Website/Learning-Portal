@@ -1,0 +1,279 @@
+/* =========================================================
+   class_offcanvas.js
+   - Add uses IDs without suffix
+   - Edit uses IDs with "-1"
+========================================================= */
+
+const CLASS_SAMPLE_DATA = {
+  programs: [
+    { id: "P001", name: "Program A", level: "Beginner" },
+    { id: "P002", name: "Program B", level: "Intermediate" },
+    { id: "P003", name: "Program C", level: "Advanced" },
+  ],
+  courses: [
+    { id: "C001", programId: "P001", name: "Course A1", category: "Core" },
+    { id: "C002", programId: "P001", name: "Course A2", category: "Elective" },
+    { id: "C003", programId: "P002", name: "Course B1", category: "Core" },
+    { id: "C004", programId: "P003", name: "Course C1", category: "Core" },
+  ],
+  classes: [
+    { id: "CLS-1001", courseId: "C001", name: "Class A1 - Batch 1", schedule: "Sat 10am" },
+    { id: "CLS-1002", courseId: "C001", name: "Class A1 - Batch 2", schedule: "Sun 2pm" },
+    { id: "CLS-2001", courseId: "C003", name: "Class B1 - Night", schedule: "Wed 8pm" },
+    { id: "CLS-3001", courseId: "C004", name: "Class C1 - Fast Track", schedule: "Mon 7pm" },
+  ]
+};
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, s => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+  }[s]));
+}
+
+function createSearchDropdown({ root, input, hidden, panelSearch, listEl, getItems, itemToLabel, itemToMeta, onSelect }) {
+  const api = {
+    open() { root.classList.add("open"); },
+    close() { root.classList.remove("open"); },
+    clear() {
+      input.value = "";
+      hidden.value = "";
+      panelSearch.value = "";
+      api.render("");
+    },
+    render(filterText) {
+      const q = (filterText || "").toLowerCase();
+      const items = getItems().filter(it => itemToLabel(it).toLowerCase().includes(q));
+
+      listEl.innerHTML = "";
+      if (!items.length) {
+        const empty = document.createElement("div");
+        empty.className = "lp-dd-empty";
+        empty.textContent = "No results";
+        listEl.appendChild(empty);
+        return;
+      }
+
+      items.forEach(it => {
+        const row = document.createElement("div");
+        row.className = "lp-dd-item";
+
+        const title = document.createElement("div");
+        title.textContent = itemToLabel(it);
+
+        const meta = document.createElement("div");
+        meta.className = "lp-dd-meta";
+        meta.textContent = itemToMeta ? itemToMeta(it) : "";
+
+        row.appendChild(title);
+        if (meta.textContent) row.appendChild(meta);
+
+        row.addEventListener("click", () => {
+          input.value = itemToLabel(it);
+          hidden.value = it.id;
+          api.close();
+          onSelect && onSelect(it);
+        });
+
+        listEl.appendChild(row);
+      });
+    }
+  };
+
+  // open/close
+  input.addEventListener("focus", () => { api.open(); api.render(panelSearch.value); });
+  input.addEventListener("click",  () => { api.open(); api.render(panelSearch.value); });
+
+  panelSearch.addEventListener("input", () => api.render(panelSearch.value));
+
+  document.addEventListener("click", (e) => {
+    if (!root.contains(e.target)) api.close();
+  });
+
+  return api;
+}
+
+function initClassOffcanvas(suffix, cfg) {
+  const byId = (id) => document.getElementById(id);
+
+  const offcanvasEl = byId(cfg.offcanvasId);
+  const formEl      = byId(cfg.formId);
+  const resultEl    = byId(cfg.resultId);
+
+  if (!offcanvasEl || !formEl) return; // safe guard
+
+  // Cover
+  const cover = byId(`coverImage${suffix}`);
+
+  // Program nodes
+  const programDDRoot = byId(`programDD${suffix}`);
+  const programInput  = byId(`programInput${suffix}`);
+  const programId     = byId(`programId${suffix}`);
+  const programSearch = byId(`programSearch${suffix}`);
+  const programList   = byId(`programList${suffix}`);
+
+  // Course nodes
+  const courseDDRoot = byId(`courseDD${suffix}`);
+  const courseInput  = byId(`courseInput${suffix}`);
+  const courseId     = byId(`courseId${suffix}`);
+  const courseSearch = byId(`courseSearch${suffix}`);
+  const courseList   = byId(`courseList${suffix}`);
+
+  // Dep class nodes
+  const depDDRoot = byId(`depClassDD${suffix}`);
+  const depInput  = byId(`depClassInput${suffix}`);
+  const depId     = byId(`depClassId${suffix}`);
+  const depSearch = byId(`depClassSearch${suffix}`);
+  const depList   = byId(`depClassList${suffix}`);
+
+  // Text fields
+  const className = byId(`className${suffix}`);
+  const classDesc = byId(`classDescription${suffix}`);
+
+  // State
+  let selectedProgramId = "";
+  let selectedCourseId  = "";
+
+  // Cover validation (image only)
+  if (cover) {
+    cover.addEventListener("change", () => {
+      const f = cover.files?.[0];
+      if (!f) return;
+      if (!f.type.startsWith("image/")) {
+        alert("Cover image must be an image file.");
+        cover.value = "";
+      }
+    });
+  }
+
+  // Create dropdowns
+  const programDD = createSearchDropdown({
+    root: programDDRoot,
+    input: programInput,
+    hidden: programId,
+    panelSearch: programSearch,
+    listEl: programList,
+    getItems: () => CLASS_SAMPLE_DATA.programs,
+    itemToLabel: (p) => p.name,
+    itemToMeta: (p) => `Level: ${p.level}`,
+    onSelect: (p) => {
+      selectedProgramId = p.id;
+
+      // reset course + dependent class
+      courseInput.disabled = false;
+      courseInput.value = "";
+      courseId.value = "";
+      courseSearch.value = "";
+
+      depInput.disabled = true;
+      depInput.value = "";
+      depId.value = "";
+      depSearch.value = "";
+
+      selectedCourseId = "";
+    }
+  });
+
+  const courseDD = createSearchDropdown({
+    root: courseDDRoot,
+    input: courseInput,
+    hidden: courseId,
+    panelSearch: courseSearch,
+    listEl: courseList,
+    getItems: () => CLASS_SAMPLE_DATA.courses.filter(c => c.programId === selectedProgramId),
+    itemToLabel: (c) => c.name,
+    itemToMeta: (c) => `Category: ${c.category}`,
+    onSelect: (c) => {
+      selectedCourseId = c.id;
+
+      // enable dependent class dropdown
+      depInput.disabled = false;
+      depInput.value = "";
+      depId.value = "";
+      depSearch.value = "";
+    }
+  });
+
+  const depClassDD = createSearchDropdown({
+    root: depDDRoot,
+    input: depInput,
+    hidden: depId,
+    panelSearch: depSearch,
+    listEl: depList,
+    getItems: () => CLASS_SAMPLE_DATA.classes.filter(x => x.courseId === selectedCourseId),
+    itemToLabel: (x) => x.name,
+    itemToMeta: (x) => x.schedule,
+  });
+
+  // Initial disables
+  courseInput.disabled = true;
+  depInput.disabled = true;
+
+  // Submit
+  formEl.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const payload = {
+      mode: cfg.mode,
+      coverImage: cover?.files?.[0]?.name || null,
+      program: { id: programId.value, name: programInput.value },
+      course: { id: courseId.value, name: courseInput.value },
+      dependentClass: depId.value ? { id: depId.value, name: depInput.value } : null,
+      className: className.value.trim(),
+      description: classDesc.value.trim(),
+    };
+
+    // Simple validation
+    if (!programId.value) return alert("Please select a Program.");
+    if (!courseId.value) return alert("Please select a Course.");
+    if (!payload.className) return alert("Class Name is required.");
+
+    resultEl.style.display = "block";
+    resultEl.innerHTML = `
+      <div class="p-3 rounded-3" style="background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.12);">
+        <div class="fw-semibold mb-2">Payload (testing)</div>
+        <pre class="m-0" style="white-space:pre-wrap; color: rgba(229,231,235,.9);">${escapeHtml(JSON.stringify(payload, null, 2))}</pre>
+      </div>
+    `;
+  });
+
+  // Offcanvas open behavior
+  offcanvasEl.addEventListener("show.bs.offcanvas", () => {
+    if (cfg.resetOnOpen) {
+      formEl.reset();
+      resultEl.style.display = "none";
+
+      selectedProgramId = "";
+      selectedCourseId = "";
+
+      courseInput.disabled = true;
+      depInput.disabled = true;
+
+      programDD.clear();
+      courseDD.clear();
+      depClassDD.clear();
+    }
+  });
+
+  // Expose for future edit-prefill (optional)
+  window.__classOffcanvasAPI = window.__classOffcanvasAPI || {};
+  window.__classOffcanvasAPI[cfg.mode] = { programDD, courseDD, depClassDD };
+}
+
+// Init both
+document.addEventListener("DOMContentLoaded", () => {
+  initClassOffcanvas("", {
+    mode: "add",
+    offcanvasId: "AddClass",
+    formId: "classForm",
+    resultId: "classResult",
+    resetOnOpen: true,
+  });
+
+  initClassOffcanvas("-1", {
+    mode: "edit",
+    offcanvasId: "EditClass",
+    formId: "classForm-1",
+    resultId: "editClassResult",
+    resetOnOpen: false, // edit usually shouldn't reset
+  });
+});

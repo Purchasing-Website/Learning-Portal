@@ -1,4 +1,10 @@
-@import 'tailwindcss';
+/* @import 'tailwindcss';
+@import './bootstrap'; */
+@import './app.css';
+@import './alert.css';
+@import './bootstrap.min.css';
+@import './Form-Input.css';
+@import './TableCell_CenteredStatus.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
