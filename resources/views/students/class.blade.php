@@ -57,7 +57,7 @@
     </div>
 
     <!-- Results grid -->
-    <div class="row g-3 g-lg-4" id="resultsGrid">
+    <div class="row g-3 g-lg-4" id="resultsGrid" >
     {{-- <div class="row g-3 g-lg-4" >
       @foreach ($classes as $class)
         <div class="col-12 col-md-6 col-xl-4">
@@ -75,7 +75,7 @@
               </div>
             </div>
 
-            <!-- Keep total hours (allowed). If you don't want it, remove this footer block. -->
+             Keep total hours (allowed). If you don't want it, remove this footer block. 
             <div class="lp-course-footer">
               <span class="lp-stat"><i class="bi bi-hourglass-split"></i>${formatMinutes(c.total_min)} total</span>
               <span class="text-secondary small"> </span>
@@ -138,9 +138,9 @@
     //     popularity: 92
     //   }
     // ];
-    
+
     const SEARCH_RESULTS = @json($classes);
-    console.log(SEARCH_RESULTS);
+
     const $ = (id) => document.getElementById(id);
 
     function formatMinutes(min){
@@ -275,11 +275,11 @@
               </button>
 
               ${c.enrolled ? `
-                <button class="btn lp-btn lp-btn-primary" data-action="open" data-id="${escapeHtml(c.class_id)}">
+                <button class="btn lp-btn lp-btn-primary" data-action="open" data-id="${escapeHtml(c.class_id)}" data-classId="${escapeHtml(c.classID)}">
                   <i class="bi bi-play-circle me-1"></i>Open Class
                 </button>
               ` : `
-                <button class="btn lp-btn lp-btn-primary" data-action="enroll" data-id="${escapeHtml(c.class_id)}">
+                <button class="btn lp-btn lp-btn-primary" data-action="enroll" data-id="${escapeHtml(c.class_id)}" data-classId="${escapeHtml(c.classID)}">
                   <i class="bi bi-plus-circle me-1"></i>Enroll
                 </button>
               `}
@@ -311,11 +311,52 @@
         if(!btn) return;
 
         const id = btn.getAttribute("data-id");
+        const classid = btn.getAttribute("data-classid");
         const action = btn.getAttribute("data-action");
 
         if(action === "details") alert("Open details for " + id);
         if(action === "open") alert("Open class player for " + id);
-        if(action === "enroll") alert("Enroll user into " + id);
+        if(action === "enroll") {
+          @auth
+          (async () => {
+            if (!classid) return;
+
+            btn.disabled = true;
+
+            try {
+              const res = await fetch(`/student/class/${classid}/enroll`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json",
+                  "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+                body: JSON.stringify({ class_id: classid }),
+              });
+
+              const data = await res.json();
+
+              if (!res.ok || !data.success) {
+                throw new Error(data.message || "Enrollment failed.");
+              }
+
+              const item = SEARCH_RESULTS.find(x => String(x.classID) === String(classid));
+              if (item) {
+                item.enrolled = true;
+                item.progress = item.progress || 0;
+              }
+
+              alert(data.message || "Register successful");
+              render();
+            } catch (err) {
+              alert(err.message || "Enrollment failed.");
+              btn.disabled = false;
+            }
+          })();
+          @else
+          window.location.href = "{{ url('/login') }}";
+          @endauth
+        }
       });
     });
   </script>

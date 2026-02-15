@@ -38,9 +38,18 @@
                         <i class="bi bi-person-circle me-1"></i>Account
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="Profile.html"><i class="bi bi-person-lines-fill me-2"></i>Profile</a></li>
+                        
+                        @auth
+                            <li><a class="dropdown-item" href="Profile.html"><i class="bi bi-person-lines-fill me-2"></i>Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        @endauth
+                        @guest
+                             <li><a class="dropdown-item" href="/login"><i class="bi bi-person-lines-fill me-2"></i>Login</a></li>
+                        @endguest
+                        {{-- <li><a class="dropdown-item" href="Profile.html"><i class="bi bi-person-lines-fill me-2"></i>Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        <li><a class="dropdown-item text-danger" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li> --}}
                         </ul>
                     </li>
                     </ul>

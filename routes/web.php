@@ -37,9 +37,11 @@ Route::domain('haolin.test')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/courses', [HomeController::class, 'course'])->name('course');
     Route::get('/classes', [HomeController::class, 'class'])->name('class');
+    Route::get('/course/{id}/classes',[HomeController::class, 'getCourseClass'])->name('getclass');
     // normal user routes
     Route::middleware(['auth' , 'role:student'])->group(function () {
         Route::get('/student/classes', [StudentController::class, 'assignedClasses'])->name('student.classes');
+        Route::post('/student/class/{id}/enroll', [EnrollmentController::class, 'updateEnrollment'])->name('student.class.enroll');
         Route::get('/class/{id}/lessons', [StudentController::class, 'lessons'])->name('student.class.lessons');
         Route::get('/lesson/{id}/start', [StudentController::class, 'startLesson'])->name('student.lesson.start');
         Route::post('/lesson/{id}/progress', [StudentController::class, 'updateProgress'])->name('student.lesson.progress');

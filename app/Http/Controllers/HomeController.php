@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Classes;
 use App\Models\Tier;
+use App\Models\Enrollment;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -26,84 +28,90 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $courses = Course::latest()->take(3)->get();
+        $tiers = Tier::orderby('id','asc')->get();
+        $courses = Course::withCount('classes')
+            ->latest()
+            ->take(4)
+            ->get();
         $classes = Classes::latest()->take(3)->get();
 
-        
-        $academy= Tier::query()
-            ->where('is_active', 1)
-            ->latest('created_at')
-            ->get()
-            ->map(function ($tier) {
-                $courses = $tier->courses()
-                   //->where('is_active', 1)
-                    ->latest('created_at')
-                    ->take(3) // latest 3 courses per tier
-                    ->get()
-                    ->map(function ($course) {
-                        $classes = $course->classes()
-                            //->where('is_active', 1)
-                            ->latest('created_at')
-                            ->take(3)
-                            ->get()
-                            ->map(function ($class) {
-                                return [
-                                    'class_id'   => 'CLS-' . str_pad($class->id, 4, '0', STR_PAD_LEFT),
-                                    'class_name' => $class->title,
-                                    'total_min'  => (int) ($class->total_min ?? 0),
-                                ];
-                            })
-                            ->values();
-
-                        return [
-                            'course_id'   => 'C' . str_pad($course->id, 3, '0', STR_PAD_LEFT),
-                            'course_name' => $course->title,
-                            'total_min'   => (int) ($course->total_min ?? 0),
-                            'classes'     => $classes,
-                        ];
-                    })
-                    ->values();
-
-                return [
-                    'tier_id'   => 'T' . str_pad($tier->id, 3, '0', STR_PAD_LEFT),
-                    'tier_name' => $tier->name,          // or $tier->name
-                    'tier_desc' => $tier->description,
-                    'courses'   => $courses,
-                ];
-            })
-            ->values();
-
-            //dd($academy);
-
-        return view('students.home', compact('academy'));;
+        return view('students.home', compact('tiers','courses','classes'));;
     
         //return view('students.home', compact('courses','classes'));
     }
 
     public function course()
     {
-        $courses = Course::latest()->get();
+        $courses = Course::withCount('classes')
+            ->latest()
+            ->get();
 
         return view('students.course', compact('courses'));
     }
 
     public function class()
     {
-        //$classes = Classes::latest()->get();
+        $enrollmentByClass = collect();
 
-        $classes = Classes::latest()->get()->map(function ($row) {
+        if (Auth::check()) {
+            $enrollmentByClass = Enrollment::where('student_id', Auth::id())
+                ->get(['class_id', 'progress'])   // add more columns if needed
+                ->keyBy('class_id');
+        }
+
+        $classes = Classes::latest()->get()->map(function ($row) use ($enrollmentByClass) {
+            $enrollment = $enrollmentByClass->get($row->id);
+
             return [
                 'class_id'           => 'CLS-' . str_pad($row->id, 4, '0', STR_PAD_LEFT), // 1 -> CLS-0001
                 'class_name'         => $row->title,        // or custom text like "风水入门 · Feng Shui Basics"
-                'program_name'       => 'Feng Shui',        // static or from another column/table
-                'enrolled'           => (bool) $row->is_active,
-                'progress'           => 42,                 // replace with real calculation
+                'program_name'       => $row->tier->name,        // static or from another column/table
+                'enrolled'           => (bool) $enrollment,  //(bool) $row->is_active,
+                'progress'           => $enrollment ? (float) $enrollment->progress : 0, // replace with real calculation
                 'duration_total_min' => 320,                // replace with real value
                 'time_spent_min'     => 118,                // replace with real value
                 'popularity'         => 96,                 // replace with real value
             ];
         });
 
+        //dd($classes);
+        return view('students.class', ['classes' => $classes]);
+
+    }
+
+    public function getCourseClass($id)
+    {
+        $classRows = Classes::with('tier:id,name')
+            ->join('class_course', 'class_course.class_id', '=', 'classes.id')
+            ->where('class_course.course_id', $id)
+            ->orderByDesc('classes.created_at')
+            ->get(['classes.id', 'classes.title', 'classes.tier_id']);
+
+        $enrollmentByClass = collect();
+        if (Auth::check() && $classRows->isNotEmpty()) {
+            $enrollmentByClass = Enrollment::where('student_id', Auth::id())
+                ->whereIn('class_id', $classRows->pluck('id'))
+                ->get(['class_id', 'progress'])
+                ->keyBy('class_id');
+        }
+
+        $classes = $classRows->map(function ($row) use ($enrollmentByClass) {
+            $enrollment = $enrollmentByClass->get($row->id);
+
+            return [
+                'class_id'           => 'CLS-' . str_pad($row->id, 4, '0', STR_PAD_LEFT), // 1 -> CLS-0001
+                'classID'            => $row->id,
+                'class_name'         => $row->title,        // or custom text like "风水入门 · Feng Shui Basics"
+                'program_name'       => $row->tier->name,        // static or from another column/table
+                'enrolled'           => (bool) $enrollment,  //(bool) $row->is_active,
+                'progress'           => $enrollment ? (float) $enrollment->progress : 0, // replace with real calculation
+                'duration_total_min' => 320,                // replace with real value
+                'time_spent_min'     => 118,                // replace with real value
+                'popularity'         => 96,                 // replace with real value
+            ];
+        });
+
+        //dd($classes);
         return view('students.class', ['classes' => $classes]);
 
     }

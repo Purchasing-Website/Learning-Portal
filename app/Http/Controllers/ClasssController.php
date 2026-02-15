@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Classes;
 use App\Models\Course;
+use App\Models\Tier;
 
 class ClasssController extends Controller
 {
@@ -30,9 +31,10 @@ class ClasssController extends Controller
 
         // Get all courses for potential use in the view
         $courses = Course::all();
+        $tiers = Tier::all();
 
         // Pass data to the view
-        return view('admins.classes.class', compact('show','classes','course', 'courses'));
+        return view('admins.classes.class', compact('show','classes','course', 'courses', 'tiers'));
     }
 
     public function store(Request $request)
@@ -42,12 +44,14 @@ class ClasssController extends Controller
             'title' => 'required|string|max:150',
             'description' => 'nullable|string',
             'course_id' => 'required|integer',
+            'tier_id' => 'required|integer',
         ]);
         // Create new Classs
         $class = Classes::create([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'] ?? null,
             'image' => null, // Placeholder for image handling
+            'tier_id' => $validatedData['tier_id'],
             'is_active' => true,
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
@@ -72,12 +76,15 @@ class ClasssController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'tier_id' => 'required|integer',
         ]);
+        //dd($request);
 
         $class = Classes::findOrFail($id);
         $class->update([
             'title' => $request->title,
             'description' => $request->description,
+            'tier_id' => $request->tier_id
         ]);
 
         return response()->json(['success' => true, 'message' => 'Classs updated successfully.']);

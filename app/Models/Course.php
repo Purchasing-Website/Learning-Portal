@@ -19,10 +19,10 @@ class Course extends Model
     ];
 
     // Relationship to Program
-    public function tier()
-    {
-        return $this->belongsTo(Tier::class);    
-    }
+    // public function tier()
+    // {
+    //     return $this->belongsTo(Tier::class);    
+    // }
 
     public function classes()
     {

@@ -29,6 +29,8 @@ return new class extends Migration
             $table->timestamps(); // created_at, updated_at
 
             // Foreign keys
+            $table->unsignedBigInteger('tier_id')->nullable();
+            $table->foreign('tier_id')->references('id')->on('tiers')->nullOnDelete();
             $table->foreign('quiz_id')->references('id')->on('quizzes')->nullOnDelete();
             $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
             $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();

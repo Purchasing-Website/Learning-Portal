@@ -72,56 +72,6 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                    {{-- <tr style="max-width: 49px;">
-                                        <td class="text-truncate" style="max-width: 200px;">#PG4897591</td>
-                                        <td class="text-truncate" style="max-width: 200px;">风水</td>
-                                        <td class="text-break" style="max-width: 50px;">test</td>
-                                        <td class="text-break" style="max-width: 50px;">Program A</td>
-                                        <td>Video</td>
-                                        <td>2 hrs</td>
-                                        <td class="text-start" contenteditable="true">1</td>
-                                        <td class="text-nowrap text-start text-center"><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;"><i class="material-icons text-dark" id="showAlertBtn" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></button><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" data-bs-target="#offcanvas-2" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-5" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></button><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-6" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">delete_forever</i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-truncate" style="max-width: 200px;">#PG1951798</td>
-                                        <td class="text-truncate" style="max-width: 200px;">身心疗愈</td>
-                                        <td class="text-break" style="max-width: 50px;">身心疗愈</td>
-                                        <td class="text-break" style="max-width: 50px;">Program B</td>
-                                        <td>PPT</td>
-                                        <td>15 mins</td>
-                                        <td class="text-start" contenteditable="true">2</td>
-                                        <td class="text-nowrap text-start text-center"><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;"><i class="material-icons text-dark" id="showAlertBtn-1" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></button><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" data-bs-target="#EditLesson" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-8" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></button><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-9" style="font-size: 20px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">delete_forever</i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-truncate" style="max-width: 200px;">#PG6159375</td>
-                                        <td class="text-truncate" style="max-width: 200px;">财经</td>
-                                        <td class="text-break" style="max-width: 50px;">财经</td>
-                                        <td class="text-break" style="max-width: 50px;">Program C</td>
-                                        <td>PDF</td>
-                                        <td>1.75 hrs</td>
-                                        <td class="text-start" contenteditable="true">3</td>
-                                        <td class="text-nowrap text-start text-center"><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;"><i class="material-icons text-dark" id="showAlertBtn-2" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></button><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" data-bs-target="#EditLesson" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-10" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></button><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-11" style="font-size: 20px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">delete_forever</i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-truncate" style="max-width: 200px;">#PG1954621</td>
-                                        <td class="text-truncate" style="max-width: 200px;">自我成长</td>
-                                        <td class="text-break" style="max-width: 50px;">自我成长</td>
-                                        <td class="text-break" style="max-width: 50px;">Program D</td>
-                                        <td>Image</td>
-                                        <td>5 mins</td>
-                                        <td class="text-start" contenteditable="true">4</td>
-                                        <td class="text-nowrap text-start text-center"><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;"><i class="material-icons text-dark" id="showAlertBtn-3" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></button><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" data-bs-target="#EditLesson" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-12" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></button><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-13" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">delete_forever</i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-truncate" style="max-width: 200px;">#PG1948568</td>
-                                        <td class="text-truncate" style="max-width: 200px;">易数</td>
-                                        <td class="text-break" style="max-width: 50px;">易数</td>
-                                        <td class="text-break" style="max-width: 50px;">Program E</td>
-                                        <td>Video</td>
-                                        <td>1.5 hrs</td>
-                                        <td class="text-start" contenteditable="true">5</td>
-                                        <td class="text-nowrap text-start text-center"><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;"><i class="material-icons text-dark" id="showAlertBtn-4" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">remove_red_eye</i></button><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 5px;background: rgba(242,242,242,0);border-style: none;" data-bs-target="#EditLesson" data-bs-toggle="offcanvas"><i class="material-icons text-dark" id="showAlertBtn-14" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">edit</i></button><button class="btn btn-dark" type="button" style="width: 25px;height: 25px;padding: 3px 3px;text-align: center;margin: 0px 3px;background: rgba(242,242,242,0);border-style: none;" data-bs-target="#modal-1" data-bs-toggle="modal"><i class="material-icons text-dark" id="showAlertBtn-15" style="font-size: 19px;--bs-primary: #4e73df;--bs-primary-rgb: 78,115,223;color: rgb(255,255,255);" type="button">delete_forever</i></button></td>
-                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>
@@ -169,18 +119,6 @@
                 <div class="mt-2 hint"></div>
                 <div class="divider"></div>
                 <label class="form-label mt-1">Content Type</label>
-                <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" id="PGdropdownMenuButton_1" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;border-color: rgb(4,0,0);height: 30px;border-radius: 5px;"></button>
-                    <div class="dropdown-menu pgdropdown" style="width: 100%;">
-                        <input type="text" id="PGdropdownSearchInput" class="form-control search">
-                        @foreach ($contentTypes as $contentType)
-                            <a class="dropdown-item" href="#" onclick="selectProgram(this)">{{ $contentType->value }}</a>
-                        @endforeach
-                        {{-- <a class="dropdown-item" href="#" onclick="selectProgram(this)">Video</a>
-                        <a class="dropdown-item" href="#" onclick="selectProgram(this)">Image</a>
-                        <a class="dropdown-item" href="#" onclick="selectProgram(this)">PPT</a>
-                        <a class="dropdown-item" href="#" onclick="selectProgram(this)">PDF</a> --}}
-                    </div>
-                </div>
                 <select name="content_type" id="content_type" class="form-select @error('content_type') is-invalid @enderror">
                     <option value="">-- Select Type --</option>
                     @foreach($contentTypes as $contentType)
@@ -192,48 +130,15 @@
                 </select>
                 <label class="form-label mt-3">Source URL</label>
                 <input class="form-control" name='source_url' type="text" id="sourceUrl" placeholder="Paste video ID">
-                <div class="mt-3">
-                    <label class="form-label">Course Name</label>
-                    <div class="search-dd" id="courseDD">
-                        <input class="form-control form-control" type="text" autocomplete="off" id="courseInput" placeholder="Search course..." required="">
-                        <input type="hidden" id="courseId">
-                        <div class="invalid-msg">
-                            <span>Please select a course.</span>
-                        </div>
-                        <div class="dd-panel">
-                            <div class="dd-search">
-                                <input class="form-control form-control courseSearch" type="text" id="courseSearch" placeholder="Type to filter...">
-                            </div>
-                            <div class="dd-list" id="courseList"></div>
-                        </div>
-                    </div>
-                </div>
                 <div class="mt-3"><label class="form-label">Class Name</label>
-                    <div class="search-dd" id="classDD">
-                        <input class="form-control form-control" type="text" autocomplete="off" disabled="" id="classInput" placeholder="Search class..." required="">
-                        <input type="hidden" id="classId">
-                        <div class="invalid-msg">
-                            <span>Please select a class.</span>
-                        </div>
-                        <div class="dropdown" style="display: block;margin-left: 0px;width: 100%;height: 30px;text-align: left;"><button class="btn btn-primary dropdown-toggle text-end d-flex justify-content-end align-items-center form-control" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="background: rgb(255,255,255);color: rgb(0,0,0);width: 100%;border-color: rgb(4,0,0);height: 30px;border-radius: 5px;"></button>
-                            <div class="dropdown-menu csdropdown" style="width: 100%;">
-                                <input type="text" class="form-control search">
-                                @foreach($classes as $class)
-                                    <a class="dropdown-item" href="#" onclick="selectCourse(this)">{{ $class->title }}</a>
-                                @endforeach
-                                {{-- <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class A</a>
-                                <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class B</a>
-                                <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class C</a>
-                                <a class="dropdown-item" href="#" onclick="selectCourse(this)">Class D</a> --}}
-                            </div>
-                            <select name="class_id" id="class_id" class="form-select" required>
-                                <option value="">-- Choose a Class --</option>
-                                @foreach($classes as $class)
-                                    <option value="{{ $class->id }}">{{ $class->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+                    
+                    <select name="class_id" id="class_id" class="form-select" required>
+                        <option value="">-- Choose a Class --</option>
+                        @foreach($classes as $class)
+                            <option value="{{ $class->id }}">{{ $class->title }}</option>
+                        @endforeach
+                    </select>
+                      
                     <div class="mt-1 hint">
                         <span>Classes will filter based on selected course.</span>
                     </div>
@@ -279,25 +184,9 @@
                 <label class="form-label mt-3">Source URL</label>
                 <input class="form-control" type="text" id="source_url_Edit" placeholder="Paste video ID">
                 <div class="mt-3">
-                    <label class="form-label">Course Name</label>
-                    <div class="search-dd" id="courseDD-1">
-                        <input class="form-control form-control" type="text" autocomplete="off" id="courseInput-1" placeholder="Search course..." required="">
-                        <input type="hidden" id="courseId-1">
-                        <div class="invalid-msg">
-                            <span>Please select a course.</span>
-                        </div>
-                        <div class="dd-panel">
-                            <div class="dd-search">
-                                <input class="form-control form-control courseSearch" type="text" id="courseSearch-1" placeholder="Type to filter...">
-                            </div>
-                            <div class="dd-list" id="courseList-1"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3">
                     <label class="form-label">Class Name</label>
                     <div class="search-dd" id="classDD-1">
-                        <input class="form-control form-control" type="text" autocomplete="off" disabled="" id='class_name' placeholder="Search class..." required="">
+                        <input class="form-control form-control" type="text" autocomplete="off" disabled="" id='class_name' placeholder="Search class..." required="" readonnly>
                         <input type="hidden" id="classId-1">
                         <div class="invalid-msg">
                             <span>Please select a class.</span>

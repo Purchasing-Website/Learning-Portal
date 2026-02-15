@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Tier;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Enums\UserRole;
@@ -24,6 +25,24 @@ class DatabaseSeeder extends Seeder
             'email' => 'superadmin@email.com',
             'password' => Hash::make('password'),
             'role' => UserRole::SUPERADMIN->value,
+        ]);
+
+        Tier::factory()->create([
+            'name' => '普通用户',
+            'level' => 1,
+        ]);
+
+        Tier::factory()->create([
+            'name' => '会员',
+            'level' => 2,
+        ]);
+        Tier::factory()->create([
+            'name' => '代理',
+            'level' => 3,
+        ]);
+        Tier::factory()->create([
+            'name' => '弟子',
+            'level' => 4,
         ]);
     }
 }

@@ -82,4 +82,65 @@ class EnrollmentController extends Controller
         ]);
     }
 
+    public function updateEnrollment(Request $request, $id)
+    {
+        $class = Classes::findOrFail($id);
+
+        $studentId = $request->input('student_id', Auth::id());
+
+        if (!$studentId) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Student is not authenticated.',
+            ], 401);
+        }
+
+        $student = User::where('id', $studentId)
+            ->where('role', 'student')
+            ->first();
+
+        if (!$student) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid student.',
+            ], 422);
+        }
+
+        $existing = $class->students()
+            ->where('users.id', $studentId)
+            ->first();
+
+        if ($existing) {
+            if ($existing->pivot->status === 'active') {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Student is already enrolled.',
+                ]);
+            }
+
+            $class->students()->updateExistingPivot($studentId, [
+                'status' => 'active',
+                'updated_by' => Auth::id(),
+                'updated_at' => now(),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Student enrollment reactivated successfully.',
+            ]);
+        }
+
+        $class->students()->attach($studentId, [
+            'status' => 'active',
+            'progress' => 0,
+            'enrolled_at' => now(),
+            'created_by' => Auth::id(),
+            'updated_by' => Auth::id(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Student enrolled successfully.',
+        ]);
+    }
 }

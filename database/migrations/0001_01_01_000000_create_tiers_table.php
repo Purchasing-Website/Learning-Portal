@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name', 150);
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->integer('level');
             
             // audit fields
             $table->unsignedBigInteger('created_by')->nullable();

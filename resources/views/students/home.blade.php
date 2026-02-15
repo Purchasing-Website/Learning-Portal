@@ -60,12 +60,22 @@
           <h2 class="lp-section-title">Programs</h2>
           <p class="lp-section-sub">Pick a program to view its courses and classes.</p>
         </div>
-		<a class="btn lp-btn lp-btn-outline" href="SearchResults.html">
+		{{-- <a class="btn lp-btn lp-btn-outline" href="SearchResults.html">
           View All
-        </a>
+        </a> --}}
       </div>
 
-      <div class="row g-3" id="programGrid"></div>
+      {{-- <div class="row g-3" id="programGrid"></div> --}}
+      <div class="row g-3" >
+        @foreach ($tiers as $tier)
+          <div class="col-12 col-md-6 col-xl-3">
+            <div class="lp-tile" role="button" tabindex="0" data-program="{{ $tier->id }}"
+               style="outline:2px solid rgba(79,124,247,.45)">
+              <h3>{{ $tier->name }}</h3>
+            </div>
+          </div>
+        @endforeach
+      </div>
     </section>
 
     <!-- COURSES -->
@@ -80,7 +90,31 @@
         </a>
       </div>
 
-      <div class="row g-3" id="courseGrid"></div>
+      {{-- <div class="row g-3" id="courseGrid"></div> --}}
+      <div class="row g-3">
+        @foreach ($courses as $course)
+          <div class="col-12 col-md-6 col-xl-3">
+            <a href="{{ route('getclass', $course->id) }}" class="text-decoration-none text-reset d-block">
+              <div class="lp-card" role="button" tabindex="0" data-course="{{ $course->id }}"
+                  style="outline:2px solid rgba(79,124,247,.45)">
+                <div class="lp-accent"></div>
+                <div class="lp-card-body">
+                  <div class="d-flex justify-content-between gap-3">
+                    <div>
+                      <div class="lp-title">{{ $course->title }}</div>
+                      <div class="lp-meta">{{ $course->classes_count }} Classes</div>
+                    </div>
+                    <div class="text-end small">
+                      <div class="text-secondary">Course ID</div>
+                      <div class="fw-semibold">{{ 'C' . str_pad($course->id, 3, '0', STR_PAD_LEFT) }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>  
+          </div>
+        @endforeach
+      </div>
 
       <div class="text-secondary small mt-2" id="courseHint"></div>
     </section>
@@ -97,7 +131,29 @@
         </a>
       </div>
 
-      <div class="row g-3" id="classGrid"></div>
+      {{-- <div class="row g-3" id="classGrid"></div> --}}
+      <div class="row g-3">
+        @foreach ($classes as $class)
+        <div class="col-12 col-md-6 col-xl-4">
+          <div class="lp-card" role="button" tabindex="0" data-course="{{ $class->id }}"
+               style="outline:2px solid rgba(79,124,247,.45)">
+            <div class="lp-accent"></div>
+            <div class="lp-card-body">
+              <div class="d-flex justify-content-between gap-3">
+                <div>
+                  <div class="lp-title">{{ $class->title }}</div>
+                  <div class="lp-meta">{{ $class->title }}</div>
+                </div>
+                <div class="text-end small">
+                  <div class="text-secondary">Course ID</div>
+                  <div class="fw-semibold">{{ 'CLS-' . str_pad($class->id, 4, '0', STR_PAD_LEFT) }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endforeach
+      </div>
 
       <div class="text-secondary small mt-2" id="classHint"></div>
     </section>
@@ -238,7 +294,7 @@
     //   }
     // ];
 
-    const ACADEMY = @json($academy);
+    const ACADEMY = null;
 
     const POPULAR_RECENTLY = [
       { class_id:"CLS-1001", class_name:"风水入门 · Feng Shui Basics", tier_name:"Feng Shui", total_min: 320 },

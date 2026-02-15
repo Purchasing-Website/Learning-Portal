@@ -19,7 +19,8 @@ class Classes extends Model
         'created_by',
         'updated_by',
         'quiz_id',
-        'pass_score'
+        'pass_score',
+        'tier_id'
     ];
 
     public function lessons()
