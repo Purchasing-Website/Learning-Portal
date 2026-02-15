@@ -11,7 +11,7 @@
         <h1 class="lp-page-title">Classes</h1>
         <p class="lp-subtitle">Find classes that match your interests.</p>
       </div>
-        <a class="btn lp-btn lp-btn-outline" href="#">
+        <a class="btn lp-btn lp-btn-outline" href="{{ route('home') }}">
           <i class="bi bi-arrow-left me-1"></i>Back
         </a>
     </div>
@@ -57,7 +57,33 @@
     </div>
 
     <!-- Results grid -->
-    <div class="row g-3 g-lg-4" id="resultsGrid"></div>
+    <div class="row g-3 g-lg-4" id="resultsGrid">
+    {{-- <div class="row g-3 g-lg-4" >
+      @foreach ($classes as $class)
+        <div class="col-12 col-md-6 col-xl-4">
+          <div class="lp-course-card" data-course="{{ $class->id }}">
+            <div class="lp-course-row">
+              <div class="lp-icon-block"><i class="bi bi-journals"></i></div>
+
+              <div>
+                <p class="lp-course-title mb-0">{{ $class->title }}</p>
+              </div>
+
+              <div class="lp-right">
+                <div class="lp-k">Course ID</div>
+                <div class="lp-v">{{ $class->id }}</div>
+              </div>
+            </div>
+
+            <!-- Keep total hours (allowed). If you don't want it, remove this footer block. -->
+            <div class="lp-course-footer">
+              <span class="lp-stat"><i class="bi bi-hourglass-split"></i>${formatMinutes(c.total_min)} total</span>
+              <span class="text-secondary small"> </span>
+            </div>
+          </div>
+        </div>
+      @endforeach --}}
+    </div>
 
     <!-- Empty -->
     <div class="lp-empty mt-4 d-none" id="emptyState">
@@ -70,49 +96,51 @@
   <script>
     // ===== Sample Search Results (replace with API later) =====
     // enrolled=true means user already enrolled -> show progress/time spent
-    const SEARCH_RESULTS = [
-      {
-        class_id: "CLS-1001",
-        class_name: "风水入门 · Feng Shui Basics",
-        program_name: "Feng Shui",
-        enrolled: true,
-        progress: 42,
-        duration_total_min: 320,
-        time_spent_min: 118,
-        popularity: 96
-      },
-      {
-        class_id: "CLS-1012",
-        class_name: "Feng Shui for Workplace",
-        program_name: "Feng Shui",
-        enrolled: false,
-        progress: 0,
-        duration_total_min: 180,
-        time_spent_min: 0,
-        popularity: 88
-      },
-      {
-        class_id: "CLS-1002",
-        class_name: "身心疗愈 · Mind & Body Healing",
-        program_name: "Healing",
-        enrolled: true,
-        progress: 0,
-        duration_total_min: 210,
-        time_spent_min: 0,
-        popularity: 84
-      },
-      {
-        class_id: "CLS-1030",
-        class_name: "Meditation for Clarity",
-        program_name: "Meditation",
-        enrolled: true,
-        progress: 78,
-        duration_total_min: 260,
-        time_spent_min: 205,
-        popularity: 92
-      }
-    ];
-
+    // const SEARCH_RESULTS = [
+    //   {
+    //     class_id: "CLS-1001",
+    //     class_name: "风水入门 · Feng Shui Basics",
+    //     program_name: "Feng Shui",
+    //     enrolled: true,
+    //     progress: 42,
+    //     duration_total_min: 320,
+    //     time_spent_min: 118,
+    //     popularity: 96
+    //   },
+    //   {
+    //     class_id: "CLS-1012",
+    //     class_name: "Feng Shui for Workplace",
+    //     program_name: "Feng Shui",
+    //     enrolled: false,
+    //     progress: 0,
+    //     duration_total_min: 180,
+    //     time_spent_min: 0,
+    //     popularity: 88
+    //   },
+    //   {
+    //     class_id: "CLS-1002",
+    //     class_name: "身心疗愈 · Mind & Body Healing",
+    //     program_name: "Healing",
+    //     enrolled: true,
+    //     progress: 0,
+    //     duration_total_min: 210,
+    //     time_spent_min: 0,
+    //     popularity: 84
+    //   },
+    //   {
+    //     class_id: "CLS-1030",
+    //     class_name: "Meditation for Clarity",
+    //     program_name: "Meditation",
+    //     enrolled: true,
+    //     progress: 78,
+    //     duration_total_min: 260,
+    //     time_spent_min: 205,
+    //     popularity: 92
+    //   }
+    // ];
+    
+    const SEARCH_RESULTS = @json($classes);
+    console.log(SEARCH_RESULTS);
     const $ = (id) => document.getElementById(id);
 
     function formatMinutes(min){

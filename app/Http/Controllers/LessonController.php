@@ -33,7 +33,7 @@ class LessonController extends Controller
         $classes = Classes::select('id', 'title')->where('is_active', true)->get();
 
         // Pass data to the view
-        return view('lesson', compact('lessons', 'classes', 'contentTypes'));
+        return view('admins.lessons.lesson', compact('lessons', 'classes', 'contentTypes'));
     }
 
     public function store(Request $request)
@@ -73,7 +73,7 @@ class LessonController extends Controller
             'content_type' => $validatedData['content_type'],
             'source_url' => $validatedData['source_url'],
             'duration' => $validatedData['duration'],
-            'sequence' => $sequence->sequence + 1,
+            'sequence' => ($sequence->sequence ?? 0) + 1,
             'is_active' => true,
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),

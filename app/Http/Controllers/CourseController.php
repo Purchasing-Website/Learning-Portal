@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Program;
+//use App\Models\Program;
 
 
 class CourseController extends Controller
@@ -35,10 +35,10 @@ class CourseController extends Controller
         }
 
         // Retrieve all programs for potential use in the view
-        $programs = Program::select('id', 'title')->where('is_active', true)->get();
+        //$programs = Program::select('id', 'title')->where('is_active', true)->get();
 
         // Pass data to the view
-        return view('course', compact('courses', 'programs'));
+        return view('admins.courses.course', compact('courses'));
     }
 
     public function store(Request $request)
@@ -47,13 +47,13 @@ class CourseController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:150',
             'description' => 'nullable|string',
-            'program_id' => 'required|integer|exists:programs,id',
+            //'program_id' => 'required|integer|exists:programs,id',
         ]);
         // Create new Course
         Course::create([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'] ?? null,
-            'program_id' => $validatedData['program_id'],
+            //'program_id' => $validatedData['program_id'],
             'image' => null, // Placeholder for image handling
             'is_active' => true,
             'created_by' => Auth::id(),

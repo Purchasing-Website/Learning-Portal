@@ -46,7 +46,7 @@ class LoginController extends Controller
             } elseif ($GetRole === 'admin') {
                 return redirect('/admin/dashboard');
             } else {
-                return redirect('/home');
+                return redirect('/');
             }
         //}
     }
@@ -70,7 +70,7 @@ class LoginController extends Controller
             return view('auth.admin_login'); // admin UI
         }
 
-        return view('auth.login'); // normal UI
+        return view('auth.studentlogin'); // normal UI
     }
 
 }

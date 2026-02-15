@@ -23,7 +23,7 @@
         <!-- NAVBAR -->
         <nav class="navbar navbar-expand-lg lp-navbar">
             <div class="container">
-                <a class="navbar-brand text-dark fw-bold" href="Homepage.html">HAOLIN</a>
+                <a class="navbar-brand text-dark fw-bold" href="{{ route('home') }}">HAOLIN</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#lpNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -40,7 +40,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="Profile.html"><i class="bi bi-person-lines-fill me-2"></i>Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="#" id="btnLogout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        <li><a class="dropdown-item text-danger" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                         </ul>
                     </li>
                     </ul>

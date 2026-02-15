@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('programs', function (Blueprint $table) {
+        Schema::create('tiers', function (Blueprint $table) {
             $table->id(); // BIGINT UNSIGNED AUTO_INCREMENT
-            $table->string('title', 150);
+            $table->string('name', 150);
             $table->text('description')->nullable();
-            $table->string('image')->nullable(); // store path or URL
             $table->boolean('is_active')->default(true);
             
             // audit fields
@@ -24,12 +23,8 @@ return new class extends Migration
 
             $table->timestamps(); // created_at, updated_at
 
-            // foreign keys
-            $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
-            $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();
-
             //indexing
-            $table->fullText('title');
+            $table->fullText('name');
         });
     }
 
@@ -38,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('programs');
+        Schema::dropIfExists('tiers');
     }
 };

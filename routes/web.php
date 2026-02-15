@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ClasssController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\Auth\LoginController;
 
 Route::get('/check-session', function () {
     return response()->json([
@@ -23,24 +25,21 @@ Route::get('/check-session', function () {
 $mainHost = parse_url(config('app.url'), PHP_URL_HOST);
 $adminHost = parse_url(config('app.admin_url'), PHP_URL_HOST);
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/testui', function () {
     return view('lesson');
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 //Route::get('enrollment', [UserController::class, 'studentClasses'])->name('student.classes')->middleware('auth','role:student');
 
-Route::domain($mainHost)->group(function () {
+Route::domain('haolin.test')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/courses', [HomeController::class, 'course'])->name('course');
+    Route::get('/classes', [HomeController::class, 'class'])->name('class');
     // normal user routes
     Route::middleware(['auth' , 'role:student'])->group(function () {
-        Route::get('/classes', [StudentController::class, 'assignedClasses'])->name('student.classes');
+        Route::get('/student/classes', [StudentController::class, 'assignedClasses'])->name('student.classes');
         Route::get('/class/{id}/lessons', [StudentController::class, 'lessons'])->name('student.class.lessons');
         Route::get('/lesson/{id}/start', [StudentController::class, 'startLesson'])->name('student.lesson.start');
         Route::post('/lesson/{id}/progress', [StudentController::class, 'updateProgress'])->name('student.lesson.progress');
@@ -53,7 +52,9 @@ Route::domain($mainHost)->group(function () {
 
 });
 
-Route::domain($adminHost)->group(function () {
+Route::domain('admin.haolin.test')->group(function () {
+    //Route::get('/', fn () => abort(404));
+    Route::get('/', [LoginController::class, 'showLoginForm'] )->name('admin.login');
     // admin routes
     Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {
         Route::view('/admin/dashboard', 'admins.dashboard')->name('dashboard');
@@ -134,5 +135,5 @@ Route::domain($adminHost)->group(function () {
 
 Route::get('/logout', function () {
     Auth::logout();
-    return redirect()->route('home');
+    return redirect('/');
 })->name('logout');

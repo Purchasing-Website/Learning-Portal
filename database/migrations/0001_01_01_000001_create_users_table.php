@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('date_of_birth')->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('address', 255)->nullable();
+            $table->unsignedBigInteger('tierid')->nullable();
             $table->rememberToken();
             $table->timestamps();
 
@@ -32,6 +33,7 @@ return new class extends Migration
             //Foreign Keys (optional, you can enable if users can create/manage users)
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('tierid')->references('id')->on('tiers')->onDelete('set null');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

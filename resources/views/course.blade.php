@@ -179,7 +179,7 @@
             <div class="container">
                 <form id="updateCourseForm">
                 @csrf
-                    <input type="hidden" id="course_id">
+                    <input type="hidden" id="course_id" readonly>
                     <div class="row" style="padding-bottom: 10px;">
                         <div class="col-md-12">
                             <p style="margin-bottom: 2px;font-weight: bold;">Cover Image</p>

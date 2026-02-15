@@ -32,7 +32,7 @@ class ClasssController extends Controller
         $courses = Course::all();
 
         // Pass data to the view
-        return view('class', compact('show','classes','course', 'courses'));
+        return view('admins.classes.class', compact('show','classes','course', 'courses'));
     }
 
     public function store(Request $request)

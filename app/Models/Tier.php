@@ -3,16 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Course;
 
-class Program extends Model
+class Tier extends Model
 {
     protected $fillable = [
-        'title',
+        'name',
         'description',
-        'image',
         'is_active',
         'created_by',
         'updated_by',
     ];
 
+    // Tier.php
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }

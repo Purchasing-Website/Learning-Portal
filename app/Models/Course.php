@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Program;
+use App\Models\Tier;
 use App\Models\Classes;
 
 class Course extends Model
@@ -19,9 +19,9 @@ class Course extends Model
     ];
 
     // Relationship to Program
-    public function program()
+    public function tier()
     {
-        return $this->belongsTo(Program::class);    
+        return $this->belongsTo(Tier::class);    
     }
 
     public function classes()

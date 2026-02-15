@@ -7,6 +7,7 @@ use App\Models\Lesson;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\StudentLessonProgress;
+use App\Models\Tier;
 
 class Classes extends Model
 {
@@ -50,5 +51,10 @@ class Classes extends Model
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class, 'class_id');
+    }
+
+    public function tier()
+    {
+        return $this->belongsTo(Tier::class);    
     }
 }

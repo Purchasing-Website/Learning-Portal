@@ -8,10 +8,10 @@
     <!-- Title -->
     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-3">
       <div>
-        <h1 class="lp-page-title">Classes</h1>
-        <p class="lp-subtitle">Find classes that match your interests.</p>
+        <h1 class="lp-page-title">Courses</h1>
+        <p class="lp-subtitle">Find Courses that match your interests.</p>
       </div>
-        <a class="btn lp-btn lp-btn-outline" href="#">
+        <a class="btn lp-btn lp-btn-outline" href="{{ route('home') }}">
           <i class="bi bi-arrow-left me-1"></i>Back
         </a>
     </div>
@@ -57,7 +57,32 @@
     </div>
 
     <!-- Results grid -->
-    <div class="row g-3 g-lg-4" id="resultsGrid"></div>
+    <div class="row g-3 g-lg-4" id="resultsGrid">
+      @foreach ($courses as $course)
+        <div class="col-12 col-md-6 col-xl-4">
+          <div class="lp-course-card" data-course="{{ $course->id }}">
+            <div class="lp-course-row">
+              <div class="lp-icon-block"><i class="bi bi-journals"></i></div>
+
+              <div>
+                <p class="lp-course-title mb-0">{{ $course->title }}</p>
+              </div>
+
+              <div class="lp-right">
+                <div class="lp-k">Course ID</div>
+                <div class="lp-v">{{ $course->id }}</div>
+              </div>
+            </div>
+
+            <!-- Keep total hours (allowed). If you don't want it, remove this footer block. -->
+            <div class="lp-course-footer">
+              <span class="lp-stat"><i class="bi bi-hourglass-split"></i>${formatMinutes(c.total_min)} total</span>
+              <span class="text-secondary small"> </span>
+            </div>
+          </div>
+        </div>
+      @endforeach
+    </div>
 
     <!-- Empty -->
     <div class="lp-empty mt-4 d-none" id="emptyState">

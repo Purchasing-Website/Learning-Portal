@@ -41,6 +41,18 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        //return view('auth.register');
+        $adminHost = config('app.admin_url');
+
+        if (request()->getHost() === $adminHost) {
+            return view('auth.register'); // admin UI
+        }
+
+        return view('auth.signup_responsive'); // normal UI
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -53,6 +65,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['required','string', 'min:9'],
         ]);
     }
 
@@ -68,6 +81,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'phone' => $data['phone'],
             'role' => UserRole::STUDENT->value,
         ]);
     }

@@ -75,7 +75,7 @@
           <h2 class="lp-section-title">Courses</h2>
           <p class="lp-section-sub">Courses under the selected program.</p>
         </div>
-		<a class="btn lp-btn lp-btn-outline" href="SearchResults.html">
+		    <a class="btn lp-btn lp-btn-outline" href="{{ route('course') }}">
           View All
         </a>
       </div>
@@ -92,7 +92,7 @@
           <h2 class="lp-section-title">Classes</h2>
           <p class="lp-section-sub">Classes under the selected course.</p>
         </div>
-		<a class="btn lp-btn lp-btn-outline" href="SearchResults.html">
+		    <a class="btn lp-btn lp-btn-outline" href="{{ route('class') }}">
           View All
         </a>
       </div>
@@ -165,83 +165,85 @@
 		// window.location.href = "Login.html";
 	  });
     // ===== Demo data (Program -> Courses -> Classes) =====
-    const ACADEMY = [
-      {
-        program_id: "P001",
-        program_name: "Feng Shui",
-        program_desc: "Balance space and flow.",
-        courses: [
-          {
-            course_id: "C001",
-            course_name: "Feng Shui Foundations",
-            total_min: 360,
-            classes: [
-              { class_id: "CLS-1001", class_name: "风水入门 · Feng Shui Basics", total_min: 320 },
-              { class_id: "CLS-1012", class_name: "Feng Shui for Workplace", total_min: 180 }
-            ]
-          },
-          {
-            course_id: "C002",
-            course_name: "Advanced Home Layout",
-            total_min: 420,
-            classes: [
-              { class_id: "CLS-1022", class_name: "Bagua Deep Dive", total_min: 240 },
-              { class_id: "CLS-1023", class_name: "Room-by-Room Practice", total_min: 210 }
-            ]
-          }
-        ]
-      },
-      {
-        program_id: "P002",
-        program_name: "Healing",
-        program_desc: "Mind and body wellness.",
-        courses: [
-          {
-            course_id: "C010",
-            course_name: "Mind & Body Healing",
-            total_min: 210,
-            classes: [
-              { class_id: "CLS-1002", class_name: "身心疗愈 · Mind & Body Healing", total_min: 210 }
-            ]
-          }
-        ]
-      },
-      {
-        program_id: "P003",
-        program_name: "Meditation",
-        program_desc: "Focus and inner calm.",
-        courses: [
-          {
-            course_id: "C020",
-            course_name: "Meditation Essentials",
-            total_min: 260,
-            classes: [
-              { class_id: "CLS-1030", class_name: "Meditation for Clarity", total_min: 260 }
-            ]
-          }
-        ]
-      },
-      {
-        program_id: "P004",
-        program_name: "Numerology",
-        program_desc: "Patterns through numbers.",
-        courses: [
-          {
-            course_id: "C030",
-            course_name: "Yi Numerology Basics",
-            total_min: 180,
-            classes: [
-              { class_id: "CLS-1003", class_name: "易数基础 · Yi Numerology", total_min: 180 }
-            ]
-          }
-        ]
-      }
-    ];
+    // const ACADEMY = [
+    //   {
+    //     program_id: "P001",
+    //     program_name: "Feng Shui",
+    //     program_desc: "Balance space and flow.",
+    //     courses: [
+    //       {
+    //         course_id: "C001",
+    //         course_name: "Feng Shui Foundations",
+    //         total_min: 360,
+    //         classes: [
+    //           { class_id: "CLS-1001", class_name: "风水入门 · Feng Shui Basics", total_min: 320 },
+    //           { class_id: "CLS-1012", class_name: "Feng Shui for Workplace", total_min: 180 }
+    //         ]
+    //       },
+    //       {
+    //         course_id: "C002",
+    //         course_name: "Advanced Home Layout",
+    //         total_min: 420,
+    //         classes: [
+    //           { class_id: "CLS-1022", class_name: "Bagua Deep Dive", total_min: 240 },
+    //           { class_id: "CLS-1023", class_name: "Room-by-Room Practice", total_min: 210 }
+    //         ]
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     program_id: "P002",
+    //     program_name: "Healing",
+    //     program_desc: "Mind and body wellness.",
+    //     courses: [
+    //       {
+    //         course_id: "C010",
+    //         course_name: "Mind & Body Healing",
+    //         total_min: 210,
+    //         classes: [
+    //           { class_id: "CLS-1002", class_name: "身心疗愈 · Mind & Body Healing", total_min: 210 }
+    //         ]
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     program_id: "P003",
+    //     program_name: "Meditation",
+    //     program_desc: "Focus and inner calm.",
+    //     courses: [
+    //       {
+    //         course_id: "C020",
+    //         course_name: "Meditation Essentials",
+    //         total_min: 260,
+    //         classes: [
+    //           { class_id: "CLS-1030", class_name: "Meditation for Clarity", total_min: 260 }
+    //         ]
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     program_id: "P004",
+    //     program_name: "Numerology",
+    //     program_desc: "Patterns through numbers.",
+    //     courses: [
+    //       {
+    //         course_id: "C030",
+    //         course_name: "Yi Numerology Basics",
+    //         total_min: 180,
+    //         classes: [
+    //           { class_id: "CLS-1003", class_name: "易数基础 · Yi Numerology", total_min: 180 }
+    //         ]
+    //       }
+    //     ]
+    //   }
+    // ];
+
+    const ACADEMY = @json($academy);
 
     const POPULAR_RECENTLY = [
-      { class_id:"CLS-1001", class_name:"风水入门 · Feng Shui Basics", program_name:"Feng Shui", total_min: 320 },
-      { class_id:"CLS-1002", class_name:"身心疗愈 · Mind & Body Healing", program_name:"Healing", total_min: 210 },
-      { class_id:"CLS-1030", class_name:"Meditation for Clarity", program_name:"Meditation", total_min: 260 }
+      { class_id:"CLS-1001", class_name:"风水入门 · Feng Shui Basics", tier_name:"Feng Shui", total_min: 320 },
+      { class_id:"CLS-1002", class_name:"身心疗愈 · Mind & Body Healing", tier_name:"Healing", total_min: 210 },
+      { class_id:"CLS-1030", class_name:"Meditation for Clarity", tier_name:"Meditation", total_min: 260 }
     ];
 
     const $ = (id) => document.getElementById(id);
@@ -261,7 +263,7 @@
       }[s]));
     }
 
-    let selectedProgramId = ACADEMY[0].program_id;
+    let selectedTierId = ACADEMY[0].tier_id;
     let selectedCourseId = ACADEMY[0].courses[0].course_id;
 
     function renderPrograms(){
@@ -273,9 +275,9 @@
         col.className = "col-12 col-md-6 col-xl-3";
 
         col.innerHTML = `
-          <div class="lp-tile" role="button" tabindex="0" data-program="${escapeHtml(p.program_id)}"
-               style="${p.program_id === selectedProgramId ? 'outline:2px solid rgba(79,124,247,.45);' : ''}">
-            <h3>${escapeHtml(p.program_name)}</h3>
+          <div class="lp-tile" role="button" tabindex="0" data-program="${escapeHtml(p.tier_id)}"
+               style="${p.tier_id === selectedTierId ? 'outline:2px solid rgba(79,124,247,.45);' : ''}">
+            <h3>${escapeHtml(p.tier_name)}</h3>
           </div>
         `;
         grid.appendChild(col);
@@ -283,7 +285,7 @@
     }
 
     function renderCourses(){
-      const program = ACADEMY.find(p => p.program_id === selectedProgramId);
+      const program = ACADEMY.find(p => p.tier_id === selectedTierId);
       const grid = $("courseGrid");
       grid.innerHTML = "";
 
@@ -310,7 +312,7 @@
               <div class="d-flex justify-content-between gap-3">
                 <div>
                   <div class="lp-title">${escapeHtml(c.course_name)}</div>
-                  <div class="lp-meta">${escapeHtml(program.program_name)}</div>
+                  <div class="lp-meta">${escapeHtml(program.tier_name)}</div>
                 </div>
                 <div class="text-end small">
                   <div class="text-secondary">Course ID</div>
@@ -325,7 +327,7 @@
     }
 
     function renderClasses(){
-      const program = ACADEMY.find(p => p.program_id === selectedProgramId);
+      const program = ACADEMY.find(p => p.tier_id === selectedTierId);
       const course = program?.courses?.find(c => c.course_id === selectedCourseId);
       const grid = $("classGrid");
       grid.innerHTML = "";
@@ -380,7 +382,7 @@
               <div class="d-flex justify-content-between gap-3">
                 <div>
                   <div class="lp-title">${escapeHtml(c.class_name)}</div>
-                  <div class="lp-meta">${escapeHtml(c.program_name)}</div>
+                  <div class="lp-meta">${escapeHtml(c.tier_name)}</div>
                 </div>
                 <div class="text-end small">
                   <div class="text-secondary">Class ID</div>
@@ -433,7 +435,7 @@
 
         const prog = e.target.closest("[data-program]");
         if(prog){
-          selectedProgramId = prog.getAttribute("data-program");
+          selectedTierId = prog.getAttribute("data-program");
           renderPrograms();
           renderCourses();
           renderClasses();
