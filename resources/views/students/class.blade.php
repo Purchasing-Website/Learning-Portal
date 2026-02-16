@@ -140,6 +140,7 @@
     // ];
 
     const SEARCH_RESULTS = @json($classes);
+    console.log( @json($classes));
 
     const $ = (id) => document.getElementById(id);
 
@@ -270,16 +271,16 @@
             </div>
 
             <div class="lp-actions">
-              <button class="btn lp-btn lp-btn-outline" data-action="details" data-id="${escapeHtml(c.class_id)}">
+              <button class="btn lp-btn lp-btn-outline" data-action="details" data-id="${escapeHtml(c.class_id)}" data-classid="${escapeHtml(c.classId)}">
                 <i class="bi bi-info-circle me-1"></i>Details
               </button>
 
               ${c.enrolled ? `
-                <button class="btn lp-btn lp-btn-primary" data-action="open" data-id="${escapeHtml(c.class_id)}" data-classId="${escapeHtml(c.classID)}">
+                <button class="btn lp-btn lp-btn-primary" data-action="open" data-id="${escapeHtml(c.class_id)}" data-classid="${escapeHtml(c.classId)}">
                   <i class="bi bi-play-circle me-1"></i>Open Class
                 </button>
               ` : `
-                <button class="btn lp-btn lp-btn-primary" data-action="enroll" data-id="${escapeHtml(c.class_id)}" data-classId="${escapeHtml(c.classID)}">
+                <button class="btn lp-btn lp-btn-primary" data-action="enroll" data-id="${escapeHtml(c.class_id)}" data-classid="${escapeHtml(c.classId)}">
                   <i class="bi bi-plus-circle me-1"></i>Enroll
                 </button>
               `}
@@ -314,7 +315,13 @@
         const classid = btn.getAttribute("data-classid");
         const action = btn.getAttribute("data-action");
 
-        if(action === "details") alert("Open details for " + id);
+        if(action === "details") {
+          console.log("Open details for " + id);
+          
+          const detailUrlTemplate = '{{ route("classDetail", "__ID__") }}';
+          window.location.href = detailUrlTemplate.replace('__ID__', encodeURIComponent(classid));
+          
+        } 
         if(action === "open") alert("Open class player for " + id);
         if(action === "enroll") {
           @auth

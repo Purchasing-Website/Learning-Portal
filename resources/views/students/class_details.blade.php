@@ -9,8 +9,9 @@
     <!-- Top header -->
     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-3">
       <div>
-        <h1 class="lp-title" id="className">Class</h1>
-        <p class="lp-sub" id="classMeta">Program • Course</p>
+        {{-- <h1 class="lp-title" id="className">Class</h1> --}}
+        <h1 class="lp-title">{{ $classDetail->class_name }}</h1>
+        <p class="lp-sub" id="classMeta">{{ $classDetail->tier_name }} • {{ $classDetail->course_name }}</p>
       </div>
       <a class="btn lp-btn lp-btn-outline" href="javascript:history.back()">
         <i class="bi bi-arrow-left me-1"></i>Back
@@ -21,9 +22,12 @@
     <div class="lp-hero p-3 p-lg-4 mb-4">
       <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
         <div class="d-flex flex-wrap gap-2">
-          <span class="lp-pill"><i class="bi bi-list-check"></i> Lessons: <strong id="totalLessons">0</strong></span>
+          {{-- <span class="lp-pill"><i class="bi bi-list-check"></i> Lessons: <strong id="totalLessons">0</strong></span>
           <span class="lp-pill"><i class="bi bi-check2-circle"></i> Completed: <strong id="doneLessons">0</strong></span>
-          <span class="lp-pill"><i class="bi bi-hourglass-split"></i> Total Time: <strong id="totalTime">0m</strong></span>
+          <span class="lp-pill"><i class="bi bi-hourglass-split"></i> Total Time: <strong id="totalTime">0m</strong></span> --}}
+          <span class="lp-pill"><i class="bi bi-list-check"></i> Lessons: <strong >{{ $classDetail->total_lessons }}</strong></span>
+          <span class="lp-pill"><i class="bi bi-check2-circle"></i> Completed: <strong >0</strong></span>
+          <span class="lp-pill"><i class="bi bi-hourglass-split"></i> Total Time: <strong >{{ $classDetail->total_lesson_duration }}m</strong></span>
         </div>
 
         <div class="d-flex gap-2 flex-wrap">
@@ -41,15 +45,49 @@
         <div class="text-secondary small" id="hintText"><i class="bi bi-info-circle me-1"></i>Select a lesson to open.</div>
       </div>
 
-      <div id="lessonList"></div>
+      {{-- <div id="lessonList"></div> --}}
 
-      <div class="p-3 d-none" id="emptyWrap">
+      <div>
+        @forelse ($lessons as $lesson)
+          <div class="lp-lesson">
+            <div class="lp-lesson-idx">{{ $lesson->sequence }}</div>
+            <div class="flex-grow-1">
+              <p class="lp-lesson-name mb-0">{{ $lesson->title }}</p>
+              <div class="lp-lesson-meta">
+                <span class="lp-badge"><i class="bi bi-clock"></i>{{ $lesson->duration }}m </span>
+                @if ($lesson->status == 'not_started')
+                  <span class="lp-badge todo"><i class="bi bi-circle"></i>Not Started</span>
+                @elseif ($lesson->status == 'in_progress')
+                  <span class="lp-badge progress"><i class="bi bi-hourglass"></i>In Progress</span>
+                @elseif ($lesson->status == 'completed')
+                  <span class="lp-badge done"><i class="bi bi-check-circle"></i>Completed</span>
+                @endif
+                
+              </div>
+            </div>  
+            <div class="lp-lesson-actions">
+              <a class="btn lp-btn lp-btn-outline" href="{{ route('student.lesson.start', $lesson->id) }}">
+                <i class="bi bi-play-circle me-1"></i>Open
+              </a>
+            </div>
+          </div>
+        @empty
+          <div class="p-3">
+            <div class="lp-empty">
+              <div class="fw-bold fs-5 mb-1">No lessons found</div>
+              <div>This class does not have lessons yet.</div>
+            </div>
+          </div>
+        @endforelse
+      </div>
+
+      {{-- <div class="p-3 d-none" id="emptyWrap">
         <div class="lp-empty">
           <div class="fw-bold fs-5 mb-1">No lessons found</div>
           <div>This class does not have lessons yet.</div>
         </div>
       </div>
-    </div>
+    </div> --}}
 
   </main>
   
@@ -57,34 +95,9 @@
 
 @push('scripts')
   <script>
-    // ===== Sample data (replace later with JSON/API) =====
-    const DATA = {
-      classes: [
-        {
-          class_id: "CLS-1001",
-          class_name: "风水入门 · Feng Shui Basics",
-          program_name: "Feng Shui",
-          course_name: "Feng Shui Foundations",
-          lessons: [
-            { lesson_id: "L001", title: "Lesson 1: Foundations", duration_min: 18, status: "completed" },
-            { lesson_id: "L002", title: "Lesson 2: Qi Flow", duration_min: 22, status: "completed" },
-            { lesson_id: "L003", title: "Lesson 3: Bagua Map", duration_min: 25, status: "in_progress" },
-            { lesson_id: "L004", title: "Lesson 4: Practical Setup", duration_min: 20, status: "not_started" }
-          ]
-        },
-        {
-          class_id: "CLS-1012",
-          class_name: "Feng Shui for Workplace",
-          program_name: "Feng Shui",
-          course_name: "Feng Shui Foundations",
-          lessons: [
-            { lesson_id: "L101", title: "Lesson 1: Desk & Direction", duration_min: 16, status: "not_started" },
-            { lesson_id: "L102", title: "Lesson 2: Lighting & Balance", duration_min: 21, status: "not_started" }
-          ]
-        }
-      ]
-    };
-
+   
+    const DATA = '';
+    console.log(@json($lessons));
     const $ = (id) => document.getElementById(id);
 
     function escapeHtml(str){
@@ -126,8 +139,7 @@
     }
 
     function render(){
-      const classId = getClassIdFromUrl();
-      const cls = DATA.classes.find(c => c.class_id === classId) || DATA.classes[0];
+      const cls = DATA;
 
       if(!cls){
         $("className").textContent = "Class not found";

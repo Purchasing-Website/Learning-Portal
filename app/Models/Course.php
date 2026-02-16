@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Tier;
 use App\Models\Classes;
 
 class Course extends Model
@@ -17,12 +16,6 @@ class Course extends Model
         'updated_by',
         'program_id'
     ];
-
-    // Relationship to Program
-    // public function tier()
-    // {
-    //     return $this->belongsTo(Tier::class);    
-    // }
 
     public function classes()
     {

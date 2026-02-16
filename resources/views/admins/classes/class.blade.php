@@ -86,6 +86,7 @@
                                                 <td>{{ $class->created_at->format('Y-m-d') }}</td>
                                                 <td class="text-truncate">1</td>
                                                 <td class="text-start">{{$class->enrollments_count}}</td>
+                                                <td class="text-start" style="max-width: 200px;">{{$class->tier->name}}</td>
                                                 <td class="status-cell">
                                                     @if($class->is_active)
                                                         <span class="badge bg-success">Active</span>

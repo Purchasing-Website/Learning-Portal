@@ -135,22 +135,24 @@
       <div class="row g-3">
         @foreach ($classes as $class)
         <div class="col-12 col-md-6 col-xl-4">
-          <div class="lp-card" role="button" tabindex="0" data-course="{{ $class->id }}"
-               style="outline:2px solid rgba(79,124,247,.45)">
-            <div class="lp-accent"></div>
-            <div class="lp-card-body">
-              <div class="d-flex justify-content-between gap-3">
-                <div>
-                  <div class="lp-title">{{ $class->title }}</div>
-                  <div class="lp-meta">{{ $class->title }}</div>
-                </div>
-                <div class="text-end small">
-                  <div class="text-secondary">Course ID</div>
-                  <div class="fw-semibold">{{ 'CLS-' . str_pad($class->id, 4, '0', STR_PAD_LEFT) }}</div>
+          <a href="{{ route('classDetail',$class->id) }}" class="text-decoration-none text-reset d-block">
+            <div class="lp-card" role="button" tabindex="0" data-course="{{ $class->id }}"
+                style="outline:2px solid rgba(79,124,247,.45)">
+              <div class="lp-accent"></div>
+              <div class="lp-card-body">
+                <div class="d-flex justify-content-between gap-3">
+                  <div>
+                    <div class="lp-title">{{ $class->title }}</div>
+                    <div class="lp-meta">{{ $class->title }}</div>
+                  </div>
+                  <div class="text-end small">
+                    <div class="text-secondary">Course ID</div>
+                    <div class="fw-semibold">{{ 'CLS-' . str_pad($class->id, 4, '0', STR_PAD_LEFT) }}</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
         @endforeach
       </div>

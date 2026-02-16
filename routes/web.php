@@ -31,13 +31,12 @@ Route::get('/testui', function () {
 
 Auth::routes();
 
-//Route::get('enrollment', [UserController::class, 'studentClasses'])->name('student.classes')->middleware('auth','role:student');
-
 Route::domain('haolin.test')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/courses', [HomeController::class, 'course'])->name('course');
     Route::get('/classes', [HomeController::class, 'class'])->name('class');
     Route::get('/course/{id}/classes',[HomeController::class, 'getCourseClass'])->name('getclass');
+    Route::get('/class/{id}/detail',[StudentController::class, 'getClass'])->name('classDetail');
     // normal user routes
     Route::middleware(['auth' , 'role:student'])->group(function () {
         Route::get('/student/classes', [StudentController::class, 'assignedClasses'])->name('student.classes');
@@ -55,7 +54,6 @@ Route::domain('haolin.test')->group(function () {
 });
 
 Route::domain('admin.haolin.test')->group(function () {
-    //Route::get('/', fn () => abort(404));
     Route::get('/', [LoginController::class, 'showLoginForm'] )->name('admin.login');
     // admin routes
     Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {

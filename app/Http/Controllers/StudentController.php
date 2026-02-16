@@ -57,7 +57,7 @@ class StudentController extends Controller
             'last_accessed_at' => now()]
         );
         //dd($progress);
-        return view('students.lesson_index', compact('lesson', 'progress'));
+        return back();
     }
 
     // 4. Update progress (AJAX)
@@ -276,6 +276,71 @@ class StudentController extends Controller
         return redirect()
             ->back()
             ->with('error', "You scored $score%. You need at least 80% to pass.");
+    }
+
+    public function getClass($classid)
+    {
+        $class = Classes::with(['tier:id,name', 'courses:id,title'])->findOrFail($classid);
+
+        $lessons = Lesson::where('class_id', $classid)
+            ->orderBy('sequence')
+            ->get(['id', 'title', 'duration', 'sequence']);
+
+        $lessonStatuses = collect();
+        $studentId = Auth::id();
+
+        if ($studentId) {
+            $isEnrolled = Enrollment::where('student_id', $studentId)
+                ->where('class_id', $classid)
+                ->exists();
+
+            if ($isEnrolled) {
+                $lessonStatuses = StudentLessonProgress::where('student_id', $studentId)
+                    ->where('class_id', $classid)
+                    ->get(['lesson_id', 'progress_percentage', 'is_completed', 'created_at', 'last_accessed_at'])
+                    ->keyBy('lesson_id');
+            }
+        }
+
+        $lessons->transform(function ($lesson) use ($lessonStatuses) {
+            $progress = $lessonStatuses->get($lesson->id);
+            //dd($progress);
+            $status = 'not_started';
+
+            if ($progress) {
+                if (
+                    $progress->is_completed ||
+                    (float) $progress->progress_percentage >= 100 ||
+                    $progress->status === 'completed'
+                ) {
+                    $status = 'completed';
+                } elseif (
+                    $progress->last_accessed_at ||
+                    (float) $progress->progress_percentage > 0 ||
+                    in_array($progress->status, ['in_progress', 'active', 'started'], true)
+                ) {
+                    $status = 'in_progress';
+                }
+            }
+            
+            $lesson->status = $status;
+            //dd($lesson);
+            return $lesson;
+        });
+
+        $totalLessonDuration = (int) $lessons->sum(function ($lesson) {
+            return (int) ($lesson->duration ?? 0);
+        });
+
+        $classDetail = (object) [
+            'class_name' => $class->title,
+            'tier_name' => $class->tier->name ?? '',
+            'course_name' => optional($class->courses->first())->title ?? '',
+            'total_lessons' => $lessons->count(),
+            'total_lesson_duration' => $totalLessonDuration,
+        ];
+
+        return view('students.class_details', compact('lessons', 'classDetail'));
     }
 
 

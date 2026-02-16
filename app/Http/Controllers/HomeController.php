@@ -5,6 +5,7 @@ use App\Models\Course;
 use App\Models\Classes;
 use App\Models\Tier;
 use App\Models\Enrollment;
+use App\Models\Lesson;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -64,6 +65,7 @@ class HomeController extends Controller
 
             return [
                 'class_id'           => 'CLS-' . str_pad($row->id, 4, '0', STR_PAD_LEFT), // 1 -> CLS-0001
+                'classId'            => $row->id,
                 'class_name'         => $row->title,        // or custom text like "风水入门 · Feng Shui Basics"
                 'program_name'       => $row->tier->name,        // static or from another column/table
                 'enrolled'           => (bool) $enrollment,  //(bool) $row->is_active,
@@ -100,7 +102,7 @@ class HomeController extends Controller
 
             return [
                 'class_id'           => 'CLS-' . str_pad($row->id, 4, '0', STR_PAD_LEFT), // 1 -> CLS-0001
-                'classID'            => $row->id,
+                'classId'            => $row->id,
                 'class_name'         => $row->title,        // or custom text like "风水入门 · Feng Shui Basics"
                 'program_name'       => $row->tier->name,        // static or from another column/table
                 'enrolled'           => (bool) $enrollment,  //(bool) $row->is_active,
