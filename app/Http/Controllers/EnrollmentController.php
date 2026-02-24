@@ -7,7 +7,6 @@ use App\Models\Enrollment;
 use App\Models\Classes;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class EnrollmentController extends Controller
 {
@@ -105,28 +104,6 @@ class EnrollmentController extends Controller
                 'success' => false,
                 'message' => 'Invalid student.',
             ], 422);
-        }
-
-        $studentTierLevel = DB::table('tiers')
-            ->where('id', $student->tierid)
-            ->value('level');
-
-        $classTierLevel = DB::table('tiers')
-            ->where('id', $class->tier_id)
-            ->value('level');
-
-        if ($studentTierLevel === null || $classTierLevel === null) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Tier configuration is invalid.',
-            ], 422);
-        }
-
-        if ((int) $classTierLevel > (int) $studentTierLevel) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Student tier is not eligible for this class.',
-            ], 403);
         }
 
         $existing = $class->students()

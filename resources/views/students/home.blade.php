@@ -69,10 +69,12 @@
       <div class="row g-3" >
         @foreach ($tiers as $tier)
           <div class="col-12 col-md-6 col-xl-3">
-            <div class="lp-tile" role="button" tabindex="0" data-program="{{ $tier->id }}"
-               style="outline:2px solid rgba(79,124,247,.45)">
-              <h3>{{ $tier->name }}</h3>
-            </div>
+            <a href="{{ route('classByTier', $tier->id) }}" class="text-decoration-none text-reset d-block"> 
+              <div class="lp-tile" role="button" tabindex="0" data-program="{{ $tier->id }}"
+                style="outline:2px solid rgba(79,124,247,.45)">
+                <h3>{{ $tier->name }}</h3>
+              </div>
+            </a>
           </div>
         @endforeach
       </div>

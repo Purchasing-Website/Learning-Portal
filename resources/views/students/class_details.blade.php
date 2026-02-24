@@ -30,10 +30,31 @@
           <span class="lp-pill"><i class="bi bi-hourglass-split"></i> Total Time: <strong >{{ $classDetail->total_lesson_duration }}m</strong></span>
         </div>
 
+        {{-- <div class="d-flex gap-2 flex-wrap">
+          @if ($studentEnroll)
+            <a class="btn lp-btn lp-btn-primary">
+              <i class="bi bi-play-circle me-1"></i><span>Start</span>
+            </a>
+          @else
+            <a class="btn lp-btn lp-btn-primary">
+              <i class="bi bi-play-circle me-1"></i><span>Enroll</span>
+            </a>
+          @endif
+        </div> --}}
         <div class="d-flex gap-2 flex-wrap">
-          <button class="btn lp-btn lp-btn-primary" id="btnResume">
-            <i class="bi bi-play-circle me-1"></i><span id="resumeText">Start</span>
-          </button>
+          @if ($studentEnroll)
+            {{-- <button class="btn lp-btn lp-btn-primary" id="btnResume"> --}}
+            <a class="btn lp-btn lp-btn-primary" style="z-index:1;" href={{ route('student.class.enroll', $classDetail->classId) }}>
+              <i class="bi bi-play-circle me-1"></i><span>Start</span>
+            </a>
+          @else
+            <form id="enrollForm" method="POST" action="{{ route('student.class.enroll', $classDetail->classId) }}" class="m-0" style="z-index:1;">
+              @csrf
+              <button type="submit" class="btn lp-btn lp-btn-primary" style="z-index:1;">
+                <i class="bi bi-play-circle me-1"></i><span>Enroll</span>
+              </button>
+            </form>
+          @endif
         </div>
       </div>
     </div>
@@ -210,6 +231,44 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      const enrollForm = document.getElementById("enrollForm");
+      if (enrollForm) {
+        enrollForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const submitBtn = enrollForm.querySelector('button[type="submit"]');
+          if (submitBtn) submitBtn.disabled = true;
+
+          try {
+            const res = await fetch(enrollForm.action, {
+              method: "POST",
+              headers: {
+                "X-CSRF-TOKEN": enrollForm.querySelector('input[name="_token"]').value,
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept": "application/json"
+              },
+              credentials: "same-origin"
+            });
+
+            if (res.status === 401 || res.status === 419 || res.redirected) {
+              window.location.href = "{{ route('login') }}";
+              return;
+            }
+
+            const data = await res.json();
+            alert(data.message || "Enrollment updated.");
+
+            if (res.ok && data.success) {
+              window.location.reload();
+            }
+          } catch (err) {
+            alert("Unable to enroll right now. Please try again.");
+          } finally {
+            if (submitBtn) submitBtn.disabled = false;
+          }
+        });
+      }
+
       render();
 
       // Open lesson button handler

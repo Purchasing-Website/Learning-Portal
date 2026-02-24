@@ -322,7 +322,10 @@
           window.location.href = detailUrlTemplate.replace('__ID__', encodeURIComponent(classid));
           
         } 
-        if(action === "open") alert("Open class player for " + id);
+        if(action === "open") {
+          //alert("Open class player for " + id);
+          
+        }
         if(action === "enroll") {
           @auth
           (async () => {

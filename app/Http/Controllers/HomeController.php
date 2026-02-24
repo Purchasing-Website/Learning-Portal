@@ -117,4 +117,37 @@ class HomeController extends Controller
         return view('students.class', ['classes' => $classes]);
 
     }
+
+    public function getClassByTier($tierId){
+        $classRows = Classes::with('tier:id,name')
+            ->where('tier_id', $tierId)
+            ->orderByDesc('created_at')
+            ->get(['id', 'title', 'tier_id']);
+
+        $enrollmentByClass = collect();
+        if (Auth::check() && $classRows->isNotEmpty()) {
+            $enrollmentByClass = Enrollment::where('student_id', Auth::id())
+                ->whereIn('class_id', $classRows->pluck('id'))
+                ->get(['class_id', 'progress'])
+                ->keyBy('class_id');
+        }
+
+        $classes = $classRows->map(function ($row) use ($enrollmentByClass) {
+            $enrollment = $enrollmentByClass->get($row->id);
+
+            return [
+                'class_id'           => 'CLS-' . str_pad($row->id, 4, '0', STR_PAD_LEFT),
+                'classId'            => $row->id,
+                'class_name'         => $row->title,
+                'program_name'       => $row->tier->name,
+                'enrolled'           => (bool) $enrollment,
+                'progress'           => $enrollment ? (float) $enrollment->progress : 0,
+                'duration_total_min' => 320,
+                'time_spent_min'     => 118,
+                'popularity'         => 96,
+            ];
+        });
+
+        return view('students.class', ['classes' => $classes]);
+    }
 }

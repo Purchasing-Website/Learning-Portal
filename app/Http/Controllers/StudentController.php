@@ -283,11 +283,13 @@ class StudentController extends Controller
         $class = Classes::with(['tier:id,name', 'courses:id,title'])->findOrFail($classid);
 
         $lessons = Lesson::where('class_id', $classid)
+            ->where('is_active',1)
             ->orderBy('sequence')
             ->get(['id', 'title', 'duration', 'sequence']);
 
         $lessonStatuses = collect();
         $studentId = Auth::id();
+        $studentEnroll = false;
 
         if ($studentId) {
             $isEnrolled = Enrollment::where('student_id', $studentId)
@@ -295,6 +297,7 @@ class StudentController extends Controller
                 ->exists();
 
             if ($isEnrolled) {
+                $studentEnroll = true;
                 $lessonStatuses = StudentLessonProgress::where('student_id', $studentId)
                     ->where('class_id', $classid)
                     ->get(['lesson_id', 'progress_percentage', 'is_completed', 'created_at', 'last_accessed_at'])
@@ -333,6 +336,7 @@ class StudentController extends Controller
         });
 
         $classDetail = (object) [
+            'classId' => $class->id,
             'class_name' => $class->title,
             'tier_name' => $class->tier->name ?? '',
             'course_name' => optional($class->courses->first())->title ?? '',
@@ -340,7 +344,7 @@ class StudentController extends Controller
             'total_lesson_duration' => $totalLessonDuration,
         ];
 
-        return view('students.class_details', compact('lessons', 'classDetail'));
+        return view('students.class_details', compact('lessons', 'classDetail','studentEnroll'));
     }
 
 

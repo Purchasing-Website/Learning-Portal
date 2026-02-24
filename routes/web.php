@@ -37,6 +37,7 @@ Route::domain('haolin.test')->group(function () {
     Route::get('/classes', [HomeController::class, 'class'])->name('class');
     Route::get('/course/{id}/classes',[HomeController::class, 'getCourseClass'])->name('getclass');
     Route::get('/class/{id}/detail',[StudentController::class, 'getClass'])->name('classDetail');
+    Route::get('/class/{id}/tier',[HomeController::class, 'getClassByTier'])->name('classByTier');
     // normal user routes
     Route::middleware(['auth' , 'role:student'])->group(function () {
         Route::get('/student/classes', [StudentController::class, 'assignedClasses'])->name('student.classes');
