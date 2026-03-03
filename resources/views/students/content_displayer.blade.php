@@ -1,4 +1,4 @@
-@extends('layouts.comtent_displayer_app')
+@extends('layouts.content_displayer_app')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/content_displayer.css') }}">

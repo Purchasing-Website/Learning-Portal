@@ -20,7 +20,7 @@
 			<button type="button" class="btn lp-btn-outline" id="btnResetTop">
 			  <i class="bi bi-arrow-counterclockwise me-1"></i>Reset
 			</button>
-			<button type="button" class="btn lp-btn-save" id="btnSaveTop" disabled>
+			<button type="submit" form="profileForm" class="btn lp-btn-save" id="btnSaveTop">
 			  <i class="bi bi-check2-circle me-1"></i>Save
 			</button>
 		  </div>
@@ -39,8 +39,8 @@
               <div class="d-flex align-items-center gap-3">
                 <div class="lp-avatar" id="avatarInitials">HL</div>
                 <div>
-                  <div class="fw-black fs-5 fw-bold" id="profileNamePreview">Hao Lin</div>
-                  <div class="text-secondary small" id="profileEmailPreview">haolin@example.com</div>
+                  <div class="fw-black fs-5 fw-bold" id="profileNamePreview">{{ $user->name }}</div>
+                  <div class="text-secondary small" id="profileEmailPreview">{{ $user->email }}</div>
                   <div class="d-flex gap-2 flex-wrap mt-2">
                     <span class="lp-pill"><i class="bi bi-shield-check"></i>Student Account</span>
                     <span class="lp-pill"><i class="bi bi-person-vcard"></i>Profile Editable</span>
@@ -57,15 +57,28 @@
             <hr class="my-3">
 			
 			
-
-            <form id="profileForm" novalidate>
-			<div id="saveAlert" class="alert d-none mb-3" role="alert"></div>
+            <form id="profileForm" method="POST" action="{{ url('/student/profile/' . encrypt($user->id) . '/save') }}" novalidate>
+              @csrf
+              <div id="saveAlert" class="alert d-none mb-3" role="alert"></div>
+              @if ($errors->any())
+                <div class="alert alert-danger mb-3" role="alert">
+                  <ul class="mb-0 ps-3">
+                    @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                    @endforeach
+                  </ul>
+                </div>
+              @endif
               <div class="row g-3">
                 <!-- First Name -->
                 <div class="col-12 col-md-6">
                   <label class="form-label fw-semibold lp-required" for="firstName">First Name</label>
-                  <input class="form-control lp-field" id="firstName" name="firstName" type="text" placeholder="e.g. Hao" required>
-                  <div class="invalid-feedback">First name is required.</div>
+                  <input class="form-control lp-field @error('name') is-invalid @enderror" id="firstName" name="name" type="text" placeholder="e.g. Hao" value="{{ old('name', $user->name) }}" required>
+                  @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @else
+                    <div class="invalid-feedback">First name is required.</div>
+                  @enderror
                 </div>
 
                 <!-- Last Name -->
@@ -78,31 +91,44 @@
                 <!-- Email -->
                 <div class="col-12">
                   <label class="form-label fw-semibold lp-required" for="email">Email Address</label>
-                  <input class="form-control lp-field" id="email" name="email" type="email" placeholder="name@email.com" required>
-                  <div class="invalid-feedback">Please enter a valid email address.</div>
+                  <input class="form-control lp-field @error('email') is-invalid @enderror" id="email" name="email" type="email" placeholder="name@email.com" value="{{ old('email', $user->email) }}" required>
+                  @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @else
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                  @enderror
                 </div>
 
                 <!-- Birthdate (optional) -->
                 <div class="col-12 col-md-6">
                   <label class="form-label fw-semibold" for="birthdate">Birthdate (Optional)</label>
-                  <input class="form-control lp-field" id="birthdate" name="birthdate" type="date">
+                  <input class="form-control lp-field @error('birthdate') is-invalid @enderror" id="birthdate" name="birthdate" type="date" value="{{ old('birthdate', $user->date_of_birth) }}">
+                  @error('birthdate')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <!-- Gender (optional) -->
                 <div class="col-12 col-md-6">
                   <label class="form-label fw-semibold" for="gender">Gender (Optional)</label>
-                  <select class="form-select lp-field" id="gender" name="gender">
+                  <select class="form-select lp-field @error('gender') is-invalid @enderror" id="gender" name="gender">
                     <option value="">Select…</option>
-					<option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="prefer_not">Prefer not to say</option>
+					          <option value="male" @selected(old('gender', $user->gender) === 'male')>Male</option>
+                    <option value="female" @selected(old('gender', $user->gender) === 'female')>Female</option>
+                    <option value="other" @selected(old('gender', $user->gender) === 'other')>Prefer not to say</option>
                   </select>
+                  @error('gender')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <!-- Phone (optional) -->
                 <div class="col-12">
                   <label class="form-label fw-semibold" for="phone">Phone Number (Optional)</label>
-                  <input class="form-control lp-field" id="phone" name="phone" type="tel" placeholder="e.g. +60 12-345 6789">
+                  <input class="form-control lp-field @error('phone') is-invalid @enderror" id="phone" name="phone" type="tel" placeholder="e.g. +60123456789" value="{{ old('phone', $user->phone) }}">
+                  @error('phone')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
                   <div class="form-text text-secondary">
                     Tip: include country code (e.g. +60).
                   </div>
@@ -133,10 +159,10 @@
     <!-- Mobile bottom bar -->
     <div class="lp-bottom-bar">
       <div class="container d-flex gap-2 align-items-center">
-        <button class="btn lp-btn-outline flex-grow-1" id="btnResetMobile">
+        <button type="reset" form="profileForm" class="btn lp-btn-outline flex-grow-1" id="btnResetMobile">
           <i class="bi bi-arrow-counterclockwise me-1"></i>Reset
         </button>
-        <button class="btn lp-btn-save flex-grow-1" id="btnSaveMobile" disabled>
+        <button type="submit" form="profileForm" class="btn lp-btn-save flex-grow-1" id="btnSaveMobile">
           <i class="bi bi-check2-circle me-1"></i>Save
         </button>
       </div>
@@ -146,14 +172,16 @@
 @push('scripts')
 <script>
   // ===== Sample initial profile data (replace with server data later) =====
-  const INITIAL_PROFILE = {
-    firstName: "Hao",
-    lastName: "Lin",
-    email: "haolin@example.com",
-    birthdate: "",
-    gender: "",
-    phone: ""
-  };
+  // const INITIAL_PROFILE = {
+  //   firstName: "Hao",
+  //   lastName: "Lin",
+  //   email: "haolin@example.com",
+  //   birthdate: "",
+  //   gender: "",
+  //   phone: ""
+  // };
+
+  const INITIAL_PROFILE = null;
 
   // ===== DOM =====
   const form = document.getElementById("profileForm");

@@ -119,10 +119,17 @@ class HomeController extends Controller
     }
 
     public function getClassByTier($tierId){
+        $tierLevel = Tier::whereKey($tierId)->value('level');
+
+        if ($tierLevel === null) {
+            return view('students.class', ['classes' => collect()]);
+        }
+
         $classRows = Classes::with('tier:id,name')
-            ->where('tier_id', $tierId)
-            ->orderByDesc('created_at')
-            ->get(['id', 'title', 'tier_id']);
+            ->join('tiers', 'tiers.id', '=', 'classes.tier_id')
+            ->where('tiers.level', '<=', $tierLevel)
+            ->orderByDesc('classes.created_at')
+            ->get(['classes.id', 'classes.title', 'classes.tier_id']);
 
         $enrollmentByClass = collect();
         if (Auth::check() && $classRows->isNotEmpty()) {

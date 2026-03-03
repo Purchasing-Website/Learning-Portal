@@ -5,7 +5,6 @@
 @endpush
 
 @section('content')
-  <!-- HEADER -->
   <div class="d-flex flex-column flex-lg-row align-items-lg-end justify-content-between gap-3 mb-3">
     <div>
       <h1 class="lp-page-title">My Learning</h1>
@@ -18,7 +17,6 @@
     </div>
   </div>
 
-  <!-- SUMMARY -->
   <div class="lp-summary p-3 p-lg-4 mb-4">
     <div class="row g-3">
       <div class="col-6 col-lg-3">
@@ -48,7 +46,6 @@
     </div>
   </div>
 
-  <!-- CONTROLS -->
   <div class="lp-controls p-3 p-lg-3 mb-4">
     <div class="row g-3 align-items-center">
       <div class="col-12 col-lg-6">
@@ -79,286 +76,180 @@
     </div>
   </div>
 
-  <!-- GRID -->
-  <div class="row g-3 g-lg-4" id="classGrid"></div>
-
-  <!-- EMPTY -->
-  <div class="lp-empty mt-4 d-none" id="emptyState">
-    <div class="fs-5 fw-bold mb-1">No classes found</div>
-    <div>Try changing the filter or search keyword.</div>
-  </div>
-@endsection
-  
-@push('scripts')
-<script>
-    // ===== Sample Enrolled Class Data (replace with Laravel later) =====
-    const ENROLLED_CLASSES = [
-  {
-      id: "CLS-1001",
-  course_name: "Feng Shui",
-      class_name: "风水入门 · Feng Shui Basics",
-  date_enrolled: "2026-01-16T09:00:00",
-      instructor: "Hao Lin Academy",
-      status: "in_progress", // not_started | in_progress | completed
-      progress: 42,          // 0 - 100
-      duration_total_min: 320,
-      time_spent_min: 118,   // duration of taking the class
-      last_access: "2026-01-17T21:30:00"
-    },
-    {
-      id: "CLS-1002",
-  course_name: "Feng Shui",
-      class_name: "身心疗愈 · Mind & Body Healing",
-  date_enrolled: "2026-02-16T09:00:00",
-      instructor: "Hao Lin Academy",
-      status: "not_started",
-      progress: 0,
-      duration_total_min: 210,
-      time_spent_min: 0,
-      last_access: "2026-01-10T10:10:00"
-    },
-    {
-      id: "CLS-1003",
-  course_name: "Feng Shui",
-      class_name: "易数基础 · Yi Numerology 易数基础 · Yi Numerology",
-  date_enrolled: "2026-01-26T09:00:00",
-      instructor: "Hao Lin Academy",
-      status: "completed",
-      progress: 100,
-      duration_total_min: 180,
-      time_spent_min: 196,
-      last_access: "2026-01-05T08:00:00"
-    },
-    {
-      id: "CLS-1004",
-  course_name: "Feng Shui",
-      class_name: "Meditation for Clarity",
-  date_enrolled: "2026-03-16T09:00:00",
-      instructor: "Hao Lin Academy",
-      status: "in_progress",
-      progress: 78,
-      duration_total_min: 260,
-      time_spent_min: 205,
-      last_access: "2026-01-18T01:10:00"
-    }
-  ];
-
-  // ===== Helpers =====
-  const $ = (id) => document.getElementById(id);
-
-  function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
-
-  function formatMinutes(min){
-    const m = Math.max(0, Math.round(min));
-    const h = Math.floor(m / 60);
-    const r = m % 60;
-    if(h <= 0) return r + "m";
-    if(r === 0) return h + "h";
-    return h + "h " + r + "m";
-  }
-
-  function formatDateTime(iso){
-    const d = new Date(iso);
-    // Simple readable format
-    return d.toLocaleString(undefined, { year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
-  }
-
-  function statusLabel(s){
-    if(s === "completed") return "Completed";
-    if(s === "in_progress") return "In Progress";
-    return "Not Started";
-  }
-
-  function statusBadgeClass(s){
-    if(s === "completed") return "status-complete";
-    if(s === "in_progress") return "status-inprogress";
-    return "status-notstarted";
-  }
-
-  function computeTimeLeft(totalMin, spentMin){
-    const left = Math.max(0, totalMin - spentMin);
-    return left;
-  }
-
-  // ===== Rendering =====
-  function render(){
-    const q = ($("searchInput").value || "").trim().toLowerCase();
-    const status = $("statusFilter").value;
-    const sortBy = $("sortBy").value;
-
-    // filter
-    let items = ENROLLED_CLASSES.filter(c => {
-      const matchesQ =
-        c.class_name.toLowerCase().includes(q) ||
-        c.instructor.toLowerCase().includes(q) ||
-        c.id.toLowerCase().includes(q);
-
-      const matchesStatus = (status === "all") ? true : c.status === status;
-      return matchesQ && matchesStatus;
-    });
-
-    // sort
-    items.sort((a,b) => {
-  if (sortBy === "enrolled_desc") return new Date(b.date_enrolled) - new Date(a.date_enrolled);
-      //if(sortBy === "last_access_desc") return new Date(b.last_access) - new Date(a.last_access);
-      if(sortBy === "progress_desc") return (b.progress - a.progress);
-      if(sortBy === "progress_asc") return (a.progress - b.progress);
-      if(sortBy === "time_desc") return (b.time_spent_min - a.time_spent_min);
-      if(sortBy === "class_name_asc") return a.class_name.localeCompare(b.class_name);
-      return 0;
-    });
-
-    // grid
-    const grid = $("classGrid");
-    grid.innerHTML = "";
-
-    if(items.length === 0){
-      $("emptyState").classList.remove("d-none");
-    } else {
-      $("emptyState").classList.add("d-none");
-    }
-
-    for(const c of items){
-      const progress = clamp(c.progress, 0, 100);
-      const spent = Math.max(0, c.time_spent_min);
-      const total = Math.max(0, c.duration_total_min);
-      const left = computeTimeLeft(total, spent);
-
-      const pctText = progress + "%";
-      const spentText = formatMinutes(spent);
-      const totalText = formatMinutes(total);
-      const leftText = formatMinutes(left);
-
-      const primaryBtnText =
-        c.status === "completed" ? "Review" :
-        (c.status === "not_started" ? "Start" : "Continue");
-
-      const primaryIcon =
-        c.status === "completed" ? "bi-arrow-repeat" :
-        (c.status === "not_started" ? "bi-play-circle" : "bi-play-circle");
-
-      const col = document.createElement("div");
-      col.className = "col-12 col-md-6 col-xl-4";
-
-      col.innerHTML = `
+  <div class="row g-3 g-lg-4" id="classGrid">
+    @foreach(($enrolledClasses ?? []) as $class)
+      @php
+        $status = $class['status'] ?? 'not_started';
+        $progress = max(0, min(100, (int) ($class['progress'] ?? 0)));
+        $spentMin = max(0, (int) ($class['time_spent_min'] ?? 0));
+        $totalMin = max(0, (int) ($class['duration_total_min'] ?? 0));
+        $leftMin = max(0, $totalMin - $spentMin);
+        $statusLabel = $status === 'completed' ? 'Completed' : ($status === 'in_progress' ? 'In Progress' : 'Not Started');
+        $buttonText = $status === 'completed' ? 'Review' : ($status === 'not_started' ? 'Start' : 'Continue');
+        $buttonIcon = $status === 'completed' ? 'bi-arrow-repeat' : 'bi-play-circle';
+      @endphp
+      <div
+        class="col-12 col-md-6 col-xl-4"
+        data-class-item
+        data-id="{{ $class['id'] ?? '' }}"
+        data-status="{{ $status }}"
+        data-progress="{{ $progress }}"
+        data-enrolled="{{ $class['date_enrolled'] ?? '' }}"
+        data-time="{{ $spentMin }}"
+        data-title="{{ strtolower($class['class_name'] ?? '') }}"
+        data-search="{{ strtolower(($class['class_name'] ?? '') . ' ' . ($class['course_name'] ?? '') . ' ' . ($class['instructor'] ?? '') . ' ' . ($class['id'] ?? '')) }}"
+      >
         <div class="lp-class-card h-100">
-    <div style="height:10px;background:linear-gradient(90deg,var(--lp-blue2),var(--lp-purple),var(--lp-pink));"></div>
+          <div style="height:10px;background:linear-gradient(90deg,var(--lp-blue2),var(--lp-purple),var(--lp-pink));"></div>
 
           <div class="lp-class-body">
             <div class="d-flex align-items-start justify-content-between gap-2">
               <div>
-                <h3 class="lp-class-title">${escapeHtml(c.class_name)}</h3>
-                <p class="lp-class-meta mb-0">${escapeHtml(c.course_name)}</p>
+                <h3 class="lp-class-title">{{ $class['class_name'] ?? '' }}</h3>
+                <p class="lp-class-meta mb-0">{{ $class['course_name'] ?? '' }}</p>
               </div>
-      <span class="lp-badge">${c.id}</span>
+              <span class="lp-badge">{{ $class['id'] ?? '' }}</span>
             </div>
 
             <div class="lp-progress-row mt-3">
               <div class="lp-progress" aria-label="Progress">
-                <div style="width:${progress}%"></div>
+                <div class="js-progress-fill" data-progress="{{ $progress }}"></div>
               </div>
-              <div class="lp-progress-pct">${pctText}</div>
+              <div class="lp-progress-pct">{{ $progress }}%</div>
             </div>
 
             <div class="lp-stats">
               <div class="lp-stat">
                 <i class="bi bi-hourglass-split"></i>
-                <span><strong>${spentText}</strong> spent</span>
+                <span><strong class="js-minutes" data-minutes="{{ $spentMin }}">{{ $spentMin }}</strong> spent</span>
               </div>
               <div class="lp-stat">
                 <i class="bi bi-calendar2-week"></i>
-                <span><strong>${leftText}</strong> left</span>
+                <span><strong class="js-minutes" data-minutes="{{ $leftMin }}">{{ $leftMin }}</strong> left</span>
               </div>
               <div class="lp-stat">
                 <i class="bi bi-collection-play"></i>
-                <span>${totalText} total</span>
+                <span><span class="js-minutes" data-minutes="{{ $totalMin }}">{{ $totalMin }}</span> total</span>
               </div>
             </div>
 
             <div class="mt-3 small text-secondary">
-              <span class="lp-badge">${statusLabel(c.status)}</span>
+              <span class="lp-badge">{{ $statusLabel }}</span>
             </div>
           </div>
 
           <div class="lp-actions mt-auto">
-            <button class="btn lp-btn lp-btn-outline" data-action="details" data-id="${escapeAttr(c.id)}">
-              <i class="bi bi-info-circle me-1"></i>Details
-            </button>
-            <button class="btn lp-btn lp-btn-primary" data-action="continue" data-id="${escapeAttr(c.id)}">
-              <i class="bi ${primaryIcon} me-1"></i>${primaryBtnText}
-            </button>
+            {{-- <form method="GET" action="#" class="d-flex justify-content-between w-100">
+              <input type="hidden" name="class_id" value="{{ $class['class_id'] ?? '' }}">
+              <input type="hidden" name="intent" value="auto"> --}}
+              <a href="{{ route('classDetail',$class['classId']) }}" class="btn lp-btn lp-btn-outline" data-action="details">
+                <i class="bi bi-info-circle me-1"></i>Details
+              </a>
+              <a href="{{ route('student.Content') }}" class="btn lp-btn lp-btn-primary" data-action="continue">
+                <i class="bi {{ $buttonIcon }} me-1"></i>{{ $buttonText }}
+              </a>
+            {{-- </form> --}}
           </div>
         </div>
-      `;
+      </div>
+    @endforeach
+  </div>
 
-      grid.appendChild(col);
-    }
+  <div class="lp-empty mt-4 {{ empty($enrolledClasses) ? '' : 'd-none' }}" id="emptyState">
+    <div class="fs-5 fw-bold mb-1">No classes found</div>
+    <div>Try changing the filter or search keyword.</div>
+  </div>
+@endsection
 
-    // summary metrics
-    const enrolled = ENROLLED_CLASSES.length;
-    const inProg = ENROLLED_CLASSES.filter(x => x.status === "in_progress").length;
-    const completed = ENROLLED_CLASSES.filter(x => x.status === "completed").length;
-    const totalSpent = ENROLLED_CLASSES.reduce((sum, x) => sum + Math.max(0, x.time_spent_min), 0);
+@push('scripts')
+<script>
+  const $ = (id) => document.getElementById(id);
 
-    $("mEnrolled").textContent = enrolled;
-    $("mInProgress").textContent = inProg;
-    $("mCompleted").textContent = completed;
-    $("mTime").textContent = formatMinutes(totalSpent);
+  function clamp(n, min, max) {
+    return Math.max(min, Math.min(max, n));
   }
 
-  // Escape helpers (avoid HTML injection)
-  function escapeHtml(str){
-    return String(str).replace(/[&<>"']/g, s => ({
-      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
-    }[s]));
-  }
-  function escapeAttr(str){
-    return String(str).replace(/"/g, "&quot;");
+  function formatMinutes(min) {
+    const m = Math.max(0, Math.round(Number(min) || 0));
+    const h = Math.floor(m / 60);
+    const r = m % 60;
+    if (h <= 0) return r + 'm';
+    if (r === 0) return h + 'h';
+    return h + 'h ' + r + 'm';
   }
 
-  // ===== Events =====
-  document.addEventListener("DOMContentLoaded", () => {
-    render();
+  function applyProgressBars() {
+    document.querySelectorAll('.js-progress-fill').forEach((el) => {
+      const progress = clamp(Number(el.dataset.progress || 0), 0, 100);
+      el.style.width = progress + '%';
+    });
+  }
 
-    ["searchInput","statusFilter","sortBy"].forEach(id => {
-      $(id).addEventListener("input", render);
-      $(id).addEventListener("change", render);
+  function applyMinuteLabels() {
+    document.querySelectorAll('.js-minutes').forEach((el) => {
+      el.textContent = formatMinutes(el.dataset.minutes);
+    });
+  }
+
+  function applyFiltersAndSort() {
+    const q = (($('searchInput')?.value || '').trim().toLowerCase());
+    const status = $('statusFilter')?.value || 'all';
+    const sortBy = $('sortBy')?.value || 'enrolled_desc';
+    const grid = $('classGrid');
+    const cards = Array.from(document.querySelectorAll('[data-class-item]'));
+
+    cards.sort((a, b) => {
+      if (sortBy === 'enrolled_desc') return new Date(b.dataset.enrolled || 0) - new Date(a.dataset.enrolled || 0);
+      if (sortBy === 'progress_desc') return Number(b.dataset.progress || 0) - Number(a.dataset.progress || 0);
+      if (sortBy === 'progress_asc') return Number(a.dataset.progress || 0) - Number(b.dataset.progress || 0);
+      if (sortBy === 'time_desc') return Number(b.dataset.time || 0) - Number(a.dataset.time || 0);
+      if (sortBy === 'class_name_asc') return String(a.dataset.title || '').localeCompare(String(b.dataset.title || ''));
+      return 0;
     });
 
-    $("btnRefresh").addEventListener("click", () => {
-      // In real app, refetch API then render.
-      render();
-    });
+    let visibleCount = 0;
+    let inProgressCount = 0;
+    let completedCount = 0;
+    let totalSpent = 0;
 
-    // Delegate card button clicks
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-action]");
-      if(!btn) return;
+    cards.forEach((card) => {
+      const matchesSearch = (card.dataset.search || '').includes(q);
+      const matchesStatus = status === 'all' || (card.dataset.status || '') === status;
+      const visible = matchesSearch && matchesStatus;
 
-      const action = btn.getAttribute("data-action");
-      const id = btn.getAttribute("data-id");
-      const cls = ENROLLED_CLASSES.find(x => x.id === id);
-      if(!cls) return;
+      card.classList.toggle('d-none', !visible);
+      grid.appendChild(card);
 
-      if(action === "details"){
-        alert(
-          "Class Details\n\n" +
-          "ID: " + cls.id + "\n" +
-          "Title: " + cls.class_name + "\n" +
-          "Status: " + statusLabel(cls.status) + "\n" +
-          "Progress: " + cls.progress + "%\n" +
-          "Time spent: " + formatMinutes(cls.time_spent_min) + "\n" +
-          "Total: " + formatMinutes(cls.duration_total_min)
-        );
+      if (visible) {
+        visibleCount += 1;
+        totalSpent += Number(card.dataset.time || 0);
+
+        if ((card.dataset.status || '') === 'in_progress') inProgressCount += 1;
+        if ((card.dataset.status || '') === 'completed') completedCount += 1;
       }
-
-      if(action === "continue"){
-        alert("Go to learning player for: " + cls.id + "\nNext: " + cls.next_lesson);
-        // Example for Laravel:
-        // window.location.href = `/student/class/${encodeURIComponent(cls.id)}`;
-      }
     });
+
+    $('emptyState')?.classList.toggle('d-none', visibleCount > 0);
+    if ($('mEnrolled')) $('mEnrolled').textContent = String(visibleCount);
+    if ($('mInProgress')) $('mInProgress').textContent = String(inProgressCount);
+    if ($('mCompleted')) $('mCompleted').textContent = String(completedCount);
+    if ($('mTime')) $('mTime').textContent = formatMinutes(totalSpent);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    applyProgressBars();
+    applyMinuteLabels();
+    applyFiltersAndSort();
+
+    ['searchInput', 'statusFilter', 'sortBy'].forEach((id) => {
+      const el = $(id);
+      if (!el) return;
+      el.addEventListener('input', applyFiltersAndSort);
+      el.addEventListener('change', applyFiltersAndSort);
+    });
+
+    $('btnRefresh')?.addEventListener('click', applyFiltersAndSort);
+
   });
-
 </script>
 @endpush

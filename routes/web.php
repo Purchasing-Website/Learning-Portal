@@ -40,6 +40,9 @@ Route::domain('haolin.test')->group(function () {
     Route::get('/class/{id}/tier',[HomeController::class, 'getClassByTier'])->name('classByTier');
     // normal user routes
     Route::middleware(['auth' , 'role:student'])->group(function () {
+        Route::get('/profile/{id}', [StudentController::class, 'getProfile'])->name('student.getProfile');
+        Route::get('/mylearning', [StudentController::class, 'myLearning'])->name('student.mylearning');
+        Route::get('/content', [StudentController::class, 'content'])->name('student.Content');
         Route::get('/student/classes', [StudentController::class, 'assignedClasses'])->name('student.classes');
         Route::post('/student/class/{id}/enroll', [EnrollmentController::class, 'updateEnrollment'])->name('student.class.enroll');
         Route::get('/class/{id}/lessons', [StudentController::class, 'lessons'])->name('student.class.lessons');

@@ -10,6 +10,7 @@ use App\Models\Lesson;
 use App\Models\StudentLessonProgress;
 use App\Models\Enrollment;
 use App\Models\Quiz;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
@@ -347,5 +348,111 @@ class StudentController extends Controller
         return view('students.class_details', compact('lessons', 'classDetail','studentEnroll'));
     }
 
+    public function getProfile($id){
+        $user = User::findOrFail(decrypt($id));
 
+        return view('students.profile', compact('user'));
+    }
+
+    public function saveProfile(Request $request, $id)
+    {
+        try {
+            $userId = decrypt($id);
+        } catch (\Throwable $e) {
+            abort(404, 'Invalid profile identifier.');
+        }
+
+        $user = User::findOrFail($userId);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'birthdate' => 'nullable|date',
+            'date_of_birth' => 'nullable|date',
+            'gender' => 'nullable|in:male,female,other',
+            'gendar' => 'nullable|in:male,female,other',
+            'phone' => ['nullable', 'regex:/^\+60(1\d{8,9}|[3-9]\d{7,8})$/'],
+        ]);
+
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->date_of_birth = $validated['birthdate'] ?? $validated['date_of_birth'] ?? null;
+        $user->gender = $validated['gender'] ?? $validated['gendar'] ?? null;
+        $user->phone = $validated['phone'] ?? null;
+        $user->updated_by = Auth::id();
+        $user->save();
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully.',
+                'data' => $user->only(['id', 'name', 'email', 'date_of_birth', 'gender', 'phone']),
+            ]);
+        }
+
+        return back()->with('success', 'Profile updated successfully.');
+    }
+
+    public function myLearning(){
+        $studentId = Auth::id();
+        $progressByClass = StudentLessonProgress::query()
+            ->from('student_progress')
+            ->leftJoin('lessons', 'student_progress.lesson_id', '=', 'lessons.id')
+            ->where('student_progress.student_id', $studentId)
+            ->groupBy('student_progress.class_id')
+            ->selectRaw('
+                student_progress.class_id,
+                MAX(student_progress.last_accessed_at) as last_access,
+                COALESCE(ROUND(SUM(COALESCE(lessons.duration, 0) * (student_progress.progress_percentage / 100))), 0) as time_spent_min
+            ')
+            ->get()
+            ->keyBy('class_id');
+
+        $enrolledClasses = Enrollment::query()
+            ->where('student_id', $studentId)
+            ->with([
+                'class' => function ($query) {
+                    $query->select('id', 'title')
+                        ->withSum('lessons as duration_total_min', 'duration')
+                        ->with(['courses' => function ($courseQuery) {
+                            $courseQuery->select('courses.id', 'courses.title');
+                        }]);
+                },
+            ])
+            ->get(['class_id', 'status', 'progress', 'enrolled_at'])
+            ->map(function ($enrollment) use ($progressByClass) {
+                $class = $enrollment->class;
+                $classProgress = $progressByClass->get($enrollment->class_id);
+                $progressValue = (float) ($enrollment->progress ?? 0);
+                $normalizedStatus = $progressValue >= 100
+                    ? 'completed'
+                    : ($progressValue > 0 ? 'in_progress' : 'not_started');
+
+                return [
+                    'id' => 'CLS-' . str_pad((string) $enrollment->class_id, 4, '0', STR_PAD_LEFT),
+                    'classId' => $enrollment->class_id,
+                    'course_name' => optional($class?->courses?->first())->title ?? '',
+                    'class_name' => $class->title ?? '',
+                    'date_enrolled' => $enrollment->enrolled_at
+                        ? \Carbon\Carbon::parse($enrollment->enrolled_at)->format('Y-m-d\TH:i:s')
+                        : null,
+                    'instructor' => 'Hao Lin Academy',
+                    'status' => $normalizedStatus,
+                    'progress' => (int) round(max(0, min(100, $progressValue))),
+                    'duration_total_min' => (int) ($class->duration_total_min ?? 0),
+                    'time_spent_min' => (int) ($classProgress->time_spent_min ?? 0),
+                    'last_access' => !empty($classProgress->last_access)
+                        ? \Carbon\Carbon::parse($classProgress->last_access)->format('Y-m-d\TH:i:s')
+                        : null,
+                ];
+            })
+            ->values();
+
+        return view('students.my_learning', compact('enrolledClasses'));
+    }
+
+    public function content(){
+        return view('students.content_displayer');
+    }
+    
 }

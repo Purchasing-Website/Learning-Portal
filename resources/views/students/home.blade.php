@@ -43,9 +43,16 @@
               <hr class="my-3">
 
               <div class="d-grid gap-2">
-                <a class="btn lp-btn lp-btn-outline" href="MyLearning.html"><i class="bi bi-journal-check me-1"></i>My Learning</a>
-                <a class="btn lp-btn lp-btn-outline" href="SearchResults.html"><i class="bi bi-search me-1"></i>Search Results</a>
-                <a class="btn lp-btn lp-btn-outline" href="Profile.html"><i class="bi bi-person-circle me-1"></i>My Profile</a>
+                @auth
+                  <a class="btn lp-btn lp-btn-outline" href="{{ route('student.mylearning') }}"><i class="bi bi-journal-check me-1"></i>My Learning</a>
+                  <a class="btn lp-btn lp-btn-outline" href="SearchResults.html"><i class="bi bi-search me-1"></i>Search Results</a>
+                  <a class="btn lp-btn lp-btn-outline" href="{{ route('student.getProfile',encrypt(auth()->id())) }}"><i class="bi bi-person-circle me-1"></i>My Profile</a>
+                @endauth
+                @guest
+                  <a class="btn lp-btn lp-btn-outline" href="/login"><i class="bi bi-journal-check me-1"></i>My Learning</a>
+                  <a class="btn lp-btn lp-btn-outline" href="SearchResults.html"><i class="bi bi-search me-1"></i>Search Results</a>
+                  <a class="btn lp-btn lp-btn-outline" href="/login"><i class="bi bi-person-circle me-1"></i>My Profile</a>
+                @endguest
               </div>
             </div>
           </div>
@@ -57,12 +64,9 @@
     <section class="mb-4">
       <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-2 mb-3">
         <div>
-          <h2 class="lp-section-title">Programs</h2>
-          <p class="lp-section-sub">Pick a program to view its courses and classes.</p>
+          <h2 class="lp-section-title">Tiers</h2>
+          <p class="lp-section-sub">Pick a tier to view its classes.</p>
         </div>
-		{{-- <a class="btn lp-btn lp-btn-outline" href="SearchResults.html">
-          View All
-        </a> --}}
       </div>
 
       {{-- <div class="row g-3" id="programGrid"></div> --}}
