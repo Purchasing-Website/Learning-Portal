@@ -451,8 +451,46 @@ class StudentController extends Controller
         return view('students.my_learning', compact('enrolledClasses'));
     }
 
-    public function content(){
-        return view('students.content_displayer');
+    public function contentDisplayer($classId)
+    {
+        $class = Classes::findOrFail($classId);
+    
+        $lessons = Lesson::where('class_id', $classId)
+            ->where('is_active', 1)
+            ->orderBy('sequence')
+            ->get();
+    
+        // Convert DB rows into the structure your ContentDisplayer.js expects
+        $items = $lessons->map(function ($l) {
+            $type = strtolower(trim($l->content_type ?? ''));
+    
+            // Map DB content_type -> js type (image/pdf/video)
+            $mappedType = match ($type) {
+                'image' => 'image',
+                'pdf'   => 'pdf',
+                'video' => 'video',
+                default => $type, // fallback
+            };
+    
+            return [
+                'id'        => 'lesson-' . $l->id,
+                'title'     => $l->title ?? ('Lesson ' . $l->id),
+                'kind'      => 'lesson',
+                'type'      => $mappedType,
+                'src'       => $l->source_url,     // must be valid URL
+                'completed' => false,
+            ];
+        })->values();
+    
+        $classData = [
+            'classId'   => 'CLS-' . $class->id,
+            'className' => $class->title ?? ('Class ' . $class->id),
+            'user'      => ['name' => auth()->user()->name ?? 'User'],
+            'footer'    => 'Hao Lin© Brand 2025',
+            'items'     => $items,
+        ];
+    
+        return view('students.content_displayer', compact('classData'));
     }
     
 }
