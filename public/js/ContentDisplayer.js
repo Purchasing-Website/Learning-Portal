@@ -200,6 +200,76 @@
         };
 
         stageEl.appendChild(img);
+=======
+  
+      //Set Content Centered
+      function setStageCenter(isCentered) {
+        stage.classList.toggle('text-center', !!isCentered);
+      }
+      
+    function openItem(index){
+      currentIndex = index;
+      const item = items[index];
+  
+      // active style
+      navEl.querySelectorAll("a").forEach(a => a.classList.remove("active"));
+      navEl.querySelector(`a[data-index="${index}"]`)?.classList.add("active");
+  
+      // lesson title
+      titleEl.textContent = item.title;
+  
+      // next visibility
+      nextBtn.style.visibility = (index < items.length - 1) ? "visible" : "Complete";
+  
+      // render content
+      renderContent(item);
+  
+      // set hash
+      location.hash = item.id;
+    }
+  
+    function renderContent(item){
+      stageEl.innerHTML = "";
+  
+      if (item.kind === "lesson") {
+        const type = (item.type || "").toLowerCase();
+  
+        if (type === "image") {
+          const img = document.createElement("img");
+          img.src = encodeURI(item.src); // important for Chinese filename
+          img.alt = item.title;
+  
+          img.onerror = () => {
+            stageEl.innerHTML = `<div class="text-danger small">
+              Image failed to load.<br>
+              URL: ${escapeHtml(item.src)}
+            </div>`;
+          };
+  
+          stageEl.appendChild(img);
+          return;
+        }
+  
+        if (type === "pdf") {
+          stageEl.innerHTML = `
+            <iframe class="lp-iframe"
+                    src="${encodeURI(item.src)}"
+                    title="${escapeHtml(item.title)}"></iframe>`;
+          return;
+        }
+  
+        if (type === "video") {
+          stageEl.innerHTML = `
+            <iframe class="lp-iframe"
+                    src="${item.src}"
+                    title="${escapeHtml(item.title)}"
+                    allowfullscreen
+                    allow="fullscreen; autoplay; encrypted-media; picture-in-picture"></iframe>`;
+          return;
+        }
+  
+        stageEl.innerHTML = `<div class="text-warning small">Unsupported lesson type: ${escapeHtml(type)}</div>`;
+>>>>>>> Stashed changes
         return;
       }
 

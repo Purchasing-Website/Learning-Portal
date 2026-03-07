@@ -107,6 +107,7 @@
 </div>
 
 <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 <script>
   // Inject DB data into the same variable name your JS expects
