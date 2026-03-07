@@ -174,7 +174,8 @@
       titleEl.textContent = item.title;
   
       // next visibility
-      nextBtn.style.visibility = (index < items.length - 1) ? "visible" : "Complete";
+      nextBtn.style.visibility = (index < items.length - 1) ? `Next <i class="bi bi-chevron-double-down"></i>`
+    : `Complete <i class="bi bi-chevron-double-down"></i>`;
   
       // render content
       renderContent(item);
