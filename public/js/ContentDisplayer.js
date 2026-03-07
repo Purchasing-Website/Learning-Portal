@@ -156,6 +156,7 @@
     function setStageCenter(isCentered) {
       stage.classList.toggle('text-center', !!isCentered);
     }
+<<<<<<< Updated upstream
 	
   function openItem(index){
     currentIndex = index;

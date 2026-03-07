@@ -44,6 +44,9 @@ Route::domain('haolin.test')->group(function () {
         Route::get('/mylearning', [StudentController::class, 'myLearning'])->name('student.mylearning');
 <<<<<<< Updated upstream
         Route::get('/content/{id}', [StudentController::class, 'contentDisplayerV2'])->name('student.Content');
+=======
+        Route::get('/content/{id}', [StudentController::class, 'contentDisplayer'])->name('student.Content');
+>>>>>>> Stashed changes
         Route::get('/student/classes', [StudentController::class, 'assignedClasses'])->name('student.classes');
         Route::post('/student/class/{id}/enroll', [EnrollmentController::class, 'updateEnrollment'])->name('student.class.enroll');
         Route::get('/class/{id}/lessons', [StudentController::class, 'lessons'])->name('student.class.lessons');

@@ -106,7 +106,6 @@
   <footer id="lpFooterText">Hao Lin© Brand 2025</footer>
 </div>
 
-<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 <script>
