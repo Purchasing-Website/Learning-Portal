@@ -156,52 +156,6 @@
     function setStageCenter(isCentered) {
       stage.classList.toggle('text-center', !!isCentered);
     }
-<<<<<<< Updated upstream
-	
-  function openItem(index){
-    currentIndex = index;
-    const item = items[index];
-
-    // active style
-    navEl.querySelectorAll("a").forEach(a => a.classList.remove("active"));
-    navEl.querySelector(`a[data-index="${index}"]`)?.classList.add("active");
-
-    // lesson title
-    titleEl.textContent = item.title;
-
-    // next visibility
-    //nextBtn.style.visibility = (index < items.length - 1) ? "visible" : "hidden";
-    nextBtn.innerHTML = index < items.length - 1
-    ? `Next <i class="bi bi-chevron-double-down"></i>`
-    : `Complete <i class="bi bi-chevron-double-down"></i>`;
-    
-    // render content
-    renderContent(item);
-
-    // set hash
-    location.hash = item.id;
-  }
-
-  function renderContent(item){
-    stageEl.innerHTML = "";
-
-    if (item.kind === "lesson") {
-      const type = (item.type || "").toLowerCase();
-
-      if (type === "image") {
-        const img = document.createElement("img");
-        img.src = encodeURI(item.src); // important for Chinese filename
-        img.alt = item.title;
-
-        img.onerror = () => {
-          stageEl.innerHTML = `<div class="text-danger small">
-            Image failed to load.<br>
-            URL: ${escapeHtml(item.src)}
-          </div>`;
-        };
-
-        stageEl.appendChild(img);
-=======
   
       //Set Content Centered
       function setStageCenter(isCentered) {
@@ -270,7 +224,6 @@
         }
   
         stageEl.innerHTML = `<div class="text-warning small">Unsupported lesson type: ${escapeHtml(type)}</div>`;
->>>>>>> Stashed changes
         return;
       }
 
@@ -321,7 +274,7 @@
 		  }
 		}));
 	  });
-  }
+  
 
   function escapeHtml(str){
     return String(str).replace(/[&<>"']/g, m => ({
