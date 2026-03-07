@@ -324,7 +324,8 @@
         } 
         if(action === "open") {
           //alert("Open class player for " + id);
-          
+          const detailUrlTemplate = '{{ route("student.Content", "__ID__") }}';
+          window.location.href = detailUrlTemplate.replace('__ID__', encodeURIComponent(classid));
         }
         if(action === "enroll") {
           @auth
