@@ -168,7 +168,11 @@ class StudentController extends Controller
                 'progress' => $classProgress,
             ]);
             
-            return redirect()->route('student.lesson.start', $nextLesson->id)->with('message', 'Lesson completed. Proceeding to next lesson.');
+            //return redirect()->route('student.lesson.start', $nextLesson->id)->with('message', 'Lesson completed. Proceeding to next lesson.');
+            return response()->json([
+                'success' => true,
+                'message' => 'Lesson completed. Proceeding to next lesson.'
+            ]);
         }
 
         // Check does student completed the Final Quiz with passed result
@@ -182,16 +186,47 @@ class StudentController extends Controller
                 ->with('message', 'All lessons completed. Please proceed to the final quiz.');
         }
 
+        $totalLessons = $class->lessons()->count();
+        $lessonProgress = StudentLessonProgress::where('student_id', $studentId)
+            ->where('class_id', $class->id)
+            ->selectRaw('COUNT(*) as attended_lessons')
+            ->selectRaw('SUM(CASE WHEN is_completed = 1 THEN 1 ELSE 0 END) as completed_lessons')
+            ->first();
+
+        $attendedLessons = (int) ($lessonProgress->attended_lessons ?? 0);
+        $completedLessons = (int) ($lessonProgress->completed_lessons ?? 0);
+        $classProgress = $totalLessons > 0
+            ? round(($completedLessons / $totalLessons) * 100, 2)
+            : 0;
+
+        if ($totalLessons === 0 || $attendedLessons < $totalLessons || $completedLessons < $totalLessons) {
+            Enrollment::where('student_id', $studentId)
+                ->where('class_id', $class->id)
+                ->update([
+                    'status' => 'active',
+                    'progress' => $classProgress,
+                ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Class not complete. Please attend and complete all lessons first.'
+            ]);
+        }
+
         // 3. No more lessons → mark class completed
-        // Enrollment::where('student_id', $studentId)
-        //     ->where('class_id', $class->id)
-        //     ->update([
-        //         'completed_at' => now(),
-        //         'status' => 'completed',
-        //         'progress' => 100,
-        //     ]);
+        Enrollment::where('student_id', $studentId)
+            ->where('class_id', $class->id)
+            ->update([
+                'completed_at' => now(),
+                'status' => 'completed',
+                'progress' => 100,
+            ]);
         
-        return redirect()->route('student.class.lessons',$class->id)->with('message', 'Congratulations! You have completed the class.');
+        //return redirect()->route('student.class.lessons',$class->id)->with('message', 'Congratulations! You have completed the class.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Congratulations! You have completed the class.'
+        ]);
 
     }
 
@@ -478,10 +513,88 @@ class StudentController extends Controller
                 'kind'      => 'lesson',
                 'type'      => $mappedType,
                 'src'       => $l->source_url,     // must be valid URL
-                'completed' => false,
+                'completed' => true,
             ];
         })->values();
     
+        $classData = [
+            'classId'   => 'CLS-' . $class->id,
+            'className' => $class->title ?? ('Class ' . $class->id),
+            'user'      => ['name' => auth()->user()->name ?? 'User'],
+            'footer'    => 'Hao Lin© Brand 2025',
+            'items'     => $items,
+        ];
+    
+        return view('students.content_displayer', compact('classData'));
+    }
+
+    public function contentDisplayerv2($classId)
+    {
+        $class = Classes::findOrFail($classId);
+        $studentId = Auth::id();
+    
+        $lessons = Lesson::where('class_id', $classId)
+            ->where('is_active', 1)
+            ->orderBy('sequence')
+            ->get();
+
+        $progressByLesson = StudentLessonProgress::query()
+            ->where('student_id', $studentId)
+            ->where('class_id', $classId)
+            ->get(['lesson_id', 'is_completed', 'progress_percentage'])
+            ->keyBy('lesson_id');
+
+        $nextLessonId = null;
+        $lastCompletedIndex = -1;
+
+        foreach ($lessons as $index => $lesson) {
+            $progress = $progressByLesson->get($lesson->id);
+            //dd($progress);
+            $isCompleted = (bool) ($progress && (
+                $progress->is_completed ||
+                (float) $progress->progress_percentage >= 100
+            ));
+
+            if ($isCompleted) {
+                $lastCompletedIndex = $index;
+            }
+        }
+
+        if ($lessons->isNotEmpty()) {
+            $nextIndex = $lastCompletedIndex + 1;
+            if ($nextIndex < $lessons->count()) {
+                $nextLessonId = $lessons[$nextIndex]->id;
+            }
+        }
+    
+        // Convert DB rows into the structure your ContentDisplayer.js expects
+        $items = $lessons->map(function ($l) use ($progressByLesson, $nextLessonId) {
+            $type = strtolower(trim($l->content_type ?? ''));
+            $progress = $progressByLesson->get($l->id);
+    
+            // Map DB content_type -> js type (image/pdf/video)
+            $mappedType = match ($type) {
+                'image' => 'image',
+                'pdf'   => 'pdf',
+                'video' => 'video',
+                default => $type, // fallback
+            };
+    
+            return [
+                'id'        => 'lesson-' . $l->id,
+                'title'     => $l->title ?? ('Lesson ' . $l->id),
+                'kind'      => 'lesson',
+                'type'      => $mappedType,
+                'src'       => $l->source_url,     // must be valid URL
+                'completed' => (bool) ($progress && (
+                    $progress->is_completed &&
+                    (float) $progress->progress_percentage >= 100
+                )),
+                //'completed' => true,
+                'currentLesson' => $nextLessonId !== null && (int) $l->id === (int) $nextLessonId,
+            ];
+        })->values();
+
         $classData = [
             'classId'   => 'CLS-' . $class->id,
             'className' => $class->title ?? ('Class ' . $class->id),

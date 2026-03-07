@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Content Displayer</title>
 
   <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
@@ -42,14 +43,14 @@
           </button>
 
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><h6 class="dropdown-header text-white-50">Account</h6></li>
+            <li><h6 class="dropdown-header text-white-50">student</h6></li>
             <li>
-              <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button class="dropdown-item" type="submit">
+              {{-- <form method="POST" action="{{ route('logout') }}">
+                @csrf --}}
+                <a class="dropdown-item" href={{ route('student.mylearning') }}>
                   <i class="bi bi-box-arrow-right me-2"></i>Exit
-                </button>
-              </form>
+                </a>
+              {{-- </form> --}}
             </li>
           </ul>
         </div>

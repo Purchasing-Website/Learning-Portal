@@ -23,9 +23,9 @@
   const exitBtn = document.getElementById("btnExit");
   const sidebarToggleBtn = document.getElementById("btnSidebarToggle");
 
-  let items = CLASS_DATA.items;
-  let currentIndex = 0;
-  
+	let items = CLASS_DATA.items;
+	let currentIndex = Math.max(0, items.findIndex(it => it.currentLesson === true));
+
   // ===== Completion store (lessons + knowledge check + quiz) =====
 	const COMPLETION_KEY = `lp_completion_${CLASS_DATA.classId}`; // unique per class
 
@@ -38,11 +38,32 @@
     footerEl.textContent = CLASS_DATA.footer || "";
 
     renderNav();
-    openItem(0);
+    openItem(currentIndex);
 
 	nextBtn.addEventListener("click", () => {
 	  const cur = items[currentIndex];
 	  if (!cur) return;
+
+	  const lessonId = cur.lessonId ?? cur.id;
+	  fetch("/lesson/completelesson", {
+		method: "POST",
+		headers: {
+		  "Content-Type": "application/json",
+      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+		},
+		body: JSON.stringify({
+      lesson_id:parseInt(lessonId.split('-')[1]),
+      class_id:parseInt(CLASS_DATA.classId.split('-')[1]),
+		})
+	  })
+		.then((response) => {
+		  if (response.ok) {
+			console.log("POST success");
+		  }
+		})
+		.catch((error) => {
+		  console.error("POST failed:", error);
+		});
 
 	  // Only lessons can be completed by Next button
 	  if (cur.kind === "lesson") {
@@ -56,10 +77,10 @@
 	});
 
 
-    exitBtn.addEventListener("click", () => {
-      // Replace with your real logout / redirect
-      window.location.href = "index.html"; // example
-    });
+    // exitBtn.addEventListener("click", () => {
+    //   // Replace with your real logout / redirect
+    //   window.location.href = "index.html"; // example
+    // });
 
     // If you want deep link: open via hash
     window.addEventListener("hashchange", () => {

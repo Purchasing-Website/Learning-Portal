@@ -139,16 +139,14 @@
           </div>
 
           <div class="lp-actions mt-auto">
-            {{-- <form method="GET" action="#" class="d-flex justify-content-between w-100">
-              <input type="hidden" name="class_id" value="{{ $class['class_id'] ?? '' }}">
-              <input type="hidden" name="intent" value="auto"> --}}
+            
               <a href="{{ route('classDetail',$class['classId']) }}" class="btn lp-btn lp-btn-outline" data-action="details">
                 <i class="bi bi-info-circle me-1"></i>Details
               </a>
-              <a href="{{ route('student.Content') }}" class="btn lp-btn lp-btn-primary" data-action="continue">
+              <a href="{{ route('student.Content',$class['classId']) }}" class="btn lp-btn lp-btn-primary" data-action="continue">
                 <i class="bi {{ $buttonIcon }} me-1"></i>{{ $buttonText }}
               </a>
-            {{-- </form> --}}
+            
           </div>
         </div>
       </div>
