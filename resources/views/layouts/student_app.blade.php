@@ -29,8 +29,13 @@
                 </button>
                 <div class="collapse navbar-collapse" id="lpNav">
                     <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-                    <li class="nav-item"><a class="nav-link lp-nav-link" href="Homepage.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
-                    <li class="nav-item"><a class="nav-link lp-nav-link" href="MyLearning.html"><i class="bi bi-journal-check me-1"></i>My Learning</a></li>
+                    <li class="nav-item"><a class="nav-link lp-nav-link" href="{{ route('home') }}"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                    @auth
+                        <li class="nav-item"><a class="nav-link lp-nav-link" href="{{ route('student.mylearning') }}"><i class="bi bi-journal-check me-1"></i>My Learning</a></li>
+                    @endauth
+                    @guest
+                        <li class="nav-item"><a class="nav-link lp-nav-link" href="/login"><i class="bi bi-journal-check me-1"></i>My Learning</a></li>
+                    @endguest
                     <li class="nav-item"><a class="nav-link lp-nav-link" href="Search.html"><i class="bi bi-search me-1"></i>Search</a></li>
 
                     <li class="nav-item dropdown">
@@ -40,7 +45,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                         
                         @auth
-                            <li><a class="dropdown-item" href="Profile.html"><i class="bi bi-person-lines-fill me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('student.getProfile',encrypt(auth()->id())) }}"><i class="bi bi-person-lines-fill me-2"></i>Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                         @endauth

@@ -41,6 +41,7 @@ Route::domain('haolin.test')->group(function () {
     // normal user routes
     Route::middleware(['auth' , 'role:student'])->group(function () {
         Route::get('/profile/{id}', [StudentController::class, 'getProfile'])->name('student.getProfile');
+        Route::post('/profile/{id}/save', [StudentController::class, 'saveProfile'])->name('student.getProfileSave');
         Route::get('/mylearning', [StudentController::class, 'myLearning'])->name('student.mylearning');
         Route::get('/content/{id}', [StudentController::class, 'contentDisplayerV2'])->name('student.Content');
         Route::get('/student/classes', [StudentController::class, 'assignedClasses'])->name('student.classes');

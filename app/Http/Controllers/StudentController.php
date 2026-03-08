@@ -402,17 +402,15 @@ class StudentController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'birthdate' => 'nullable|date',
             'date_of_birth' => 'nullable|date',
             'gender' => 'nullable|in:male,female,other',
-            'gendar' => 'nullable|in:male,female,other',
             'phone' => ['nullable', 'regex:/^\+60(1\d{8,9}|[3-9]\d{7,8})$/'],
         ]);
 
         $user->name = $validated['name'];
         $user->email = $validated['email'];
-        $user->date_of_birth = $validated['birthdate'] ?? $validated['date_of_birth'] ?? null;
-        $user->gender = $validated['gender'] ?? $validated['gendar'] ?? null;
+        $user->date_of_birth = $validated['date_of_birth'] ?? null;
+        $user->gender = $validated['gender'] ?? null;
         $user->phone = $validated['phone'] ?? null;
         $user->updated_by = Auth::id();
         $user->save();

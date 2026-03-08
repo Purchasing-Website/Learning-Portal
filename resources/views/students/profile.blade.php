@@ -17,10 +17,11 @@
 		  <div class="lp-status" id="saveStatusTop"></div>
 
 		  <div class="d-flex gap-2 justify-content-sm-end">
-			<button type="button" class="btn lp-btn-outline" id="btnResetTop">
+			 <a type="button" class="btn lp-btn-outline" href='{{ route('student.getProfile',encrypt(auth()->id())) }}' >{{-- id="btnResetTop" --}}
 			  <i class="bi bi-arrow-counterclockwise me-1"></i>Reset
-			</button>
-			<button type="submit" form="profileForm" class="btn lp-btn-save" id="btnSaveTop">
+      </a>
+			{{-- <button type="submit" form="profileForm" class="btn lp-btn-save" id="btnSaveTop"> --}}
+      <button type="submit" form="profileForm" class="btn lp-btn-save">
 			  <i class="bi bi-check2-circle me-1"></i>Save
 			</button>
 		  </div>
@@ -57,7 +58,7 @@
             <hr class="my-3">
 			
 			
-            <form id="profileForm" method="POST" action="{{ url('/student/profile/' . encrypt($user->id) . '/save') }}" novalidate>
+            <form id="profileForm" method="POST" action="{{ route('student.getProfileSave',encrypt($user->id)) }}" novalidate>
               @csrf
               <div id="saveAlert" class="alert d-none mb-3" role="alert"></div>
               @if ($errors->any())
@@ -71,8 +72,8 @@
               @endif
               <div class="row g-3">
                 <!-- First Name -->
-                <div class="col-12 col-md-6">
-                  <label class="form-label fw-semibold lp-required" for="firstName">First Name</label>
+                <div class="col-12 col-md-12">
+                  <label class="form-label fw-semibold lp-required" for="firstName">Full Name</label>
                   <input class="form-control lp-field @error('name') is-invalid @enderror" id="firstName" name="name" type="text" placeholder="e.g. Hao" value="{{ old('name', $user->name) }}" required>
                   @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -82,11 +83,11 @@
                 </div>
 
                 <!-- Last Name -->
-                <div class="col-12 col-md-6">
+                {{-- <div class="col-12 col-md-6">
                   <label class="form-label fw-semibold lp-required" for="lastName">Last Name</label>
                   <input class="form-control lp-field" id="lastName" name="lastName" type="text" placeholder="e.g. Lin" required>
                   <div class="invalid-feedback">Last name is required.</div>
-                </div>
+                </div> --}}
 
                 <!-- Email -->
                 <div class="col-12">
@@ -101,9 +102,9 @@
 
                 <!-- Birthdate (optional) -->
                 <div class="col-12 col-md-6">
-                  <label class="form-label fw-semibold" for="birthdate">Birthdate (Optional)</label>
-                  <input class="form-control lp-field @error('birthdate') is-invalid @enderror" id="birthdate" name="birthdate" type="date" value="{{ old('birthdate', $user->date_of_birth) }}">
-                  @error('birthdate')
+                  <label class="form-label fw-semibold" for="date_of_birth">Birthdate (Optional)</label>
+                  <input class="form-control lp-field @error('date_of_birth') is-invalid @enderror" id="birthdate" name="date_of_birth" type="date" value="{{ old('birthdate', $user->date_of_birth) }}">
+                  @error('date_of_birth')
                     <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
                 </div>
@@ -145,7 +146,7 @@
                 </div>
                 <div class="text-secondary small">
                   <i class="bi bi-exclamation-circle me-1"></i>
-                  Required: First name, Last name, Email
+                  Required: Full Name and Email
                 </div>
               </div>
 
@@ -254,12 +255,12 @@ btnSaveTop.disabled = !enabled;
 
 
   function loadProfile(p){
-    inputs.firstName.value = p.firstName || "";
-    inputs.lastName.value = p.lastName || "";
-    inputs.email.value = p.email || "";
-    inputs.birthdate.value = p.birthdate || "";
-    inputs.gender.value = p.gender || "";
-    inputs.phone.value = p.phone || "";
+    // inputs.firstName.value = p.firstName || "";
+    // inputs.lastName.value = p.lastName || "";
+    // inputs.email.value = p.email || "";
+    // inputs.birthdate.value = p.birthdate || "";
+    // inputs.gender.value = p.gender || "";
+    // inputs.phone.value = p.phone || "";
     validateAndToggle();
     setStatus("");
   }
@@ -271,37 +272,37 @@ btnSaveTop.disabled = !enabled;
   }
 
   function validateRequired(){
-    // Bootstrap validation: first name, last name required; email required + valid
-    let ok = true;
+  //   // Bootstrap validation: first name, last name required; email required + valid
+  //   let ok = true;
 
-    // first name
-    if(!inputs.firstName.value.trim()){
-      inputs.firstName.classList.add("is-invalid");
-      ok = false;
-    } else {
-      inputs.firstName.classList.remove("is-invalid");
-    }
+  //   // first name
+  //   if(!inputs.firstName.value.trim()){
+  //     inputs.firstName.classList.add("is-invalid");
+  //     ok = false;
+  //   } else {
+  //     inputs.firstName.classList.remove("is-invalid");
+  //   }
 
-    // last name
-    if(!inputs.lastName.value.trim()){
-      inputs.lastName.classList.add("is-invalid");
-      ok = false;
-    } else {
-      inputs.lastName.classList.remove("is-invalid");
-    }
+  //   // last name
+  //   if(!inputs.lastName.value.trim()){
+  //     inputs.lastName.classList.add("is-invalid");
+  //     ok = false;
+  //   } else {
+  //     inputs.lastName.classList.remove("is-invalid");
+  //   }
 
-    // email
-    const emailVal = inputs.email.value.trim();
-    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
-    if(!emailVal || !emailValid){
-      inputs.email.classList.add("is-invalid");
-      ok = false;
-    } else {
-      inputs.email.classList.remove("is-invalid");
-    }
-
-    return ok;
+  //   // email
+  //   const emailVal = inputs.email.value.trim();
+  //   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+  //   if(!emailVal || !emailValid){
+  //     inputs.email.classList.add("is-invalid");
+  //     ok = false;
+  //   } else {
+  //     inputs.email.classList.remove("is-invalid");
   }
+
+  //   return ok;
+  // }
 
   function validateAndToggle(){
     const requiredOk = validateRequired();
@@ -377,8 +378,8 @@ if(isSuccess){
     loadProfile(lastSaved);
   
   Object.values(inputs).forEach(el => {
-  el.addEventListener("input", validateAndToggle);
-  el.addEventListener("change", validateAndToggle);
+  // el.addEventListener("input", validateAndToggle);
+  // el.addEventListener("change", validateAndToggle);
   });
 
     btnSaveTop.addEventListener("click", doSave);
