@@ -370,6 +370,7 @@ class StudentController extends Controller
         $totalLessonDuration = (int) $lessons->sum(function ($lesson) {
             return (int) ($lesson->duration ?? 0);
         });
+        $completedLessonsCount = $lessons->where('status', 'completed')->count();
 
         $classDetail = (object) [
             'classId' => $class->id,
@@ -377,6 +378,7 @@ class StudentController extends Controller
             'tier_name' => $class->tier->name ?? '',
             'course_name' => optional($class->courses->first())->title ?? '',
             'total_lessons' => $lessons->count(),
+            'completed_lessons' => $completedLessonsCount,
             'total_lesson_duration' => $totalLessonDuration,
         ];
 

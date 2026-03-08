@@ -26,7 +26,7 @@
           <span class="lp-pill"><i class="bi bi-check2-circle"></i> Completed: <strong id="doneLessons">0</strong></span>
           <span class="lp-pill"><i class="bi bi-hourglass-split"></i> Total Time: <strong id="totalTime">0m</strong></span> --}}
           <span class="lp-pill"><i class="bi bi-list-check"></i> Lessons: <strong >{{ $classDetail->total_lessons }}</strong></span>
-          <span class="lp-pill"><i class="bi bi-check2-circle"></i> Completed: <strong >0</strong></span>
+          <span class="lp-pill"><i class="bi bi-check2-circle"></i> Completed: <strong >{{ $classDetail->completed_lessons }}</strong></span>
           <span class="lp-pill"><i class="bi bi-hourglass-split"></i> Total Time: <strong >{{ $classDetail->total_lesson_duration }}m</strong></span>
         </div>
 
