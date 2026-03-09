@@ -386,8 +386,8 @@ class StudentController extends Controller
     }
 
     public function getProfile($id){
-        $user = User::findOrFail(decrypt($id));
-
+        $user = User::with('tier')->findOrFail(decrypt($id));
+       
         return view('students.profile', compact('user'));
     }
 

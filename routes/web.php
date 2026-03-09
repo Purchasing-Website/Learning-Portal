@@ -26,7 +26,7 @@ $mainHost = parse_url(config('app.url'), PHP_URL_HOST);
 $adminHost = parse_url(config('app.admin_url'), PHP_URL_HOST);
 
 Route::get('/testui', function () {
-    return view('lesson');
+    return view('admins.enrollments.enrollment');
 });
 
 Auth::routes();
@@ -135,6 +135,11 @@ Route::domain('admin.haolin.test')->group(function () {
         //Enrollment Management
         Route::get('/admin/enrollments/class/{id}', [EnrollmentController::class, 'index'])->name('enrollment.index');
         Route::post('/admin/enrollments/class/{id}/update', [EnrollmentController::class, 'updateEnrollments'])->name('enrollment.update');
+
+        //Tier Management
+        Route::get('/admin/tier', [EnrollmentController::class, 'tier'])->name('enrollment.tier');
+        Route::get('/admin/tier/{tier}', [EnrollmentController::class, 'filterTier'])->name('enrollment.filterTier');
+        Route::post('/admin/tier/{tier}/save', [EnrollmentController::class, 'saveTierAssignments'])->name('enrollment.saveTierAssignments');
     });
 });
 

@@ -43,7 +43,7 @@
                   <div class="fw-black fs-5 fw-bold" id="profileNamePreview">{{ $user->name }}</div>
                   <div class="text-secondary small" id="profileEmailPreview">{{ $user->email }}</div>
                   <div class="d-flex gap-2 flex-wrap mt-2">
-                    <span class="lp-pill"><i class="bi bi-shield-check"></i>Student Account</span>
+                    <span class="lp-pill"><i class="bi bi-shield-check"></i>{{ $user->tier->name }}</span>
                     <span class="lp-pill"><i class="bi bi-person-vcard"></i>Profile Editable</span>
                   </div>
                 </div>

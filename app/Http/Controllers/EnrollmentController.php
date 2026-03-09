@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Enrollment;
 use App\Models\Classes;
 use App\Models\User;
+use App\Models\Tier;
 use Illuminate\Support\Facades\Auth;
 
 class EnrollmentController extends Controller
@@ -143,4 +144,92 @@ class EnrollmentController extends Controller
             'message' => 'Student enrolled successfully.',
         ]);
     }
+
+    public function tier(){
+        $tiers = Tier::query()
+            ->orderBy('level', 'asc')
+            ->get();
+
+        return view('admins.enrollments.enrollment', [
+            'tiers' => $tiers,
+            'within_tier' => collect(),
+            'outside_tier' => collect(),
+        ]);
+    }
+
+    public function filterTier($tier)
+    {
+        Tier::findOrFail($tier);
+
+        $withinTier = User::query()
+            ->where('role', 'student')
+            ->select(['id', 'name', 'tierid'])
+            ->where('tierid', (int) $tier)
+            ->get();
+
+        $outsideTier = User::query()
+            ->where('role', 'student')
+            ->select(['id', 'name', 'tierid'])
+            ->where(function ($query) use ($tier) {
+                $query->where('tierid', '!=', (int) $tier)
+                    ->orWhereNull('tierid');
+            })
+            ->get();
+
+        if (request()->ajax()) {
+            return response()->json([
+                'within_tier' => $withinTier->values(),
+                'outside_tier' => $outsideTier->values(),
+            ]);
+        }
+
+        $tiers = Tier::query()
+            ->orderBy('level', 'asc')
+            ->get();
+
+        return view('admins.enrollments.enrollment', [
+            'tiers' => $tiers,
+            'within_tier' => $withinTier->values(),
+            'outside_tier' => $outsideTier->values(),
+        ]);
+    }
+
+    public function saveTierAssignments(Request $request, $tier)
+    {
+        $tierId = (int) $tier;
+        Tier::findOrFail($tierId);
+
+        $validated = $request->validate([
+            'assigned_ids' => ['nullable', 'array'],
+            'assigned_ids.*' => ['integer'],
+        ]);
+
+        $assignedIds = collect($validated['assigned_ids'] ?? [])
+            ->map(fn ($id) => (int) $id)
+            ->filter(fn ($id) => $id > 0)
+            ->unique()
+            ->values()
+            ->all();
+
+        User::query()
+            ->where('role', 'student')
+            ->where('tierid', $tierId)
+            ->when(!empty($assignedIds), function ($query) use ($assignedIds) {
+                $query->whereNotIn('id', $assignedIds);
+            })
+            ->update(['tierid' => 1]);
+
+        if (!empty($assignedIds)) {
+            User::query()
+                ->where('role', 'student')
+                ->whereIn('id', $assignedIds)
+                ->update(['tierid' => $tierId]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tier assignments saved successfully.',
+        ]);
+    }
+    
 }
