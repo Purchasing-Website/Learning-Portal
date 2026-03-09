@@ -20,10 +20,20 @@
             <div class="login-title">
                 <h1 style="margin: 0px 0px 40px;font-weight: bold;">Admin Portal</h1>
                 <form id="loginForm" autocomplete="&quot;on&quot;">
-                    <div class="mb-3"><input class="form-control" type="text" id="username" name="&quot;username&quot;" placeholder="Username" required="" style="height: 43px;"></div>
-                    <div class="mb-3"><input class="form-control" type="password" id="password" name="password" placeholder="Password" required="" style="height: 43px;"></div>
-                    <div class="d-flex mb-4"><input type="checkbox" id="rememberMe" class="form-check-input"><label class="form-label ms-2" style="font-weight: bold;">Remember Me</label></div><button class="btn btn-primary w-100 btn-login" type="submit">Login</button>
-                    <div class="text-center"><a class="forgot-link" href="#">Forgot Password</a></div>
+                    <div class="mb-3">
+                        <input class="form-control" type="text" id="username" name="&quot;username&quot;" placeholder="Username" required="" style="height: 43px;">
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-control" type="password" id="password" name="password" placeholder="Password" required="" style="height: 43px;">
+                    </div>
+                    <div class="d-flex mb-4">
+                        <input type="checkbox" id="rememberMe" class="form-check-input">
+                        <label class="form-label ms-2" style="font-weight: bold;">Remember Me</label>
+                    </div>
+                    <button class="btn btn-primary w-100 btn-login" type="submit">Login</button>
+                    <div class="text-center">
+                        <a class="forgot-link" href="#">Forgot Password</a>
+                    </div>
                 </form>
             </div>
         </div>
