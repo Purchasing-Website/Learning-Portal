@@ -15,7 +15,7 @@ class UserController extends Controller
 
         $admins = User::where('role', UserRole::ADMIN->value)->paginate(10);
 
-        return view('admins.users.user_view', compact('users','admins'  ) );
+        return view('admins.users.student', compact('users','admins'  ) );
     }
 
     public function store( Request $request)

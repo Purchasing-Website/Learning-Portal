@@ -140,7 +140,7 @@
     // ];
 
     const SEARCH_RESULTS = @json($classes);
-    console.log( @json($classes));
+    const ENROLLMENT_STATE_KEY = "student_class_enrollments";
 
     const $ = (id) => document.getElementById(id);
 
@@ -181,6 +181,34 @@
         opt.value = p;
         opt.textContent = p;
         sel.appendChild(opt);
+      });
+    }
+
+    function getClassKey(item){
+      return String(item?.classId ?? item?.classID ?? item?.id ?? item?.class_id ?? "");
+    }
+
+    function loadEnrollmentState(){
+      try {
+        return JSON.parse(sessionStorage.getItem(ENROLLMENT_STATE_KEY) || "{}");
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function saveEnrollmentState(state){
+      try {
+        sessionStorage.setItem(ENROLLMENT_STATE_KEY, JSON.stringify(state));
+      } catch (_) {}
+    }
+
+    function applyEnrollmentState(){
+      const state = loadEnrollmentState();
+      SEARCH_RESULTS.forEach((item) => {
+        const key = getClassKey(item);
+        if (!key || !state[key]) return;
+        item.enrolled = true;
+        item.progress = item.progress || 0;
       });
     }
 
@@ -293,6 +321,12 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      const navEntry = performance.getEntriesByType("navigation")[0];
+      if (navEntry && navEntry.type === "reload") {
+        sessionStorage.removeItem(ENROLLMENT_STATE_KEY);
+      }
+
+      applyEnrollmentState();
       buildProgramOptions();
 
       // Read query from URL: SearchResults.html?q=feng+shui
@@ -305,6 +339,11 @@
       ["searchInput", "programFilter", "sortBy"].forEach(id => {
         $(id).addEventListener("input", render);
         $(id).addEventListener("change", render);
+      });
+
+      window.addEventListener("pageshow", () => {
+        applyEnrollmentState();
+        render();
       });
 
       document.addEventListener("click", (e) => {
@@ -351,14 +390,48 @@
                 throw new Error(data.message || "Enrollment failed.");
               }
 
-              const item = SEARCH_RESULTS.find(x => String(x.classID) === String(classid));
+              const item = SEARCH_RESULTS.find(x => getClassKey(x) === String(classid));
               if (item) {
                 item.enrolled = true;
                 item.progress = item.progress || 0;
+                const state = loadEnrollmentState();
+                state[getClassKey(item) || String(classid)] = true;
+                saveEnrollmentState(state);
               }
 
+              const progress = Math.max(0, Math.min(100, item?.progress || 0));
+              const spent = item?.time_spent_min || 0;
+              const total = item?.duration_total_min || 0;
+              const left = Math.max(0, total - spent);
+              const card = btn.closest(".lp-class-card");
+
+              if (card) {
+                const statusBadge = card.querySelector(".lp-badges .lp-badge");
+                if (statusBadge) {
+                  statusBadge.className = "lp-badge enrolled";
+                  statusBadge.innerHTML = '<i class="bi bi-check-circle me-1"></i>Enrolled';
+                }
+
+                const suggested = card.querySelector(".lp-body .mt-3.text-secondary.small");
+                if (suggested) {
+                  suggested.outerHTML = `
+                    <div class="lp-progress-row">
+                      <div class="lp-progress"><div style="width:${progress}%"></div></div>
+                      <div class="lp-progress-pct">${progress}%</div>
+                    </div>
+                    <div class="lp-stats">
+                      <div class="lp-stat"><i class="bi bi-stopwatch"></i><span><strong>${formatMinutes(spent)}</strong> spent</span></div>
+                      <div class="lp-stat"><i class="bi bi-calendar2-week"></i><span><strong>${formatMinutes(left)}</strong> left</span></div>
+                    </div>
+                  `;
+                }
+              }
+
+              btn.disabled = false;
+              btn.setAttribute("data-action", "open");
+              btn.innerHTML = '<i class="bi bi-play-circle me-1"></i>Open Class';
+
               alert(data.message || "Register successful");
-              render();
             } catch (err) {
               alert(err.message || "Enrollment failed.");
               btn.disabled = false;

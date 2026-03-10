@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_app')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/offcanvas.css') }}">

@@ -47,7 +47,7 @@
                                                 <td class="text-truncate" style="max-width: 200px;">{{ $class->title }}</td>
                                                 <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" style="max-width: 120px;max-height: 100px;" src="{{ asset('img/OIP.webp') }}"></td>
                                                 <td class="text-break" style="max-width: 50px;">{{ $class->description }}</td>
-                                                <td class="text-break" style="max-width: 50px;">{{ $class->courses->first()->title }}</td>
+                                                <td class="text-break" style="max-width: 50px;">{{ $class->courses->first()->title ?? 'N/A'}}</td>
                                                 <td>{{ $class->created_at->format('Y-m-d') }}</td>
                                                 <td class="text-truncate">1</td>
                                                 <td class="text-start">{{$class->enrollments_count}}</td>
@@ -82,7 +82,7 @@
                                                 <td class="text-truncate" style="max-width: 200px;">{{ $class->title }}</td>
                                                 <td class="text-truncate" style="max-width: 200px;"><img class="img-fluid" width="299" height="180" style="max-width: 120px;max-height: 100px;" src="{{ asset('img/OIP.webp') }}"></td>
                                                 <td class="text-break" style="max-width: 50px;">{{ $class->description }}</td>
-                                                <td class="text-break" style="max-width: 50px;">{{ $class->courses->first()->title }}</td>
+                                                <td class="text-break" style="max-width: 50px;">{{ $class->courses->first()->title ?? 'N/A' }}</td>
                                                 <td>{{ $class->created_at->format('Y-m-d') }}</td>
                                                 <td class="text-truncate">1</td>
                                                 <td class="text-start">{{$class->enrollments_count}}</td>
@@ -226,17 +226,12 @@
                 <div class="mt-3">
                     <label class="form-label">Course Name</label>
                     <div class="search-dd" id="courseDD-1">
-                        <input class="form-control form-control" type="text" autocomplete="off" id="courseInput-1" placeholder="Search course..." readonly>
-                        <input type="hidden" id="courseId-1">
-                        <div class="invalid-msg">
-                            <span>Please select a course.</span>
-                        </div>
-                        <div class="dd-panel">
-                            <div class="dd-search">
-                                <input class="form-control form-control courseSearch" type="text" id="courseSearch-1" placeholder="Type to filter...">
-                            </div>
-                            <div class="dd-list" id="courseList-1"></div>
-                        </div>
+                        <select name="course_id" id="course_id_edit" class="form-select" required>
+                            <option value="">-- Choose a Course --</option>
+                            @foreach($courses as $course)
+                                <option value="{{ $course->id }}">{{ $course->title }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="mt-3"><label class="form-label">Class Name</label>
@@ -298,9 +293,7 @@
                 document.getElementById("class_description").value = class_.description || '';
                 document.getElementById("tier_id_edit").value = class_.tier_id ?? '';
                 const selectedCourse = class_.courses?.[0];
-                document.getElementById("courseInput-1").value =
-                    selectedCourse?.title || btn.closest("tr")?.children?.[4]?.innerText?.trim() || '';
-                document.getElementById("courseId-1").value = selectedCourse?.id ?? '';
+                document.getElementById("course_id_edit").value = selectedCourse?.id ?? '';
 
                 modal.show();
             });
@@ -316,6 +309,7 @@
             formData.append('title', document.getElementById("class_title").value);
             formData.append('description', document.getElementById("class_description").value);
             formData.append('tier_id', document.getElementById("tier_id_edit").value);
+            formData.append('course_id', document.getElementById("course_id_edit").value);
 
             const res = await fetch(`/class/${id}/update`, {
                 method: 'POST',

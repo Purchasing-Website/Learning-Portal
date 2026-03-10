@@ -131,19 +131,7 @@ class LessonController extends Controller
             ];
         });
 
-        $filePath = $lesson->source_url;
-        $fileExists = false;
-        $fileUrl = null;
-
-        // Normalize path if it includes "storage/"
-        $normalizedPath = str_replace('storage/', '', $filePath);
-
-        if ($filePath && Storage::disk('public')->exists($normalizedPath)) {
-            $fileExists = true;
-            $fileUrl = asset('storage/' . $normalizedPath);
-        }
-        //dd( $normalizedPath);
-        return response()->json(['lesson' => $lesson, 'content_types' => $contentTypes, 'fileUrl' => $fileUrl,'class_title'=>$lesson->class->title]);
+        return response()->json(['lesson' => $lesson, 'content_types' => $contentTypes,'class_title'=>$lesson->class->title]);
     }
 
     public function update(Request $request, $id)
@@ -151,6 +139,7 @@ class LessonController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'class_id' => 'required|integer|exists:classes,id',
             'duration' => 'nullable|numeric|min:1',
             'content_type' => ['required', new Enum(ContentType::class)],
             'source_url' => 'required|url',
@@ -164,6 +153,7 @@ class LessonController extends Controller
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
             'duration' => $validatedData['duration'],
+            'class_id' => $validatedData['class_id'],
             'content_type' => $validatedData['content_type'],
             'source_url' => $validatedData['source_url'],
             'updated_by' => Auth::id(),

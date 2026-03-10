@@ -113,8 +113,7 @@ class HomeController extends Controller
             ];
         });
 
-        //dd($classes);
-        return view('students.class', ['classes' => $classes]);
+        return view('students.class_v2', ['classes' => $classes]);
 
     }
 

@@ -67,7 +67,7 @@ class ClasssController extends Controller
     // Get Classes details for edit modal
     public function edit($id)
     {
-        $class = Classes::findOrFail($id);
+        $class = Classes::with('courses')->findOrFail($id);
         return response()->json($class);
     }
 
@@ -76,15 +76,24 @@ class ClasssController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'tier_id' => 'required|integer',
+            'tier_id' => 'required|integer|exists:tiers,id',
+            'course_id' => 'required|integer|exists:courses,id',
         ]);
-        //dd($request);
 
         $class = Classes::findOrFail($id);
         $class->update([
             'title' => $request->title,
             'description' => $request->description,
-            'tier_id' => $request->tier_id
+            'tier_id' => $request->tier_id,
+            'updated_by' => Auth::id(),
+        ]);
+
+        $class->courses()->sync([
+            $request->course_id => [
+                'sequence_order' => 1,
+                'is_active' => true,
+                'updated_by' => Auth::id(),
+            ]
         ]);
 
         return response()->json(['success' => true, 'message' => 'Classs updated successfully.']);

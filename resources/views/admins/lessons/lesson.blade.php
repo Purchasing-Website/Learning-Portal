@@ -186,16 +186,12 @@
                 <div class="mt-3">
                     <label class="form-label">Class Name</label>
                     <div class="search-dd" id="classDD-1">
-                        <input class="form-control form-control" type="text" autocomplete="off" disabled="" id='class_name' placeholder="Search class..." required="" readonnly>
-                        <input type="hidden" id="classId-1">
-                        <div class="invalid-msg">
-                            <span>Please select a class.</span>
-                        </div>
-                        <div class="dd-panel">
-                            <div class="dd-search">
-                                <input class="form-control form-control" type="text" id="classSearch-1" placeholder="Type to filter..."></div>
-                            <div class="dd-list" id="classList-1"></div>
-                        </div>
+                        <select name="class_id" id="class_id_edit" class="form-select" required>
+                            <option value="">-- Choose a Class --</option>
+                            @foreach($classes as $class)
+                                <option value="{{ $class->id }}">{{ $class->title }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mt-1 hint">
                         <span>Classes will filter based on selected course.</span>
@@ -253,7 +249,6 @@
                 const data = await response.json();
 
                 const lesson = data.lesson;
-                const classtitle = data.class_title;
                 const contentTypes = data.content_types;
                 const fileUrl = data.fileUrl;
 
@@ -262,7 +257,7 @@
                 document.getElementById("lesson_description").value = lesson.description || '';
                 document.getElementById("lesson_duration").value = lesson.duration || '';
                 document.getElementById("source_url_Edit").value = lesson.source_url || '';
-                document.getElementById("class_name").value = classtitle || '';
+                document.getElementById("class_id_edit").value = lesson.class_id ?? '';
 
                 // FIX: Populate dropdown options
                 const select = document.getElementById("content_type_edit");
@@ -339,6 +334,7 @@
             formData.append('duration', document.getElementById("lesson_duration").value);
             formData.append('content_type', document.getElementById("content_type_edit").value);
             formData.append('source_url', document.getElementById("source_url_Edit").value);
+            formData.append('class_id', document.getElementById("class_id_edit").value);
 
             const res = await fetch(`/lesson/${id}/update`, {
                 method: 'POST',

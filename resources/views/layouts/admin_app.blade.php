@@ -33,7 +33,7 @@
                 <hr class="my-0 sidebar-divider">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a class="nav-link active" href="Dashboard.html"><i class="fas fa-tachometer-alt" style="width: 20px;height: 14px;margin: 0px;text-align: center;"></i><span style="padding: 0px 4px;">Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="Student%20List.html"><i class="fas fa-user" style="width: 20px;height: 20px;margin-right: 0px;text-align: center;"></i><span style="padding: 0px 4px;">Student</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('user.index') }}"><i class="fas fa-user" style="width: 20px;height: 20px;margin-right: 0px;text-align: center;"></i><span style="padding: 0px 4px;">Student</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('enrollment.tier') }}"><i class="far fa-eye" style="width: 20px;height: 20px;margin-right: 0px;text-align: center;"></i><span style="padding: 0px 4px;">Student Access Control</span></a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('course.index','all') }}"><i class="fas fa-book-reader" style="width: 20px;height: 14px;margin: 0px;text-align: center;"></i><span style="padding: 0px 4px;">Course</span></a></li>
