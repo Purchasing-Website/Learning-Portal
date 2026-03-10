@@ -9,7 +9,7 @@
                     <div class="row align-items-center no-gutters">
                         <div class="col me-2">
                             <div class="text-uppercase text-success mb-1 fw-bold text-xs"><span>Students</span></div>
-                            <div class="text-dark mb-0 fw-bold h5"><span>&nbsp;215,000</span></div>
+                            <div class="text-dark mb-0 fw-bold h5"><span>{{ number_format($studentCount) }}</span></div>
                         </div>
                         <div class="col-auto"><i class="far fa-user fa-2x text-gray-300"></i></div>
                     </div>
@@ -21,8 +21,8 @@
                 <div class="card-body">
                     <div class="row align-items-center no-gutters">
                         <div class="col me-2">
-                            <div class="text-uppercase text-primary mb-1 fw-bold text-xs"><span>Program</span></div>
-                            <div class="text-dark mb-0 fw-bold h5"><span>134</span></div>
+                            <div class="text-uppercase text-primary mb-1 fw-bold text-xs"><span>Lesson</span></div>
+                            <div class="text-dark mb-0 fw-bold h5"><span>{{ number_format($lessonCount) }}</span></div>
                         </div>
                         <div class="col-auto"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em" fill="currentColor" class="fa-2x text-gray-300" style="font-size: 32px;">
                                 <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
@@ -38,7 +38,7 @@
                     <div class="row align-items-center no-gutters">
                         <div class="col me-2">
                             <div class="text-uppercase text-warning mb-1 fw-bold text-xs"><span>Course</span></div>
-                            <div class="text-dark mb-0 fw-bold h5"><span>2</span></div>
+                            <div class="text-dark mb-0 fw-bold h5"><span>{{ number_format($courseCount) }}</span></div>
                         </div>
                         <div class="col-auto"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" class="fa-2x text-gray-300" style="font-size: 38px;">
                                 <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
@@ -54,7 +54,7 @@
                     <div class="row align-items-center no-gutters">
                         <div class="col me-2">
                             <div class="text-uppercase text-warning mb-1 fw-bold text-xs"><span style="color: var(--bs-red);">class</span></div>
-                            <div class="text-dark mb-0 fw-bold h5"><span>1</span></div>
+                            <div class="text-dark mb-0 fw-bold h5"><span>{{ number_format($classCount) }}</span></div>
                         </div>
                         <div class="col-auto"><i class="fas fa-users fa-2x text-gray-300"></i></div>
                     </div>

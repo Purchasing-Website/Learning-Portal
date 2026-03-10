@@ -13,6 +13,7 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 
 Route::get('/check-session', function () {
@@ -62,7 +63,7 @@ Route::domain('admin.haolin.test')->group(function () {
     Route::get('/', [LoginController::class, 'showLoginForm'] )->name('admin.login');
     // admin routes
     Route::middleware(['auth' , 'role:superadmin,admin'])->group(function () {
-        Route::view('/admin/dashboard', 'admins.dashboard')->name('dashboard');
+        Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::view('/admin/program', 'admins.programs.program_view')->name('admin.program');
         Route::view('/admin/course', 'admins.courses.course_view')->name('admin.course');
         Route::view('/admin/class', 'admins.classes.class_view')->name('admin.class');
