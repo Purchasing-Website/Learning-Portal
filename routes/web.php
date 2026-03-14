@@ -27,13 +27,14 @@ $mainHost = parse_url(config('app.url'), PHP_URL_HOST);
 $adminHost = parse_url(config('app.admin_url'), PHP_URL_HOST);
 
 Route::get('/testui', function () {
-    return view('admins.enrollments.enrollment');
+    return view('students.search');
 });
 
 Auth::routes();
 
 Route::domain('haolin.test')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/search', [HomeController::class, 'search'])->name('search');
     Route::get('/courses', [HomeController::class, 'course'])->name('course');
     Route::get('/classes', [HomeController::class, 'class'])->name('class');
     Route::get('/course/{id}/classes',[HomeController::class, 'getCourseClass'])->name('getclass');
@@ -132,6 +133,7 @@ Route::domain('admin.haolin.test')->group(function () {
         
         //User Management
         Route::get('/admin/users', [UserController::class, 'index'])->name('user.index');
+        Route::post('/admin/users/student/password', [UserController::class, 'updateStudentPassword'])->name('user.updateStudentPassword');
 
         //Enrollment Management
         Route::get('/admin/enrollments/class/{id}', [EnrollmentController::class, 'index'])->name('enrollment.index');
