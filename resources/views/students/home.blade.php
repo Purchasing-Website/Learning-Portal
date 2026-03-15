@@ -10,19 +10,19 @@
             Search classes, browse programs, then drill down into courses and classes.
           </p>
 
-          <div class="row g-2 mt-3">
+          <form method="GET" action="{{ route('search') }}" class="row g-2 mt-3">
             <div class="col-12 col-md-8">
               <div class="lp-search-wrap">
                 <i class="bi bi-search"></i>
-                <input id="heroSearch" class="form-control lp-input" placeholder="Search classes (e.g. Feng Shui, Healing)..." />
+                <input id="heroSearch" name="q" class="form-control lp-input" placeholder="Search classes (e.g. Feng Shui, Healing)..." />
               </div>
             </div>
             <div class="col-12 col-md-4 d-grid">
-              <button class="btn lp-btn lp-btn-primary" id="btnHeroSearch">
+              <button type="submit" class="btn lp-btn lp-btn-primary" id="btnHeroSearch">
                 <i class="bi bi-search me-1"></i>Search
               </button>
             </div>
-          </div>
+          </form>
         </div>
 
         <div class="col-12 col-lg-5">
@@ -45,12 +45,12 @@
               <div class="d-grid gap-2">
                 @auth
                   <a class="btn lp-btn lp-btn-outline" href="{{ route('student.mylearning') }}"><i class="bi bi-journal-check me-1"></i>My Learning</a>
-                  <a class="btn lp-btn lp-btn-outline" href="SearchResults.html"><i class="bi bi-search me-1"></i>Search Results</a>
+                  <a class="btn lp-btn lp-btn-outline" href="{{ route('search') }}"><i class="bi bi-search me-1"></i>Search Results</a>
                   <a class="btn lp-btn lp-btn-outline" href="{{ route('student.getProfile',encrypt(auth()->id())) }}"><i class="bi bi-person-circle me-1"></i>My Profile</a>
                 @endauth
                 @guest
                   <a class="btn lp-btn lp-btn-outline" href="/login"><i class="bi bi-journal-check me-1"></i>My Learning</a>
-                  <a class="btn lp-btn lp-btn-outline" href="SearchResults.html"><i class="bi bi-search me-1"></i>Search Results</a>
+                  <a class="btn lp-btn lp-btn-outline" href="{{ route('search') }}"><i class="bi bi-search me-1"></i>Search Results</a>
                   <a class="btn lp-btn lp-btn-outline" href="/login"><i class="bi bi-person-circle me-1"></i>My Profile</a>
                 @endguest
               </div>
@@ -466,7 +466,8 @@
 
     function goSearch(q){
       const query = (q || "").trim();
-      const url = query ? `SearchResults.html?q=${encodeURIComponent(query)}` : "SearchResults.html";
+      const baseUrl = @json(route('search'));
+      const url = query ? `${baseUrl}?q=${encodeURIComponent(query)}` : baseUrl;
       window.location.href = url;
     }
 

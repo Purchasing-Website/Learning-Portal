@@ -156,4 +156,97 @@ class HomeController extends Controller
 
         return view('students.class', ['classes' => $classes]);
     }
+
+    public function search(Request $request)
+    {
+        $perPage = 20;
+        $page = max(1, (int) $request->query('page', 1));
+        $visibleLimit = $perPage * $page;
+
+        $query = trim((string) $request->query('q', $request->input('q', '')));
+        $sort = (string) $request->query('sort', 'latest');
+        $selectedCourse = (int) $request->query('course', 0);
+        $allowedSorts = ['latest', 'title_asc', 'title_desc', 'duration_asc', 'duration_desc'];
+        if (!in_array($sort, $allowedSorts, true)) {
+            $sort = 'latest';
+        }
+
+        $courses = Course::query()
+            ->select('courses.id', 'courses.title')
+            ->join('class_course', 'class_course.course_id', '=', 'courses.id')
+            ->join('classes', 'classes.id', '=', 'class_course.class_id')
+            ->when($query !== '', function ($q) use ($query) {
+                $q->where('classes.title', 'like', '%' . $query . '%');
+            })
+            ->distinct()
+            ->orderBy('courses.title')
+            ->get();
+
+        if ($selectedCourse > 0 && !$courses->contains('id', $selectedCourse)) {
+            $selectedCourse = 0;
+        }
+
+        $baseClassQuery = Classes::query()
+            ->with('tier:id,name')
+            ->withSum('lessons as duration_total_min', 'duration');
+
+        if ($query !== '') {
+            $baseClassQuery->where('title', 'like', '%' . $query . '%');
+        }
+        if ($selectedCourse > 0) {
+            $baseClassQuery->whereHas('courses', function ($q) use ($selectedCourse) {
+                $q->where('courses.id', $selectedCourse);
+            });
+        }
+
+        $totalResults = (clone $baseClassQuery)->count();
+
+        $classQuery = match ($sort) {
+            'title_asc' => (clone $baseClassQuery)->orderBy('title', 'asc')->orderByDesc('created_at'),
+            'title_desc' => (clone $baseClassQuery)->orderBy('title', 'desc')->orderByDesc('created_at'),
+            'duration_asc' => (clone $baseClassQuery)->orderBy('duration_total_min', 'asc')->orderByDesc('created_at'),
+            'duration_desc' => (clone $baseClassQuery)->orderBy('duration_total_min', 'desc')->orderByDesc('created_at'),
+            default => (clone $baseClassQuery)->orderByDesc('created_at'),
+        };
+
+        $classRows = $classQuery
+            ->limit($visibleLimit)
+            ->get(['id', 'title', 'tier_id', 'created_at']);
+
+        $enrollmentByClass = collect();
+        if (Auth::check() && $classRows->isNotEmpty()) {
+            $enrollmentByClass = Enrollment::where('student_id', Auth::id())
+                ->whereIn('class_id', $classRows->pluck('id'))
+                ->get(['class_id', 'progress'])
+                ->keyBy('class_id');
+        }
+
+        $classes = $classRows->map(function ($row) use ($enrollmentByClass) {
+            $enrollment = $enrollmentByClass->get($row->id);
+
+            return [
+                'class_id'           => 'CLS-' . str_pad($row->id, 4, '0', STR_PAD_LEFT),
+                'classId'            => $row->id,
+                'class_name'         => $row->title,
+                'program_name'       => $row->tier->name,
+                'enrolled'           => (bool) $enrollment,
+                'progress'           => $enrollment ? (float) $enrollment->progress : 0,
+                'duration_total_min' => (int) ($row->duration_total_min ?? 0),
+                'time_spent_min'     => 118,
+                'popularity'         => 96,
+            ];
+        });
+
+        return view('students.search', [
+            'query' => $query,
+            'sort' => $sort,
+            'courses' => $courses,
+            'selectedCourse' => $selectedCourse,
+            'page' => $page,
+            'perPage' => $perPage,
+            'totalResults' => $totalResults,
+            'hasMore' => $classRows->count() < $totalResults,
+            'classes' => $classes,
+        ]);
+    }
 }
