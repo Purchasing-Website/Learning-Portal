@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Learning Portal - Student</title>
 	<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/login_input.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/login.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/login_input.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/login.m.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/reset_pwd.css') }}">
 
 </head>
