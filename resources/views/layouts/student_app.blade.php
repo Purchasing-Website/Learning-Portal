@@ -47,7 +47,7 @@
                         @auth
                             <li><a class="dropdown-item" href="{{ route('student.getProfile',encrypt(auth()->id())) }}"><i class="bi bi-person-lines-fill me-2"></i>Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ route('student.getProfile',encrypt(auth()->id())) }}"><i class="bi bi-shield-lock me-2"></i>Change Password</a></li>
+                            <li><a class="dropdown-item" href="{{ route('showChangePassword') }}"><i class="bi bi-shield-lock me-2"></i>Change Password</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                         @endauth

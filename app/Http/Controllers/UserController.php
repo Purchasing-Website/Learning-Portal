@@ -83,4 +83,61 @@ class UserController extends Controller
 
         return redirect()->route('user.index')->with('success', 'Student password updated successfully.');
     }
+
+    public function changePassword(Request $request)
+    {
+        $validated = $request->validate([
+            'current_password' => ['required'],
+            'new_password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/[A-Z]/', $value)) {
+                        $fail('New password must include at least one uppercase letter.');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/[0-9]/', $value)) {
+                        $fail('New password must include at least one number.');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/[\W_]/', $value)) {
+                        $fail('New password must include at least one special character.');
+                    }
+                },
+            ],
+        ], [
+            'current_password.required' => 'Current password is required.',
+            'new_password.required' => 'New password is required.',
+            'new_password.min' => 'New password must be at least 8 characters.',
+            'new_password.confirmed' => 'New password confirmation does not match.',
+        ]);
+
+        $user = Auth::user();
+
+        if (!$user || !Hash::check($validated['current_password'], $user->password)) {
+            return back()->withErrors([
+                'current_password' => 'Current password is incorrect.',
+            ])->withInput();
+        }
+
+        $user->password = Hash::make($validated['new_password']);
+        $user->save();
+
+        return back()
+            ->with('success', 'Password changed successfully. You will be logged out shortly.')
+            ->with('logout_after_delay', true);
+    }
+
+    public function logoutAfterPasswordChange(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('success', 'Password changed successfully. Please log in again.');
+    }
 }

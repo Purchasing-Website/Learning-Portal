@@ -22,7 +22,24 @@
                 <div class="card-body">
                     <h2 class="fw-bold text-center mb-4">Reset Password</h2>
 
-                    <form id="loginForm" novalidate>
+                    @if(session('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if($errors->any())
+                        <div class="alert alert-danger" role="alert">
+                            <ul class="mb-0 ps-3">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form id="loginForm" method="POST" action="{{ route('student.changePassword') }}" novalidate>
+                        @csrf
                         <div class="position-relative mb-5">
 							<div class="d-flex align-items-center mb-0 gap-2">
 								<label for="currentPassword" class="form-label text-muted small mb-0">Current Password</label>
@@ -39,7 +56,7 @@
                                     </svg>
                                 </span>
 							</div>
-							<input class="form-control" type="password" id="currentPassword" placeholder="Type your password" autocomplete="current-password" required>
+							<input class="form-control" type="password" id="currentPassword" name="current_password" placeholder="Type your password" autocomplete="current-password" required>
 							<small class="invalid-feedback">Current password is required.</small>
                         </div>
 
@@ -88,6 +105,7 @@
                                 class="form-control"
                                 type="password"
                                 id="newPassword"
+                                name="new_password"
                                 placeholder="Create a password"
                                 autocomplete="new-password"
                                 required>
@@ -124,6 +142,7 @@
                                 class="form-control"
                                 type="password"
                                 id="confirmPassword"
+                                name="new_password_confirmation"
                                 placeholder="Re-type your password"
                                 autocomplete="new-password"
                                 required>
@@ -146,6 +165,12 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            @if(session('logout_after_delay'))
+                setTimeout(function () {
+                    window.location.href = "{{ route('student.changePassword.logout') }}";
+                }, 3000);
+            @endif
+
             const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
             [...popoverTriggerList].forEach(el => new bootstrap.Popover(el));
 

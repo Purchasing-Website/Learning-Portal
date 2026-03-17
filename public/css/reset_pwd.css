@@ -1,0 +1,95 @@
+.password-info-btn {
+	width: 20px;
+	height: 20px;
+	line-height: 1;
+	color: #0d6efd;
+	border-radius: 50%;
+}
+
+.password-info-btn:hover {
+	opacity: 0.85;
+}
+
+.password-label-icon {
+	color: #6c757d;
+	line-height: 1;
+}
+
+.password-info-btn svg,
+.password-label-icon svg {
+	display: block;
+}
+
+.password-warning {
+	display: none;
+	align-items: center;
+	gap: 10px;
+	margin-top: 10px;
+	color: #ef4d43;
+	font-size: 14px;
+	line-height: 1.35;
+}
+
+.password-warning.show {
+	display: flex;
+}
+
+.password-warning svg {
+	flex-shrink: 0;
+}
+
+.password-rule-list {
+	display: none;
+	margin: 14px 0 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.password-rule-list.show {
+	display: block;
+}
+
+.password-rule-list li {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 8px;
+	color: #5f6368;
+	font-size: 14px;
+	line-height: 1.35;
+}
+
+.password-rule-bullet {
+	position: relative;
+	flex: 0 0 20px;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #cfcfcf;
+	border-radius: 50%;
+	background: #f8f8f8;
+}
+
+.password-rule-bullet::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 4px;
+	height: 4px;
+	background: #5f6368;
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.form-control.field-warning,
+.form-control.field-warning:focus {
+	border-color: #ef4d43 !important;
+	box-shadow: none !important;
+}
+
+.form-control.is-invalid,
+.form-control.is-invalid:focus {
+	border-color: #ef4d43 !important;
+	box-shadow: none !important;
+	background-image: none !important;
+}

@@ -56,6 +56,10 @@ Route::domain('haolin.test')->group(function () {
         Route::post('/knowledgeCheck/{id}/submit={mode}', [StudentController::class, 'submitKnowledgeCheck'])->name('student.knowledge.submit');
         // Class final quiz
         Route::get('/student/class-quiz/{id}', [StudentController::class, 'showClassQuiz'])->name('student.class.quiz.show');
+        // Change Password
+        Route::get('/changePassword',[StudentController::class, 'showChangePassword'])->name('showChangePassword');
+        Route::post('/changePassword', [UserController::class, 'changePassword'])->name('student.changePassword');
+        Route::get('/changePassword/logout', [UserController::class, 'logoutAfterPasswordChange'])->name('student.changePassword.logout');
     });
 
 });

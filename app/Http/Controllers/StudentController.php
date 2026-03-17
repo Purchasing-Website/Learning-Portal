@@ -605,5 +605,9 @@ class StudentController extends Controller
     
         return view('students.content_displayer', compact('classData'));
     }
+
+    public function showChangePassword(){
+        return view('auth.reset_pwd');
+    }
     
 }
