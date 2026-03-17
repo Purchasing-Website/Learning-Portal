@@ -7,7 +7,7 @@
     <title>Learning Portal - Student</title>
 	<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/login_input.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/login.m.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/login.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/reset_pwd.css') }}">
 
 </head>
