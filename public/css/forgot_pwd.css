@@ -1,0 +1,295 @@
+:root {
+  --card-radius: 18px;
+}
+
+/* ✅ Responsive + safe defaults */
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 600px at 15% 20%, rgba(0, 255, 255, .22), transparent 60%), radial-gradient(900px 500px at 85% 30%, rgba(255, 0, 255, .22), transparent 55%), linear-gradient(135deg, #05d6d6 0%, #7a5cff 45%, #d600ff 100%);
+  overflow-x: hidden;
+}
+
+/* ✅ Background shapes scale + hide on small screens */
+
+.bg-shape {
+  position: absolute;
+  width: clamp(240px, 35vw, 520px);
+  height: clamp(240px, 35vw, 520px);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, .08);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,.12));
+  pointer-events: none;
+}
+
+.bg-shape.one {
+  left: clamp(-120px, -10vw, -60px);
+  top: clamp(40px, 10vh, 140px);
+  transform: rotate(18deg);
+}
+
+.bg-shape.two {
+  right: clamp(-160px, -12vw, -80px);
+  top: clamp(20px, 8vh, 120px);
+  transform: rotate(-16deg);
+}
+
+/* ✅ Hide shapes on mobile to reduce clutter */
+
+@media (max-width: 768px) {
+  .bg-shape {
+    display: none;
+  }
+}
+
+/* ✅ Card scales + stays readable */
+
+.login-card {
+  border: 0;
+  border-radius: var(--card-radius);
+  box-shadow: 0 20px 60px rgba(0,0,0,.22);
+}
+
+/* ✅ Responsive padding inside the card */
+
+.login-card .card-body {
+  padding: clamp(22px, 5vw, 44px) clamp(18px, 5vw, 40px);
+}
+
+/* ✅ Inputs: responsive height + spacing */
+
+.form-control {
+  border: 0;
+  border-bottom: 2px solid #e8e8ee;
+  border-radius: 0;
+  padding-left: 42px;
+  padding-right: 12px;
+  height: clamp(44px, 5vh, 48px);
+  background: transparent;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-bottom-color: #7a5cff;
+}
+
+/* ✅ Icon stays aligned even if input height changes */
+
+.input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a0a3ad;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+/* ✅ Button stays tappable on mobile */
+
+.btn-gradient {
+  border: 0;
+  height: 46px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #05d6d6 0%, #7a5cff 55%, #d600ff 100%);
+  box-shadow: 0 10px 22px rgba(122, 92, 255, .25);
+}
+
+.btn-gradient:active {
+  transform: translateY(1px);
+}
+
+.small-link {
+  font-size: .9rem;
+  color: #6c757d;
+  text-decoration: none;
+}
+
+.small-link:hover {
+  color: #212529;
+  text-decoration: underline;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #9aa0aa;
+  font-size: .9rem;
+}
+
+.divider::before, .divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ececf2;
+}
+
+/* ✅ Social buttons wrap nicely on small screens (no overflow) */
+
+.social-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #e9e9ef;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #495057;
+  text-decoration: none;
+  transition: transform .08s ease, box-shadow .08s ease;
+}
+
+.social-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0,0,0,.08);
+}
+
+/* ✅ Card container responsive */
+
+.card-wrap {
+  width: min(440px, 92vw);
+  margin-inline: auto;
+}
+
+/* ✅ Small-phone tweaks */
+
+@media (max-width: 420px) {
+  .form-control {
+    padding-left: 38px;
+  }
+}
+
+
+
+
+label {
+  display: inline-block;
+  margin-bottom: .5rem;
+}
+
+input, button, select, optgroup, textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+button, input {
+  overflow: visible;
+}
+
+
+.mb-0, .my-0 {
+  margin-bottom: 0 !important;
+}
+
+input {
+  padding: 0.15rem !important;
+  border: 0;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+input:focus {
+  border: 0 !important;
+  border-bottom: 1px solid #48CCFF !important;
+  outline: none !important;
+  color: #48CCFF;
+}
+
+.field {
+  display: flex;
+  flex-flow: column-reverse;
+  margin-bottom: 1em;
+}
+
+label, input, textarea {
+  transition: all 0.2s !important;
+}
+
+input:placeholder-shown + label {
+  cursor: text;
+  max-width: 66.66%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform-origin: left bottom;
+  transform: translate(0, 1.5rem) scale(1);
+}
+
+input:not(:placeholder-shown) + label, input:focus + label {
+  transform: translate(0, 0) scale(1);
+  cursor: pointer;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+/* Enhancement: forgot password error + success page */
+.input-row {
+  position: relative;
+}
+
+.input-row .email-icon {
+  color: #8f95a3;
+  margin: 0 5px;
+}
+
+.email-not-exist {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #dc3545;
+}
+
+.email-not-exist.d-none {
+  display: none !important;
+}
+
+.success-icon-wrap {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  margin: 0 auto 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(5, 214, 214, .18), rgba(122, 92, 255, .18), rgba(214, 0, 255, .18));
+}
+
+.success-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: linear-gradient(90deg, #05d6d6 0%, #7a5cff 55%, #d600ff 100%);
+  box-shadow: 0 10px 24px rgba(122, 92, 255, .28);
+}
+
+.success-message {
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+.email-preview {
+  display: inline-block;
+  max-width: 100%;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: #f4f4fb;
+  color: #5a5f70;
+  font-size: .92rem;
+  word-break: break-word;
+}
