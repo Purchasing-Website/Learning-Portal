@@ -31,10 +31,11 @@ class HomeController extends Controller
     {
         $tiers = Tier::orderby('id','asc')->get();
         $courses = Course::withCount('classes')
+            ->where('is_active', true)
             ->latest()
             ->take(4)
             ->get();
-        $classes = Classes::latest()->take(3)->get();
+        $classes = Classes::where('is_active', true)->latest()->take(3)->get();
 
         return view('students.home', compact('tiers','courses','classes'));;
     
@@ -44,9 +45,10 @@ class HomeController extends Controller
     public function course()
     {
         $courses = Course::withCount('classes')
+            ->where('is_active', true)
             ->latest()
             ->get();
-
+        dd($courses);
         return view('students.course', compact('courses'));
     }
 

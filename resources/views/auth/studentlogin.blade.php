@@ -31,10 +31,7 @@
                                 <input class="form-control @error('email') is-invalid @enderror" type="email" id="email" placeholder="Type your email" autocomplete="&quot;email&quot;" required="" name="email" value="{{ old('email') }}">
                                 {{-- <small class="invalid-feedback">Please enter a valid email.</small> --}}
                                 @error('email')
-                                    {{-- <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span> --}}
-                                    <small class="invalid-feedback">Please enter a valid email.</small>
+                                    <small class="invalid-feedback">{{ $message }}</small>
                                 @enderror
                             </div>
                         <div class="position-relative mb-2">
@@ -51,13 +48,14 @@
                                 <input class="form-control @error('password') is-invalid @enderror" name="password" type="password" id="password" placeholder="Type your password" autocomplete="&quot;current-password&quot;" required="" minlength="6">
                                 {{-- <small class="invalid-feedback">Password must be at least 6 characters.</small> --}}
                                 @error('password')
-                                    {{-- <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span> --}}
-                                    <small class="invalid-feedback">Password must be at least 6 characters.</small>
+                                    <small class="invalid-feedback">{{ $message }}</small>
                                 @enderror
                             </div>
-                        <div class="d-flex justify-content-end mt-2 mb-4"><a class="small-link" href="#">Forgot password?</a></div><button class="btn fw-semibold w-100 btn-gradient text-white" type="submit">Login</button>
+                        <div class="d-flex justify-content-end mt-2 mb-4">
+                            @if (Route::has('password.request'))
+                                <a class="small-link" href="{{ route('password.request') }}">Forgot password?</a>
+                            @endif
+                        </div><button class="btn fw-semibold w-100 btn-gradient text-white" type="submit">Login</button>
                         <div class="text-center mt-4"><small class="text-muted mb-2">Have not account yet?&nbsp;</small><a class="fw-semibold small-link" href="{{ route('register') }}">SIGN UP</a></div>
                     </form>
                 </div>

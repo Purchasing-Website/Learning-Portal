@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\CourseController;
@@ -15,6 +16,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Models\User;
 
 Route::get('/check-session', function () {
     return response()->json([
@@ -23,14 +26,53 @@ Route::get('/check-session', function () {
     ]);
 });
 
+Route::get('/test-email', function () {
+    Mail::raw('This is the first test email from Laravel 12.', function ($message) {
+        $message->to('jackjunexing@gmail.com')
+                ->subject('Laravel Test Email');
+    });
+
+    return 'Email sent attempt completed.';
+});
+
 $mainHost = parse_url(config('app.url'), PHP_URL_HOST);
 $adminHost = parse_url(config('app.admin_url'), PHP_URL_HOST);
 
 Route::get('/testui', function () {
-    return view('students.search');
+    return view('auth.passwords.reset');
 });
 
-Auth::routes();
+// Auth::routes();
+Auth::routes(['verify' => false]);
+
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verifyFromEmail'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
+Route::get('/verification/pending', function () {
+    if (! session('pending_verification_email')) {
+        return redirect()->route('login');
+    }
+
+    return view('verification_link_sent', [
+        'mode' => 'email_verification',
+        'email' => session('pending_verification_email'),
+    ]);
+})->name('verification.pending');
+
+Route::post('/verification/pending/resend', function (Request $request) {
+    $email = session('pending_verification_email');
+    if (! $email) {
+        return redirect()->route('login');
+    }
+
+    $user = User::where('email', $email)->first();
+    if ($user && ! $user->hasVerifiedEmail()) {
+        $user->sendEmailVerificationNotification();
+    }
+
+    return back()->with('status', 'A new verification link has been sent.');
+})->middleware('throttle:6,1')->name('verification.pending.resend');
 
 Route::domain('haolin.test')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -41,7 +83,7 @@ Route::domain('haolin.test')->group(function () {
     Route::get('/class/{id}/detail',[StudentController::class, 'getClass'])->name('classDetail');
     Route::get('/class/{id}/tier',[HomeController::class, 'getClassByTier'])->name('classByTier');
     // normal user routes
-    Route::middleware(['auth' , 'role:student'])->group(function () {
+    Route::middleware(['auth' , 'verified', 'role:student'])->group(function () {
         Route::get('/profile/{id}', [StudentController::class, 'getProfile'])->name('student.getProfile');
         Route::post('/profile/{id}/save', [StudentController::class, 'saveProfile'])->name('student.getProfileSave');
         Route::get('/mylearning', [StudentController::class, 'myLearning'])->name('student.mylearning');

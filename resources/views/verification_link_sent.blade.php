@@ -28,15 +28,30 @@
                         </div>
                     </div>
 
+                    @php
+                        $mode = $mode ?? 'password_reset';
+                        $statusMessage = $status ?? session('status');
+                    @endphp
+
                     <h2 class="fw-bold mb-3">Verification Link Sent</h2>
                     <p class="success-message mb-3">
-                        We have sent a password reset verification link to your email address.
-                        Please check your inbox and follow the instructions to reset your password.
+                        @if ($mode === 'email_verification')
+                            {{ $statusMessage ?? 'Please verify your email address to continue.' }}
+                        @else
+                            {{ $statusMessage ?? 'We have sent a password reset verification link to your email address. Please check your inbox and follow the instructions to reset your password.' }}
+                        @endif
                     </p>
 
                     <div id="sentEmailPreview" class="email-preview mb-4 d-none"></div>
 
-                    <a href="forgot_pwd.html" class="btn fw-semibold w-100 btn-gradient text-white">Login</a>
+                    @if ($mode === 'email_verification')
+                        <form method="POST" action="{{ route('verification.pending.resend') }}" class="mb-2">
+                            @csrf
+                            <button type="submit" class="btn fw-semibold w-100 btn-gradient text-white">Resend Verification Email</button>
+                        </form>
+                    @endif
+
+                    <a href="/login" class="btn fw-semibold w-100 btn-gradient text-white">Login</a>
                 </div>
             </div>
         </div>
@@ -45,7 +60,7 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script>
         const params = new URLSearchParams(window.location.search);
-        const email = params.get('email');
+        const email = @json($email ?? null) || params.get('email');
         const preview = document.getElementById('sentEmailPreview');
 
         if (email && preview) {

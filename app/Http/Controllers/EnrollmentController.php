@@ -217,6 +217,14 @@ class EnrollmentController extends Controller
         ]);
     }
 
+    /**
+     * Updates student-to-tier assignments for a specific tier in two bulk steps:
+     * 1) Remove students from this tier when their IDs are not in `assigned_ids`
+     *    (they are moved to default tier `1`).
+     * 2) Assign all submitted `assigned_ids` students to this tier.
+     *
+     * This avoids per-student updates by using set-based SQL updates.
+     */
     public function saveTierAssignments(Request $request, $tier)
     {
         $tierId = (int) $tier;

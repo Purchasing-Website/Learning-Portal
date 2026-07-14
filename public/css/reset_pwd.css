@@ -59,26 +59,40 @@
 	line-height: 1.35;
 }
 
-.password-rule-bullet {
-	position: relative;
+.password-rule-status {
 	flex: 0 0 20px;
 	width: 20px;
 	height: 20px;
 	border: 1px solid #cfcfcf;
 	border-radius: 50%;
 	background: #f8f8f8;
+	color: #5f6368;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
 }
 
-.password-rule-bullet::after {
-	content: "";
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 4px;
-	height: 4px;
-	background: #5f6368;
-	border-radius: 50%;
-	transform: translate(-50%, -50%);
+.password-rule-list li.unchecked {
+	color: #c62828;
+}
+
+.password-rule-list li.unchecked .password-rule-status {
+	border-color: #c62828;
+	background: #ffebee;
+	color: #c62828;
+}
+
+.password-rule-list li.checked {
+	color: #2e7d32;
+}
+
+.password-rule-list li.checked .password-rule-status {
+	border-color: #2e7d32;
+	background: #2e7d32;
+	color: #fff;
 }
 
 .form-control.field-warning,

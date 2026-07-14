@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Enums\UserRole;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -85,5 +87,21 @@ class RegisterController extends Controller
             'role' => UserRole::STUDENT->value,
             'tierid' => 1,
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        if (! $user->hasVerifiedEmail()) {
+            $user->sendEmailVerificationNotification();
+        }
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        $request->session()->put('pending_verification_email', $user->email);
+
+        return redirect()
+            ->route('verification.pending')
+            ->with('status', 'Registration successful. Please verify your email before logging in.');
     }
 }
