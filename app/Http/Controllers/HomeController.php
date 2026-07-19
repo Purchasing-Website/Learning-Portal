@@ -6,6 +6,7 @@ use App\Models\Classes;
 use App\Models\Tier;
 use App\Models\Enrollment;
 use App\Models\Lesson;
+use App\Models\StudentLessonProgress;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -48,21 +49,37 @@ class HomeController extends Controller
             ->where('is_active', true)
             ->latest()
             ->get();
-        dd($courses);
-        return view('students.course', compact('courses'));
+
+        $courseCount = $courses->count();
+        
+        return view('students.course', compact('courses', 'courseCount'));
     }
 
     public function class()
     {
         $enrollmentByClass = collect();
+        $timeSpentByClass = collect();
 
         if (Auth::check()) {
             $enrollmentByClass = Enrollment::where('student_id', Auth::id())
                 ->get(['class_id', 'progress'])   // add more columns if needed
                 ->keyBy('class_id');
+
+            $timeSpentByClass = StudentLessonProgress::query()
+                ->from('student_progress')
+                ->join('lessons', 'student_progress.lesson_id', '=', 'lessons.id')
+                ->where('student_progress.student_id', Auth::id())
+                ->where('student_progress.is_completed', true)
+                ->groupBy('student_progress.class_id')
+                ->selectRaw('student_progress.class_id, COALESCE(SUM(COALESCE(lessons.duration, 0)), 0) as time_spent_min')
+                ->pluck('time_spent_min', 'student_progress.class_id');
         }
 
-        $classes = Classes::latest()->get()->map(function ($row) use ($enrollmentByClass) {
+        $classes = Classes::with('tier:id,name')
+            ->withSum('lessons as duration_total_min', 'duration')
+            ->latest()
+            ->get()
+            ->map(function ($row) use ($enrollmentByClass, $timeSpentByClass) {
             $enrollment = $enrollmentByClass->get($row->id);
 
             return [
@@ -72,8 +89,8 @@ class HomeController extends Controller
                 'program_name'       => $row->tier->name,        // static or from another column/table
                 'enrolled'           => (bool) $enrollment,  //(bool) $row->is_active,
                 'progress'           => $enrollment ? (float) $enrollment->progress : 0, // replace with real calculation
-                'duration_total_min' => 320,                // replace with real value
-                'time_spent_min'     => 118,                // replace with real value
+                'duration_total_min' => (int) ($row->duration_total_min ?? 0),
+                'time_spent_min'     => (int) ($timeSpentByClass[$row->id] ?? 0),
                 'popularity'         => 96,                 // replace with real value
             ];
         });
@@ -86,20 +103,32 @@ class HomeController extends Controller
     public function getCourseClass($id)
     {
         $classRows = Classes::with('tier:id,name')
+            ->withSum('lessons as duration_total_min', 'duration')
             ->join('class_course', 'class_course.class_id', '=', 'classes.id')
             ->where('class_course.course_id', $id)
             ->orderByDesc('classes.created_at')
             ->get(['classes.id', 'classes.title', 'classes.tier_id']);
 
         $enrollmentByClass = collect();
+        $timeSpentByClass = collect();
         if (Auth::check() && $classRows->isNotEmpty()) {
             $enrollmentByClass = Enrollment::where('student_id', Auth::id())
                 ->whereIn('class_id', $classRows->pluck('id'))
                 ->get(['class_id', 'progress'])
                 ->keyBy('class_id');
+
+            $timeSpentByClass = StudentLessonProgress::query()
+                ->from('student_progress')
+                ->join('lessons', 'student_progress.lesson_id', '=', 'lessons.id')
+                ->where('student_progress.student_id', Auth::id())
+                ->where('student_progress.is_completed', true)
+                ->whereIn('student_progress.class_id', $classRows->pluck('id'))
+                ->groupBy('student_progress.class_id')
+                ->selectRaw('student_progress.class_id, COALESCE(SUM(COALESCE(lessons.duration, 0)), 0) as time_spent_min')
+                ->pluck('time_spent_min', 'student_progress.class_id');
         }
 
-        $classes = $classRows->map(function ($row) use ($enrollmentByClass) {
+        $classes = $classRows->map(function ($row) use ($enrollmentByClass, $timeSpentByClass) {
             $enrollment = $enrollmentByClass->get($row->id);
 
             return [
@@ -109,8 +138,8 @@ class HomeController extends Controller
                 'program_name'       => $row->tier->name,        // static or from another column/table
                 'enrolled'           => (bool) $enrollment,  //(bool) $row->is_active,
                 'progress'           => $enrollment ? (float) $enrollment->progress : 0, // replace with real calculation
-                'duration_total_min' => 320,                // replace with real value
-                'time_spent_min'     => 118,                // replace with real value
+                'duration_total_min' => (int) ($row->duration_total_min ?? 0),
+                'time_spent_min'     => (int) ($timeSpentByClass[$row->id] ?? 0),
                 'popularity'         => 96,                 // replace with real value
             ];
         });
@@ -177,6 +206,7 @@ class HomeController extends Controller
             ->select('courses.id', 'courses.title')
             ->join('class_course', 'class_course.course_id', '=', 'courses.id')
             ->join('classes', 'classes.id', '=', 'class_course.class_id')
+            ->where('classes.is_active', true)
             ->when($query !== '', function ($q) use ($query) {
                 $q->where('classes.title', 'like', '%' . $query . '%');
             })
@@ -190,7 +220,8 @@ class HomeController extends Controller
 
         $baseClassQuery = Classes::query()
             ->with('tier:id,name')
-            ->withSum('lessons as duration_total_min', 'duration');
+            ->withSum('lessons as duration_total_min', 'duration')
+            ->where('is_active', true);
 
         if ($query !== '') {
             $baseClassQuery->where('title', 'like', '%' . $query . '%');

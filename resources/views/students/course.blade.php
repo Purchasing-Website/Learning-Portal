@@ -20,7 +20,7 @@
     <div class="lp-summary p-3 p-lg-4 mb-4">
       <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-2">
         <div class="d-flex flex-wrap gap-2">
-          <span class="lp-chip"><i class="bi bi-collection"></i> Courses: <strong id="chipCount">0</strong></span>
+          <span class="lp-chip"><i class="bi bi-collection"></i> Courses: <strong id="chipCount">{{ $courseCount }}</strong></span>
           <span class="lp-chip"><i class="bi bi-funnel"></i> Program: <strong id="chipProgram">All</strong></span>
         </div>
         <div class="text-secondary small">

@@ -40,30 +40,39 @@
     renderNav();
     openItem(currentIndex);
 
-	nextBtn.addEventListener("click", () => {
+	nextBtn.addEventListener("click", async () => {
 	  const cur = items[currentIndex];
 	  if (!cur) return;
 
 	  const lessonId = cur.lessonId ?? cur.id;
-	  fetch("/lesson/completelesson", {
-		method: "POST",
-		headers: {
-		  "Content-Type": "application/json",
-      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-		},
-		body: JSON.stringify({
-      lesson_id:parseInt(lessonId.split('-')[1]),
-      class_id:parseInt(CLASS_DATA.classId.split('-')[1]),
-		})
-	  })
-		.then((response) => {
-		  if (response.ok) {
-			console.log("POST success");
-		  }
-		})
-		.catch((error) => {
-		  console.error("POST failed:", error);
+	  try {
+		const response = await fetch("/lesson/completelesson", {
+		  method: "POST",
+		  headers: {
+			"Content-Type": "application/json",
+      		"X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+		  },
+		  body: JSON.stringify({
+      		lesson_id: parseInt(lessonId.split('-')[1]),
+      		class_id: parseInt(CLASS_DATA.classId.split('-')[1]),
+		  })
 		});
+
+		const data = await response.json();
+
+		if (!response.ok) {
+		  console.error("POST failed:", data);
+		  return;
+		}
+
+		if (data.redirect_url) {
+		  window.location.href = data.redirect_url;
+		  return;
+		}
+	  } catch (error) {
+		console.error("POST failed:", error);
+		return;
+	  }
 
 	  // Only lessons can be completed by Next button
 	  if (cur.kind === "lesson") {

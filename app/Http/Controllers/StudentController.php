@@ -222,10 +222,12 @@ class StudentController extends Controller
                 'progress' => 100,
             ]);
         
-        //return redirect()->route('student.class.lessons',$class->id)->with('message', 'Congratulations! You have completed the class.');
+        $redirectUrl = route('classDetail', $class->id);
+
         return response()->json([
             'success' => true,
-            'message' => 'Congratulations! You have completed the class.'
+            'message' => 'Congratulations! You have completed the class.',
+            'redirect_url' => $redirectUrl,
         ]);
 
     }
