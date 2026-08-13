@@ -21,7 +21,6 @@
       <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-2">
         <div class="d-flex flex-wrap gap-2">
           <span class="lp-chip"><i class="bi bi-collection"></i> Courses: <strong id="chipCount">{{ $courseCount }}</strong></span>
-          <span class="lp-chip"><i class="bi bi-funnel"></i> Program: <strong id="chipProgram">All</strong></span>
         </div>
         <div class="text-secondary small">
           <i class="bi bi-info-circle me-1"></i>
@@ -38,12 +37,6 @@
             <i class="bi bi-search"></i>
             <input id="q" class="form-control lp-input" placeholder="Search courses (e.g. Foundations)..." />
           </div>
-        </div>
-
-        <div class="col-6 col-lg-3">
-          <select id="programFilter" class="form-select lp-select">
-            <option value="all">All Programs</option>
-          </select>
         </div>
 
         <div class="col-6 col-lg-3">
