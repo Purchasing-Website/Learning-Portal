@@ -158,6 +158,7 @@ class HomeController extends Controller
         $classRows = Classes::with('tier:id,name')
             ->join('tiers', 'tiers.id', '=', 'classes.tier_id')
             ->where('tiers.level', '<=', $tierLevel)
+            ->where('classes.is_active', true)
             ->orderByDesc('classes.created_at')
             ->get(['classes.id', 'classes.title', 'classes.tier_id']);
 
