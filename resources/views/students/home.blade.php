@@ -140,7 +140,7 @@
       {{-- <div class="row g-3" id="classGrid"></div> --}}
       <div class="row g-3">
         @foreach ($classes as $class)
-        <div class="col-12 col-md-6 col-xl-4">
+        <div class="col-12 col-md-6 col-xl-3">
           <a href="{{ route('classDetail',$class->id) }}" class="text-decoration-none text-reset d-block">
             <div class="lp-card" role="button" tabindex="0" data-course="{{ $class->id }}"
                 style="outline:2px solid rgba(79,124,247,.45)">
