@@ -79,6 +79,7 @@ class ClasssController extends Controller
             'tier_id' => 'required|integer|exists:tiers,id',
             'course_id' => 'required|integer|exists:courses,id',
         ]);
+        //dd($request);
 
         $class = Classes::findOrFail($id);
         $class->update([
