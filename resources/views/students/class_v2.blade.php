@@ -139,7 +139,11 @@
 
             <div class="lp-badges">
               @if($isEnrolled)
-                <span class="lp-badge enrolled"><i class="bi bi-check-circle me-1"></i>Enrolled</span>
+                @if($progress >= 100)
+                  <span class="lp-badge enrolled"><i class="bi bi-award me-1"></i>Completed</span>
+                @else
+                  <span class="lp-badge enrolled"><i class="bi bi-check-circle me-1"></i>Enrolled</span>
+                @endif
               @else
                 <span class="lp-badge new"><i class="bi bi-compass me-1"></i>Discover</span>
               @endif

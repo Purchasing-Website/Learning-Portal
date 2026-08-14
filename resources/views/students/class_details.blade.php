@@ -44,7 +44,7 @@
         <div class="d-flex gap-2 flex-wrap">
           @if ($studentEnroll)
             {{-- <button class="btn lp-btn lp-btn-primary" id="btnResume"> --}}
-            <a class="btn lp-btn lp-btn-primary" style="z-index:1;" href={{ route('student.class.enroll', $classDetail->classId) }}>
+            <a class="btn lp-btn lp-btn-primary" style="z-index:1;" href={{ route('student.Content', $classDetail->classId) }}>
               <i class="bi bi-play-circle me-1"></i><span>Start</span>
             </a>
           @else

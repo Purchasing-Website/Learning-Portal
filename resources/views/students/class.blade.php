@@ -418,7 +418,14 @@
             <div class="lp-badges">
               ${
                 classItem.enrolled
-                  ? `
+                  ? progress >= 100
+                    ? `
+                    <span class="lp-badge enrolled">
+                      <i class="bi bi-award me-1"></i>
+                      Completed
+                    </span>
+                  `
+                    : `
                     <span class="lp-badge enrolled">
                       <i class="bi bi-check-circle me-1"></i>
                       Enrolled
@@ -704,11 +711,18 @@
                     );
 
                   if (statusBadge) {
+                    const isCompleted =
+                      Number(item?.progress || 0) >= 100;
+
                     statusBadge.className =
-                      "lp-badge enrolled";
+                      isCompleted
+                        ? "lp-badge"
+                        : "lp-badge enrolled";
 
                     statusBadge.innerHTML =
-                      '<i class="bi bi-check-circle me-1"></i>Enrolled';
+                      isCompleted
+                        ? '<i class="bi bi-award me-1"></i>Completed'
+                        : '<i class="bi bi-check-circle me-1"></i>Enrolled';
                   }
                 }
 

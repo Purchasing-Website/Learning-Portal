@@ -77,6 +77,7 @@ class HomeController extends Controller
 
         $classes = Classes::with('tier:id,name')
             ->withSum('lessons as duration_total_min', 'duration')
+            ->where('is_active', true)
             ->latest()
             ->get()
             ->map(function ($row) use ($enrollmentByClass, $timeSpentByClass) {
@@ -106,6 +107,7 @@ class HomeController extends Controller
             ->withSum('lessons as duration_total_min', 'duration')
             ->join('class_course', 'class_course.class_id', '=', 'classes.id')
             ->where('class_course.course_id', $id)
+            ->where('classes.is_active', true)
             ->orderByDesc('classes.created_at')
             ->get(['classes.id', 'classes.title', 'classes.tier_id']);
 
@@ -144,7 +146,7 @@ class HomeController extends Controller
             ];
         });
 
-        return view('students.class_v2', ['classes' => $classes]);
+        return view('students.class', ['classes' => $classes]);
 
     }
 
